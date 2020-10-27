@@ -3,18 +3,14 @@ import {
   StyleSheet,
   View,
   Text,
+  TextInput,
 } from 'react-native';
+import Login from './src/components/Authentication/Login/login';
+import Register from './src/components/Authentication/Register/register';
 
 export default function App() {
-  var ListColor = ["white"];
-  const [ColorState, setColorState] = useState(ListColor);
-  const [styleColor, setStyleColor] = useState({});
-  const [Index, setIndex] = useState(0);
- 
   return (
-    <View style={{flex:1}}>
-      <Text>123</Text>
-    </View>
+    <Login></Login>
   );
 };
 
