@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, CheckBox, Alert} from 'react-native';
-import {HelperText, TextInput} from 'react-native-paper';
+import {StyleSheet, View, Text, TouchableOpacity, CheckBox, Alert, TextInput} from 'react-native';
+import {HelperText} from 'react-native-paper';
 
 const Register = (props) => {
   const [email, setEmail] = useState('');
@@ -43,6 +43,7 @@ const Register = (props) => {
   };
   return (
     <View style={styles.container}>
+      <View style={styles.container1}>
       <Text style={styles.texttitle}>Create your free account</Text>
       <Text style={styles.text}>Email *</Text>
       <TextInput
@@ -92,7 +93,7 @@ const Register = (props) => {
       />
 
       <Text style={styles.text}>* Required field</Text>
-      <CheckBox value={isSelected} onValueChange={setSelection} />
+      <CheckBox value={isSelected} onValueChange={setSelection} backgroundColor='#222327' color='white'/>
       <Text style={styles.text}>
         By activating this benefit, you agree to abide bv Pluralsight's terms of
         use and privacy
@@ -101,6 +102,8 @@ const Register = (props) => {
       <TouchableOpacity style={styles.button} onPress={onPressButton}>
         <Text style={styles.buttontext}>REGISTER</Text>
       </TouchableOpacity>
+      </View>
+      
     </View>
   );
 };
@@ -108,32 +111,37 @@ const Register = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#0e0f13',
+  },
+  container1:{
     marginLeft: 15,
     marginRight: 15,
   },
   textinput: {
     height: 40,
-    textAlign: 'center',
     width: '98%',
-    backgroundColor: 'gray',
+    color: 'white',
+    paddingLeft: 15,
+    backgroundColor: '#222327',
     borderWidth: 1,
   },
   button: {
-    height: 40,
     marginTop: 20,
     width: '98%',
-    backgroundColor: 'gray',
+    backgroundColor: '#2b2c30',
     borderRadius: 10,
   },
   buttontext: {
+    fontSize: 18,
+    margin: 10,
     textAlign: 'center',
     color: 'white',
   },
   text: {
-    color: 'black',
+    color: 'white',
   },
   texttitle: {
-    color: 'black',
+    color: 'white',
     fontSize: 22,
     marginTop: 20,
     marginBottom: 20,
