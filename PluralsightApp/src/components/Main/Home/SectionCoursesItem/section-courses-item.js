@@ -3,16 +3,21 @@ import {StyleSheet, View, Image, Text} from 'react-native';
 const SectionCoursesItem = (props) => {
   return (
     <View style={styles.item}>
-      <Image source={require('../../../../../assets/angular-fundamentals.jpg')} style={styles.image}/>
+      <Image
+        source={props.item.link}
+        style={styles.image}
+      />
       <View>
         <Text style={styles.title}>{props.item.title}</Text>
         <Text style={styles.darktext}>{props.item.author}</Text>
-        <Text style={styles.darktext}>{`${props.item.level} . ${props.item.released} . ${props.item.duration}`}</Text>
+        <Text
+          style={
+            styles.darktext
+          }>{`${props.item.level} . ${props.item.released} . ${props.item.duration}`}</Text>
       </View>
     </View>
   );
 };
-
 
 const styles = StyleSheet.create({
   item: {
@@ -25,11 +30,13 @@ const styles = StyleSheet.create({
     width: 200,
     height: 100,
   },
-  title:{
-      color: 'white'
+  title: {
+    padding: 5,
+    color: 'white',
   },
-  darktext:{
-      color: 'darkgray'
-  }
+  darktext: {
+    padding: 5,
+    color: 'darkgray',
+  },
 });
 export default SectionCoursesItem;

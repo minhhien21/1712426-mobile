@@ -12,10 +12,11 @@ const Register = (props) => {
   const [errorEmail, setErrorEmail] = useState('Email address is empty!');
 
   const hasErrorsEmail = () => {
-    if (email.trim() == '') {
+    if (email.trim() === '') {
       setErrorEmail('Email address is empty!');
       return true;
-    } else if (email.includes('@')) {
+    } 
+    if (email.includes('@')) {
       setErrorEmail('Email address is invalid!');
       return true;
     }
@@ -51,7 +52,7 @@ const Register = (props) => {
         onChangeText={(email) => setEmail(email)}
         style={[styles.textinput, styles.inputUs]}
       />
-      <HelperText type="error" visible={hasEmptyEmail()} value={errorEmail}>
+      <HelperText type="error" visible={hasErrorsEmail()} value={errorEmail}>
         Addredd email is empty!
       </HelperText>
 

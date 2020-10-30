@@ -7,11 +7,12 @@ import {
 } from 'react-native';
 import Login from './src/components/Authentication/Login/login';
 import Register from './src/components/Authentication/Register/register';
+import Browse from './src/components/Main/Browse/browse';
 import Home from './src/components/Main/Home/home';
 
 export default function App() {
   return (
-    <Home></Home>
+    <Browse></Browse>
   );
 };
 

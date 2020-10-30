@@ -10,6 +10,7 @@ const SectionCourses = (props) => {
     const courses = [
         {
             id: 1,
+            link: require('../../../../../assets/angular-fundamentals.jpg'),
             title: 'Angular Fundamentals',
             author: 'Joe Eames',
             level: 'Intermediate',
@@ -18,6 +19,7 @@ const SectionCourses = (props) => {
         },
         {
             id: 2,
+            link: require('../../../../../assets/angular-fundamentals.jpg'),
             title: 'C# Fundamentals',
             author: 'Scott Allen',
             level: 'Beginner',
@@ -26,6 +28,7 @@ const SectionCourses = (props) => {
         },
         {
             id: 3,
+            link: require('../../../../../assets/angular-fundamentals.jpg'),
             title: 'Managing AWS Operations',
             author: 'Andru Estes',
             level: 'Intermediate',
@@ -34,6 +37,7 @@ const SectionCourses = (props) => {
         },
         {
             id: 4,
+            link: require('../../../../../assets/angular-fundamentals.jpg'),
             title: 'Spring Framework: Spring MVC Fundamentals',
             author: 'Bryan Hansen',
             level: 'Beginner',
@@ -42,6 +46,7 @@ const SectionCourses = (props) => {
         },
         {
             id: 5,
+            link: require('../../../../../assets/angular-fundamentals.jpg'),
             title: 'Spring: The Big Picture',
             author: 'Dustin Schultz',
             level: 'Beginner',
