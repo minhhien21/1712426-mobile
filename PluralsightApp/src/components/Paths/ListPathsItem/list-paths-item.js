@@ -1,0 +1,42 @@
+import React, {useState} from 'react';
+import {StyleSheet, View, Image, Text} from 'react-native';
+
+const ListPathsItem = (props) => {
+  return (
+    <View style={styles.item}>
+      <Image source={props.item.link} style={styles.image} />
+      <View style={styles.viewText}>
+        <Text style={styles.title}>{props.item.title}</Text>
+        <Text style={styles.darktext}>{props.item.total}</Text>
+      </View>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  item: {
+    marginHorizontal: 15,
+    height: 90,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderBottomColor: '#1f242a',
+  },
+  image: {
+    width: '25%',
+    height: 70,
+    alignSelf: 'center',
+    marginLeft: 10,
+  },
+  viewText: {
+    width: '75%',
+    padding: 15,
+    alignSelf: 'center',
+  },
+  title: {
+    color: 'white',
+  },
+  darktext: {
+    color: 'darkgray',
+  },
+});
+export default ListPathsItem;

@@ -9,10 +9,11 @@ import Login from './src/components/Authentication/Login/login';
 import Register from './src/components/Authentication/Register/register';
 import Browse from './src/components/Main/Browse/browse';
 import Home from './src/components/Main/Home/home';
+import Search from './src/components/Main/Search/search';
 
 export default function App() {
   return (
-    <Browse></Browse>
+    <Search></Search>
   );
 };
 

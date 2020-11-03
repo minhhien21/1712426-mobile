@@ -30,6 +30,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         color: 'white',
         textAlign: 'center',
+        width: 90,
     }
 });
 export default TopAuthorsItem;
