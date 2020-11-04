@@ -42,7 +42,7 @@ const ListCourses = (props) => {
   ];
 
   const renderListItems = (courses) => {
-    return courses.map((item) => <ListCoursesItem item={item} />);
+    return courses.map((item) => <ListCoursesItem navigation={props.navigation} item={item} />);
   };
   return (
     <View>
