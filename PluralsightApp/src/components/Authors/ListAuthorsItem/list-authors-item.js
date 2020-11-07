@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 const ListAuthorsItem = (props) => {
+  const OnPressListenItem = () => {
+    props.navigation.navigate('AuthorsDetail', {item: props.item});
+  };
   return (
-    <View style={styles.item}>
+    <TouchableOpacity style={styles.item} onPress={OnPressListenItem}>
       <TouchableOpacity style={styles.button}>
         <Image source={props.item.link} style={styles.image} />
       </TouchableOpacity>
@@ -10,7 +13,7 @@ const ListAuthorsItem = (props) => {
         <Text style={styles.title}>{props.item.name}</Text>
         <Text style={styles.darktext}>{props.item.courses}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

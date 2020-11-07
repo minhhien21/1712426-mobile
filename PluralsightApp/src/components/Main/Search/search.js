@@ -10,9 +10,9 @@ const Search = (props) => {
       <View style={{backgroundColor: '#181b20'}}>
         <TextInput style={styles.inputText} placeholder="Search..." placeholderTextColor='white'/>
       </View>
-      <ListCourses />
+      <ListCourses {...props}/> 
       <ListPaths />
-      <ListAuthor/>
+      <ListAuthor {...props}/>
     </ScrollView>
   );
 };

@@ -1,19 +1,18 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
-import InfoCourse from './InfoCourse/info-course';
-import ListLessons from './ListLessons/list-lessons';
-const CourseDetail = (props) => {
+import ListCourses from '../../Courses/ListCourses/list-courses';
+import InfoAuthor from './InfoAuthor/info-author';
+const AuthorsDetail = (props) => {
   let item = props.route.params.item;
   return (
     <View>
       <ScrollView>
-      <InfoCourse {...props.route.params.item} />
-      <ListLessons/>
+      <InfoAuthor {...props.route.params.item} />
+        <ListCourses />
       </ScrollView>
-      
     </View>
   );
 };
 
 const styles = StyleSheet.create({});
-export default CourseDetail;
+export default AuthorsDetail;

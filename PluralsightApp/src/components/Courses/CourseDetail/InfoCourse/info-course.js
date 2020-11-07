@@ -88,7 +88,7 @@ const InfoCourse = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#1f242a',
+    backgroundColor: '#0e0f13',
   },
   item: {
     marginHorizontal: 15,

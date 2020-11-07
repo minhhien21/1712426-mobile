@@ -11,15 +11,49 @@ import {createStackNavigator} from '@react-navigation/stack';
 import ListCourses from './src/components/Courses/ListCourses/list-courses';
 import CourseDetail from './src/components/Courses/CourseDetail/course-detail';
 import ListLessons from './src/components/Courses/CourseDetail/ListLessons/list-lessons';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import AuthorsDetail from './src/components/Authors/AuthorsDetail/authors-detail';
+import ListAuthor from './src/components/Authors/ListAuthors/list-authors';
+
+
 const Stack = createStackNavigator();
+const Tab = createBottomTabNavigator();
 export default function App() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator initialRouteName="ListCourses">
-        <Stack.Screen name="ListCourses" component={ListCourses} />
-        <Stack.Screen name="CourseDetail" component={CourseDetail} />
-      </Stack.Navigator>
-    </NavigationContainer>
+  const HomeStack = () => (
+    <Tab.Navigator>
+      <Tab.Screen name="Home" component={Home} />
+      <Tab.Screen name="Browse" component={Browse} />
+      <Tab.Screen name="Search" children={createCoursesStack} />
+    </Tab.Navigator>
+  );
+  const createCoursesStack = () => (
+    <Stack.Navigator initialRouteName="Search">
+      <Stack.Screen name="CourseDetail" component={CourseDetail} />
+      <Stack.Screen name="AuthorsDetail" component={AuthorsDetail} />
+      <Stack.Screen
+        name="Search"
+        component={Search}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+    
+  );
+  const createAuthorsStack = () => (
+    <Stack.Navigator>
+      <Stack.Screen name="AuthorsDetail" component={AuthorsDetail} />
+      <Stack.Screen
+        name="Search"
+        component={Search}
+        options={{headerShown: false}}
+      />
+    </Stack.Navigator>
+  );
+
+  return( 
+  <NavigationContainer>
+    {HomeStack()}
+   
+  </NavigationContainer>
   );
 }
 

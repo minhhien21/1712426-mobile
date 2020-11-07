@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import CourseDetail from '../CourseDetail/course-detail';
 const ListCoursesItem = (props) => {
   const OnPressListenItem = () => {
     props.navigation.navigate('CourseDetail', {item: props.item});

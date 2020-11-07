@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import { FlatList } from 'react-native-gesture-handler';
 import ListPathsItem from '../ListPathsItem/list-paths-item';
 const ListPaths = (props) => {
   const paths = [
@@ -29,12 +30,17 @@ const ListPaths = (props) => {
     },
   ];
   const renderListItems = (paths) => {
-    return paths.map((item) => <ListPathsItem item={item}/>);
+    return paths.map((item) => <ListPathsItem item={item} />);
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>Paths</Text>
-      <ScrollView>{renderListItems(paths)}</ScrollView>
+    <View>
+      <Text style={styles.text}>Courses</Text>
+      <FlatList
+        data={paths}
+        renderItem={({item}) => (
+          <ListPathsItem navigation={props.navigation} item={item} />
+        )}
+      />
     </View>
   );
 };

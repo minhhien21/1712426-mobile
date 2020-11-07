@@ -10,7 +10,6 @@ import {
 import ListContentLessonItem from './ListContentLessonItem/list-content-lesson-item';
 const ListLessonsItem = (props) => {
   var lesson = props.item.detailLesson;
-  console.log(lesson, 'minhhien');
   const renderListItems = (lesson) => {
     return lesson.map((item) => <ListContentLessonItem item={item} />);
   };

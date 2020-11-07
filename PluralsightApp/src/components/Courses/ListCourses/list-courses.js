@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
 import ListCoursesItem from '../ListCoursesItem/list-courses-item';
 const ListCourses = (props) => {
   const courses = [
@@ -41,19 +42,18 @@ const ListCourses = (props) => {
     },
   ];
 
-  const renderListItems = (courses) => {
-    return courses.map((item) => <ListCoursesItem navigation={props.navigation} item={item} />);
-  };
   return (
-    <View>
+    <View style={styles.container}> 
       <Text style={styles.text}>Courses</Text>
-      <ScrollView>{renderListItems(courses)}</ScrollView>
+      <FlatList data={courses} 
+      renderItem={({item}) => <ListCoursesItem navigation={props.navigation} item={item} />} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#0e0f13',
     flex: 1,
   },
   text: {

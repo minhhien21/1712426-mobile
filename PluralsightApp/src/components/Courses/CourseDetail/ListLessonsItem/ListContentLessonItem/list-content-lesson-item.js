@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 const ListContentLessonItem = (props) => {
-  console.log(props, 'minhhien');
   return (
     <TouchableOpacity style={styles.item}>
       <Text style={styles.text}>{props.item.name}</Text>
