@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, View, Text} from 'react-native';
 import { FlatList } from 'react-native-gesture-handler';
-import ListAuthorItem from '../ListAuthorsItem/list-authors-item';
+import ListAuthorsItem from '../ListAuthorsItem/list-authors-item';
 
-const ListAuthor = (props) => {
+
+const ListAuthors = (props) => {
   const authors = [
     {
       id: 1,
@@ -36,7 +37,7 @@ const ListAuthor = (props) => {
       <FlatList
         data={authors}
         renderItem={({item}) => (
-          <ListAuthorItem navigation={props.navigation} item={item} />
+          <ListAuthorsItem navigation={props.navigation} item={item} />
         )}
       />
     </View>
@@ -55,4 +56,4 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
 });
-export default ListAuthor;
+export default ListAuthors;

@@ -8,22 +8,21 @@ import {
   ScrollView,
 } from 'react-native';
 import {round} from 'react-native-reanimated';
-const InfoAuthor = (props) => {
+const InfoPath = (props) => {
   console.log(props, 'míadfa');
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
-        <TouchableOpacity styles={styles.iconButton}>
+        <View style={styles.pathItem}>
           <Image
-            source={require('../../../../../assets/ScottAllen.jpg')}
-            style={styles.icon}
+            source={require('../../../../../assets/google-cloud.png')}
+            style={styles.image}
           />
-        </TouchableOpacity>
-        <Text style={styles.textIcon}>{props.name}</Text>
-        <Text style={styles.textIcon}>Pluralsight Author</Text>
-        <TouchableOpacity style={styles.button}>
-          <Text style={styles.textbutton}>FOLLOW</Text>
-        </TouchableOpacity>
+          <View style={styles.viewText}>
+            <Text style={styles.title}>{props.title}</Text>
+            <Text style={styles.darktext}>{props.total}</Text>
+          </View>
+        </View>
 
         <Text style={{color: 'white'}}>
           Angular has become one of the most widely used web development
@@ -51,42 +50,31 @@ const styles = StyleSheet.create({
   },
   item: {
     marginHorizontal: 15,
+    marginTop: 20,
   },
-  iconView: {
-    marginTop: 15,
-    marginHorizontal: 30,
-    justifyContent: 'center',
+  pathItem: {
+    height: 90,
+    flexDirection: 'row',
+    borderWidth: 1,
+    borderBottomColor: '#1f242a',
   },
-  iconButton: {
-    backgroundColor: '#3a434a',
-    marginRight: 10,
-    height: 50,
-    width: 50,
-    borderRadius: 25,
+  image: {
+    width: '25%',
+    height: 70,
+    alignSelf: 'center',
+    marginLeft: 10,
   },
-  button: {
-    backgroundColor: '#0084bd',
-  },
-  textbutton: {
-    color: 'white',
-    textAlign: 'center',
-    paddingVertical: 10,
-  },
-  icon: {
-    height: 50,
-    width: 50,
-    borderRadius: 25,
+  viewText: {
+    width: '75%',
+    padding: 15,
     alignSelf: 'center',
   },
-  textIcon: {
+  title: {
     color: 'white',
-    textAlign: 'center',
-    marginTop: 10,
   },
-
   darktext: {
     marginTop: 10,
     color: 'darkgray',
   },
 });
-export default InfoAuthor;
+export default InfoPath;

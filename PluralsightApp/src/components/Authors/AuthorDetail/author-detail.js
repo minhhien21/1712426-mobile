@@ -2,12 +2,13 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import ListCourses from '../../Courses/ListCourses/list-courses';
 import InfoAuthor from './InfoAuthor/info-author';
-const AuthorsDetail = (props) => {
-  let item = props.route.params.item;
+const AuthorDetail = (props) => {
+  console.log(props,"props");
+  let item = props.navigation.state.params.item;
   return (
     <View>
       <ScrollView>
-      <InfoAuthor {...props.route.params.item} />
+      <InfoAuthor {...props.navigation.state.params.item} />
         <ListCourses />
       </ScrollView>
     </View>
@@ -15,4 +16,4 @@ const AuthorsDetail = (props) => {
 };
 
 const styles = StyleSheet.create({});
-export default AuthorsDetail;
+export default AuthorDetail;

@@ -15,8 +15,8 @@ const Browse = (props) => {
       <ImageButton title={`${'RECOMMENDED\nFOR YOU'}`}/>
       <SectionImageButton/>
       <PopularSkills/>
-      <Paths/>
-      <TopAuthors/>
+      <Paths {...props}/>
+      <TopAuthors {...props}/>
     </ScrollView>
   );
 };

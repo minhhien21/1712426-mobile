@@ -4,10 +4,10 @@ import SectionCourses from './SectionCourses/section-courses';
 const Home = (props) => {
   return (
     <ScrollView style={styles.container}>
-      <SectionCourses title="Software Development" />
-      <SectionCourses title="IT Operations" />
-      <SectionCourses title="Data Professional" />
-      <SectionCourses title="Security Professional" />
+      <SectionCourses title="Software Development" {...props}/>
+      <SectionCourses title="IT Operations" {...props}/>
+      <SectionCourses title="Data Professional" {...props}/>
+      <SectionCourses title="Security Professional" {...props}/>
     </ScrollView>
   );
 };

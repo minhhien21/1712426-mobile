@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
 const ListAuthorsItem = (props) => {
   const OnPressListenItem = () => {
-    props.navigation.navigate('AuthorsDetail', {item: props.item});
+    props.navigation.navigate('AuthorDetail', {item: props.item});
   };
   return (
     <TouchableOpacity style={styles.item} onPress={OnPressListenItem}>

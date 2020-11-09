@@ -12,12 +12,16 @@ const Login = (props) => {
   const hasErrorPassword = () => {
     return password.trim() == '';
   };
-  const onPressButton = () => {
+  const onPressButtonLogin = () => {
     if (hasErrorEmail() || hasErrorPassword()) {
       Alert.alert('Fail');
     } else {
       Alert.alert('Success');
+      props.navigation.navigate('HomeScreen');
     }
+  };
+  const onPressButtonRegister = () => {
+    props.navigation.navigate('Register');
   };
 
   return (
@@ -57,11 +61,8 @@ const Login = (props) => {
             },
           }}
         />
-        <HelperText type="error" visible={hasErrorPassword()}>
-          Password is empty!
-        </HelperText>
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttontext} onPress={onPressButton}>
+          <Text style={styles.buttontext} onPress={onPressButtonLogin}>
             SIGN IN
           </Text>
         </TouchableOpacity>
@@ -73,7 +74,7 @@ const Login = (props) => {
           onPress={() => console.log('1st')}>
           USE SINGLE SIGN-ON (SSO)
         </Text>
-        <Text style={styles.text} onPress={() => console.log('1st')}>
+        <Text style={styles.text} onPress={onPressButtonRegister}>
           SIGN UP FREE
         </Text>
       </View>

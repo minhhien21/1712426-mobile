@@ -41,7 +41,7 @@ const Paths = (props) => {
     },
   ];
   const renderListItems = (paths) => {
-    return paths.map((item) => <PathsItem item={item} />);
+    return paths.map((item) => <PathsItem navigation={props.navigation} item={item} />);
   };
   return (
     <View style={styles.container}>

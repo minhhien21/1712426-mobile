@@ -1,8 +1,11 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
+import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 const SectionCoursesItem = (props) => {
+  const OnPressListenItem = () => {
+    props.navigation.navigate('CourseDetail', {item: props.item});
+  };
   return (
-    <View style={styles.item}>
+    <TouchableOpacity style={styles.item} onPress={OnPressListenItem}>
       <Image
         source={props.item.link}
         style={styles.image}
@@ -15,7 +18,7 @@ const SectionCoursesItem = (props) => {
             styles.darktext
           }>{`${props.item.level} . ${props.item.released} . ${props.item.duration}`}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

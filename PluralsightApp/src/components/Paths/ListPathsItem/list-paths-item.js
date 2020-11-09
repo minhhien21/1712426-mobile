@@ -1,15 +1,17 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Image, Text} from 'react-native';
-
+import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 const ListPathsItem = (props) => {
+  const OnPressListenItem = () => {
+    props.navigation.navigate('PathDetail', {item: props.item});
+  };
   return (
-    <View style={styles.item}>
+    <TouchableOpacity style={styles.item} onPress={OnPressListenItem}>
       <Image source={props.item.link} style={styles.image} />
       <View style={styles.viewText}>
         <Text style={styles.title}>{props.item.title}</Text>
         <Text style={styles.darktext}>{props.item.total}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

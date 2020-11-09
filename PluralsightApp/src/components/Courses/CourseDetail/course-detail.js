@@ -3,17 +3,16 @@ import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import InfoCourse from './InfoCourse/info-course';
 import ListLessons from './ListLessons/list-lessons';
 const CourseDetail = (props) => {
-  let item = props.route.params.item;
+  let item = props.navigation.state.params.item;
   return (
     <View>
       <ScrollView>
-      <InfoCourse {...props.route.params.item} />
+      <InfoCourse {...props.navigation.state.params.item} />
       <ListLessons/>
       </ScrollView>
       
     </View>
   );
 };
-
 const styles = StyleSheet.create({});
 export default CourseDetail;

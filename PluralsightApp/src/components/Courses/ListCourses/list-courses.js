@@ -43,10 +43,14 @@ const ListCourses = (props) => {
   ];
 
   return (
-    <View style={styles.container}> 
+    <View style={styles.container}>
       <Text style={styles.text}>Courses</Text>
-      <FlatList data={courses} 
-      renderItem={({item}) => <ListCoursesItem navigation={props.navigation} item={item} />} />
+      <FlatList
+        data={courses}
+        renderItem={({item}) => (
+          <ListCoursesItem navigation={props.navigation} item={item} />
+        )}
+      />
     </View>
   );
 };

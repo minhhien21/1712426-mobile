@@ -52,9 +52,6 @@ const Register = (props) => {
         onChangeText={(email) => setEmail(email)}
         style={[styles.textinput, styles.inputUs]}
       />
-      <HelperText type="error" visible={hasErrorsEmail()} value={errorEmail}>
-        Addredd email is empty!
-      </HelperText>
 
       <Text style={styles.text}>First name *</Text>
       <TextInput
@@ -62,9 +59,6 @@ const Register = (props) => {
         onChangeText={(firstName) => setFirstName(firstName)}
         style={[styles.textinput, styles.inputUs]}
       />
-      <HelperText type="error" visible={hasEmptyFN()}>
-        First name is empty!
-      </HelperText>
 
       <Text style={styles.text}>LastName *</Text>
       <TextInput
@@ -72,9 +66,6 @@ const Register = (props) => {
         onChangeText={(lastName) => setLastName(lastName)}
         style={[styles.textinput, styles.inputUs]}
       />
-      <HelperText type="error" visible={hasEmptysLN()}>
-        Last name is empty!
-      </HelperText>
 
       <Text style={styles.text}>Company *</Text>
       <TextInput
@@ -82,9 +73,6 @@ const Register = (props) => {
         onChangeText={(company) => setCompany(company)}
         style={[styles.textinput, styles.inputUs]}
       />
-      <HelperText type="error" visible={hasEmptyCompany()}>
-        Company name is empty!
-      </HelperText>
 
       <Text style={styles.text}>Phone</Text>
       <TextInput

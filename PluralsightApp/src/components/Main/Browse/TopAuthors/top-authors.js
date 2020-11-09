@@ -96,7 +96,7 @@ const TopAuthors = (props) => {
     },  
   ];
   const renderListItems = (topauthors) => {
-    return topauthors.map((item) => <TopAuthorsItem item={item} />);
+    return topauthors.map((item) => <TopAuthorsItem navigation={props.navigation} item={item} />);
   };
   return (
     <View style={styles.layoutHome}>
