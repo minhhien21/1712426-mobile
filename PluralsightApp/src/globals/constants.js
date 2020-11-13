@@ -18,5 +18,6 @@ export const ScreenKey ={
     ListOfListPaths:"ListOfListPaths",
     AllListPaths:"AllListPaths",
     PopularSkillsDetail:"PopularSkillsDetail",
-    AccountManagement:"AccountManagement"
+    AccountManagement:"AccountManagement",
+    Settings:"Settings"
 }

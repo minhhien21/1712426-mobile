@@ -23,6 +23,7 @@ import AllListPaths from '../../Paths/AllListPaths/all-list-paths';
 import PopularSkillsDetail from '../../Main/Browse/PopularSkillsDetail/popular-skills-detail';
 import AccountManagement from '../../Account Management/account-management';
 import SplashScreen from '../SplashScreen/splash-screen';
+import Settings from '../../Account Management/Settings/settings';
 
 // const TabNavigator = createMaterialTopTabNavigator(
 //   {
@@ -62,13 +63,15 @@ const createHomeStack = createStackNavigator({
       headerRight: () => (
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
-            onPress={() => navigation.navigate(ScreenKey.AccountManagement)}>
+            onPress={() => navigation.push(ScreenKey.AccountManagement)}>
             <Image
               source={require('../../../../assets/person.png')}
               style={{height: 30, width: 30, marginRight: 15}}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={{alignSelf: 'center'}}>
+          <TouchableOpacity
+            style={{alignSelf: 'center'}}
+            onPress={() => navigation.push(ScreenKey.Settings)}>
             <Image
               source={require('../../../../assets/more.png')}
               style={{height: 25, width: 25, marginRight: 5}}
@@ -89,7 +92,16 @@ const createHomeStack = createStackNavigator({
       headerTintColor: 'white',
     },
   },
-
+  [ScreenKey.Settings]: {
+    screen: Settings,
+    navigationOptions: {
+      title: 'Settings',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
   [ScreenKey.CourseDetail]: {
     screen: CourseDetail,
     navigationOptions: {
@@ -137,7 +149,9 @@ const createBrowseStack = createStackNavigator({
               style={{height: 30, width: 30, marginRight: 15}}
             />
           </TouchableOpacity>
-          <TouchableOpacity style={{alignSelf: 'center'}}>
+          <TouchableOpacity
+            style={{alignSelf: 'center'}}
+            onPress={() => navigation.push(ScreenKey.Settings)}>
             <Image
               source={require('../../../../assets/more.png')}
               style={{height: 25, width: 25, marginRight: 5}}
@@ -157,6 +171,17 @@ const createBrowseStack = createStackNavigator({
       headerTintColor: 'white',
     },
   },
+  [ScreenKey.Settings]: {
+    screen: Settings,
+    navigationOptions: {
+      title: 'Settings',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+
   [ScreenKey.PathDetail]: {
     screen: PathDetail,
     navigationOptions: {
@@ -256,7 +281,6 @@ const HomeStack = createBottomTabNavigator(
         headerStyle: {
           backgroundColor: '#181b20',
         },
-        headerShown: true,
         headerTintColor: 'white',
         tabBarIcon: ({tintColor}) => (
           <Icon name="home" color={tintColor} size={25} />
@@ -266,6 +290,7 @@ const HomeStack = createBottomTabNavigator(
     [ScreenKey.DownloadStack]: {
       screen: createHomeStack,
       navigationOptions: {
+        title: 'Download',
         tabBarIcon: ({tintColor}) => (
           <Icon name="arrow-down-circle" color={tintColor} size={25} />
         ),
@@ -306,6 +331,7 @@ const HomeStack = createBottomTabNavigator(
         tabBarBackgroundColor: 'white',
         tabBarButtonColor: 'white',
         tabBarSelectedButtonColor: 'white',
+        flexDirection: 'column',
       },
     },
   },
@@ -338,7 +364,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: ScreenKey.SplashScreen,
+    initialRouteName: ScreenKey.Login,
   },
 );
 
