@@ -1,19 +1,28 @@
+import React, {useState} from 'react';
+import {Button, TouchableOpacity, Image, View} from 'react-native';
 import {createAppContainer, NavigationContainer} from 'react-navigation';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
-import {createBottomTabNavigator} from 'react-navigation-tabs'
-//import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {createBottomTabNavigator} from 'react-navigation-tabs';
+import {ScreenKey} from '../../../globals/constants';
 import ListCourses from '../../Courses/ListCourses/list-courses';
 import ListPaths from '../../Paths/ListPaths/list-paths';
 import ListAuthor from '../../Authors/ListAuthors/list-authors';
 import Search from '../../Main/Search/search';
 import Login from '../../Authentication/Login/login';
-import Register from '../../Authentication/Register/register'
+import Register from '../../Authentication/Register/register';
 import Home from '../../Main/Home/home';
 import Browse from '../../Main/Browse/browse';
 import CourseDetail from '../../Courses/CourseDetail/course-detail';
 import AuthorDetail from '../../Authors/AuthorDetail/author-detail';
 import PathDetail from '../../Paths/PathDetail/path-detail';
+import Icon from 'react-native-vector-icons/Ionicons';
+import AllListCourses from '../../Courses/AllListCourses/all-list-courses';
+import ListOfListPaths from '../../Paths/ListofListPaths/list-of-list-paths';
+import AllListPaths from '../../Paths/AllListPaths/all-list-paths';
+import PopularSkillsDetail from '../../Main/Browse/PopularSkillsDetail/popular-skills-detail';
+import AccountManagement from '../../Account Management/account-management';
+import SplashScreen from '../SplashScreen/splash-screen';
 
 // const TabNavigator = createMaterialTopTabNavigator(
 //   {
@@ -40,110 +49,300 @@ import PathDetail from '../../Paths/PathDetail/path-detail';
 //   },
 // );
 
-const createSearchStack = createStackNavigator(
-  {
-    Search:{
-      screen: Search,
-      navigationOptions:{
-        header: null,
-      }
-    },
-    CourseDetail:{
-      screen: CourseDetail,
-      navigationOptions:{
-        header: null,
-      }
-    },
-    AuthorDetail:{
-      screen: AuthorDetail,
-    },
-    PathDetail:{
-      screen: PathDetail,
-    }
-  },
-);
-const createHomeStack = createStackNavigator(
-  {
-    Home:{
-      screen: Home,
-      navigationOptions:{
-        header: null,
-      }
-    },
-    CourseDetail:{
-      screen: CourseDetail,
-      navigationOptions:{
-        header: null,
-      }
-    }
+const createHomeStack = createStackNavigator({
+  [ScreenKey.Home]: {
+    screen: Home,
+    navigationOptions: ({navigation}) => ({
+      title: 'Home',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+
+      headerRight: () => (
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate(ScreenKey.AccountManagement)}>
+            <Image
+              source={require('../../../../assets/person.png')}
+              style={{height: 30, width: 30, marginRight: 15}}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={{alignSelf: 'center'}}>
+            <Image
+              source={require('../../../../assets/more.png')}
+              style={{height: 25, width: 25, marginRight: 5}}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+    }),
   },
 
-);
-const createBrowseStack = createStackNavigator(
-  {
-    Browse:{
-      screen: Browse,
-      navigationOptions:{
-        header: null,
-      }
+  [ScreenKey.AccountManagement]: {
+    screen: AccountManagement,
+    navigationOptions: {
+      title: 'Profile',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
     },
-    PathDetail:{
-      screen: PathDetail,
+  },
+
+  [ScreenKey.CourseDetail]: {
+    screen: CourseDetail,
+    navigationOptions: {
+      headerShown: false,
     },
-    AuthorDetail:{
-      screen: AuthorDetail,
-    }
-  }
-);
+  },
+  [ScreenKey.ListCourses]: {
+    screen: ListCourses,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.AuthorDetail]: {
+    screen: AuthorDetail,
+    navigationOptions: {
+      title: 'Author',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.AllListCourses]: {
+    screen: AllListCourses,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+});
+const createBrowseStack = createStackNavigator({
+  [ScreenKey.Browse]: {
+    screen: Browse,
+    navigationOptions: ({navigation}) => ({
+      title: 'Browse',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+      headerRight: () => (
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            onPress={() => navigation.push(ScreenKey.AccountManagement)}>
+            <Image
+              source={require('../../../../assets/person.png')}
+              style={{height: 30, width: 30, marginRight: 15}}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity style={{alignSelf: 'center'}}>
+            <Image
+              source={require('../../../../assets/more.png')}
+              style={{height: 25, width: 25, marginRight: 5}}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+    }),
+  },
+  [ScreenKey.AccountManagement]: {
+    screen: AccountManagement,
+    navigationOptions: {
+      title: 'Profile',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.PathDetail]: {
+    screen: PathDetail,
+    navigationOptions: {
+      title: '',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.AuthorDetail]: {
+    screen: AuthorDetail,
+    navigationOptions: {
+      title: 'Author',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.CourseDetail]: {
+    screen: CourseDetail,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.ListOfListPaths]: {
+    screen: ListOfListPaths,
+    navigationOptions: {
+      title: 'Paths',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.AllListPaths]: {
+    screen: AllListPaths,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.PopularSkillsDetail]: {
+    screen: PopularSkillsDetail,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.AllListCourses]: {
+    screen: AllListCourses,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+});
+const createSearchStack = createStackNavigator({
+  [ScreenKey.Search]: {
+    screen: Search,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.CourseDetail]: {
+    screen: CourseDetail,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.AuthorDetail]: {
+    screen: AuthorDetail,
+    navigationOptions: {
+      title: 'Author',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.PathDetail]: {
+    screen: PathDetail,
+    navigationOptions: {
+      title: '',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+});
+
 const HomeStack = createBottomTabNavigator(
   {
-    Home:{
+    [ScreenKey.HomeStack]: {
       screen: createHomeStack,
-      navigationOptions:{
-        header: null,
-      }
+      navigationOptions: {
+        title: 'Home',
+        headerStyle: {
+          backgroundColor: '#181b20',
+        },
+        headerShown: true,
+        headerTintColor: 'white',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name="home" color={tintColor} size={25} />
+        ),
+      },
     },
-    Browse:{
+    [ScreenKey.DownloadStack]: {
+      screen: createHomeStack,
+      navigationOptions: {
+        tabBarIcon: ({tintColor}) => (
+          <Icon name="arrow-down-circle" color={tintColor} size={25} />
+        ),
+      },
+    },
+    [ScreenKey.BrowseStack]: {
       screen: createBrowseStack,
-      navigationOptions:{
-        header: null,
-      }
+      navigationOptions: {
+        title: 'Browse',
+        headerStyle: {
+          backgroundColor: '#181b20',
+        },
+        headerTintColor: 'white',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name="grid" color={tintColor} size={25} />
+        ),
+      },
     },
-    Search:{
+    [ScreenKey.SearchStack]: {
       screen: createSearchStack,
-      navigationOptions:{
-        header: null,
-      }
+      navigationOptions: {
+        headerShown: false,
+        tabBarIcon: ({tintColor}) => (
+          <Icon name="search" color={tintColor} size={25} />
+        ),
+      },
     },
-  }
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: '#026f9b',
+      inactiveTintColor: 'white',
+      style: {
+        backgroundColor: '#181b20',
+        borderTopColor: 'transparent',
+      },
+      tabStyle: {
+        tabBarBackgroundColor: 'white',
+        tabBarButtonColor: 'white',
+        tabBarSelectedButtonColor: 'white',
+      },
+    },
+  },
 );
 const AppNavigator = createStackNavigator(
   {
-    Login:{
+    [ScreenKey.SplashScreen]: {
+      screen: SplashScreen,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+    [ScreenKey.Login]: {
       screen: Login,
-      navigationOptions:{
-        header: null,
-      }
+      navigationOptions: {
+        headerShown: false,
+      },
     },
-    Register:{
+    [ScreenKey.Register]: {
       screen: Register,
-      navigationOptions:{
-        header: null,
-      }
+      navigationOptions: {
+        headerShown: false,
+      },
     },
-    HomeScreen:{
+    [ScreenKey.HomeScreen]: {
       screen: HomeStack,
-      navigationOptions:{
-        header: null,
-      }
+      navigationOptions: {
+        headerShown: false,
+      },
     },
   },
   {
-    initialRouteName: 'Login',
+    initialRouteName: ScreenKey.SplashScreen,
   },
 );
 
 //const CustomTabNavigator = createAppContainer(TabNavigator);
-//const AppNavigation = createAppContainer(AppNavigator);
-const AppNavigation = createAppContainer(HomeStack);
+const AppNavigation = createAppContainer(AppNavigator);
+//const AppNavigation = createAppContainer(HomeStack);
 export default AppNavigation;

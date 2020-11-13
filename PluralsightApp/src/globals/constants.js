@@ -1,0 +1,22 @@
+export const ScreenKey ={
+    SplashScreen:"SplashScreen",
+    Login:"Login",
+    Register:"Register",
+    HomeScreen:"HomeScreen",
+    HomeStack:"Home",
+    DownloadStack:"Download",
+    BrowseStack:"Browse",
+    SearchStack:"Search",
+    Home:"Home",
+    Browse:"Browse",
+    Search:"Search",
+    AllListCourses:"AllListCourses",
+    ListCourses: "ListCourses",
+    CourseDetail:"CourseDetail",
+    PathDetail:"PathDetail",
+    AuthorDetail:"AuthorDetail",
+    ListOfListPaths:"ListOfListPaths",
+    AllListPaths:"AllListPaths",
+    PopularSkillsDetail:"PopularSkillsDetail",
+    AccountManagement:"AccountManagement"
+}

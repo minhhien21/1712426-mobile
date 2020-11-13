@@ -1,66 +1,75 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Image, Text, TouchableOpacity, ScrollView} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Image,
+  Text,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
 import {round} from 'react-native-reanimated';
+import {ScreenKey} from '../../../../globals/constants';
 const InfoCourse = (props) => {
+  var itemProps = props.navigation.state.params.item;
+  const OnPressListen = () => {
+    props.navigation.push(ScreenKey.AuthorDetail, {item: props});
+  };
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
-        <Text style={styles.textHeader}>{props.title}</Text>
+        <Text style={styles.textHeader}>{itemProps.title}</Text>
         <View style={{flexDirection: 'row'}}>
-          <TouchableOpacity styles={styles.imageButton}>
+          <TouchableOpacity styles={styles.imageButton} onPress={OnPressListen}>
             <View style={styles.imageButton}>
               <Image
                 source={require('../../../../../assets/ScottAllen.jpg')}
                 style={styles.image}
               />
-              <Text style={styles.textImage}>{props.author}</Text>
-            </View>
-          </TouchableOpacity>
-          <TouchableOpacity styles={styles.imageButton}>
-            <View style={styles.imageButton}>
-              <Image
-                source={require('../../../../../assets/ScottAllen.jpg')}
-                style={styles.image}
-              />
-              <Text style={styles.textImage}>{props.author}</Text>
+              <Text style={styles.textImage}>{itemProps.author}</Text>
             </View>
           </TouchableOpacity>
         </View>
         <Text style={styles.darktext}>
-          {`${props.level} . ${props.released} . ${props.duration}`}
+          {`${itemProps.level} . ${itemProps.released} . ${itemProps.duration}`}
         </Text>
 
         <View style={styles.iconView}>
-          <View>
-            <TouchableOpacity styles={styles.iconButton}>
-              <Image
-                source={require('../../../../../assets/ScottAllen.jpg')}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <Text style={styles.textIcon}>Bookmark</Text>
-          </View>
-          <View>
-            <TouchableOpacity styles={styles.iconButton}>
-              <Image
-                source={require('../../../../../assets/ScottAllen.jpg')}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <Text style={styles.textIcon}>Add to Channel</Text>
-          </View>
-          <View>
-            <TouchableOpacity styles={styles.iconButton}>
-              <Image
-                source={require('../../../../../assets/ScottAllen.jpg')}
-                style={styles.icon}
-              />
-            </TouchableOpacity>
-            <Text style={styles.textIcon}>Download</Text>
-          </View>
-        </View>
+          <TouchableOpacity>
+            <View>
+              <View style={styles.viewImage}>
+                <Image
+                  source={require('../../../../../assets/bookmark.png')}
+                  style={styles.icon}
+                />
+              </View>
+              <Text style={styles.textIcon}>Bookmark</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View>
+              <View style={styles.viewImage}>
+                <Image
+                  source={require('../../../../../assets/channel.png')}
+                  style={styles.icon}
+                />
+              </View>
+              <Text style={styles.textIcon}>Add to Channel</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <View>
+              <View style={styles.viewImage}>
+                <Image
+                  source={require('../../../../../assets/download.png')}
+                  style={styles.icon}
+                />
+              </View>
 
-        <Text style={{color: 'white'}}>
+              <Text style={styles.textIcon}>Download</Text>
+            </View>
+          </TouchableOpacity>
+        </View>
+        <Text style={styles.content}>
           Angular has become one of the most widely used web development
           franeworks. This courses, Angular Fundamentals, will teach you the
           fundamentals of writing applications with Angular-whether or not
@@ -75,12 +84,24 @@ const InfoCourse = (props) => {
           knowledge necessary to create professional and personal websites using
           Angular
         </Text>
-          <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button}>
+          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+            <Image
+              source={require('../../../../../assets/check.png')}
+              style={styles.icon}
+            />
             <Text style={styles.textButton}>Take a learning check</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button}>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button}>
+          <View style={{flexDirection: 'row', alignSelf: 'center'}}>
+            <Image
+              source={require('../../../../../assets/view-list.png')}
+              style={styles.icon}
+            />
             <Text style={styles.textButton}>View related paths & courses</Text>
-          </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
       </View>
     </ScrollView>
   );
@@ -88,7 +109,7 @@ const InfoCourse = (props) => {
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#0e0f13',
+    backgroundColor: '#1f242a',
   },
   item: {
     marginHorizontal: 15,
@@ -102,14 +123,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#3a434a',
     width: '100%',
   },
-  textButton:{
+  textButton: {
     color: 'white',
-    textAlign:'center',
+    textAlign: 'center',
     paddingVertical: 10,
+    marginLeft: 10,
   },
   imageButton: {
     marginTop: 15,
-    backgroundColor: '#3a434a',
+    backgroundColor: '#394249',
     marginRight: 10,
     height: 30,
     width: 120,
@@ -124,6 +146,7 @@ const styles = StyleSheet.create({
   textImage: {
     color: 'white',
     alignSelf: 'center',
+    padding: 5,
   },
   iconView: {
     flexDirection: 'row',
@@ -131,18 +154,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     justifyContent: 'space-around',
   },
-  iconButton: {
-    backgroundColor: '#3a434a',
-    marginRight: 10,
+  view: {
+    borderWidth: 1,
+    borderColor: 'white',
+  },
+  viewImage: {
     height: 50,
     width: 50,
     borderRadius: 25,
+    backgroundColor: '#394249',
+    alignSelf: 'center',
+    justifyContent: 'center',
   },
   icon: {
-    height: 50,
-    width: 50,
-    borderRadius: 25,
+    height: 30,
+    width: 30,
     alignSelf: 'center',
+    justifyContent: 'center',
   },
   textIcon: {
     color: 'white',
@@ -158,6 +186,10 @@ const styles = StyleSheet.create({
   darktext: {
     marginTop: 10,
     color: 'darkgray',
+  },
+  content: {
+    color: 'white',
+    marginTop: 25,
   },
 });
 export default InfoCourse;

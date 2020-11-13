@@ -1,11 +1,18 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useEffect} from 'react';
+import {StyleSheet, View, Text, TouchableOpacity, Alert, Image} from 'react-native';
+import { ScrollView } from 'react-native-gesture-handler';
 import {HelperText, TextInput} from 'react-native-paper';
+import { ScreenKey } from '../../../globals/constants';
 
 const Login = (props) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-
+  const [status, setStatus] = useState(null);
+  useEffect(() => {
+    if(status && status === 200){
+      props.navigation.navigate(ScreenKey.HomeScreen);
+    }
+  });
   const hasErrorEmail = () => {
     return userName.includes('@');
   };
@@ -16,16 +23,22 @@ const Login = (props) => {
     if (hasErrorEmail() || hasErrorPassword()) {
       Alert.alert('Fail');
     } else {
-      Alert.alert('Success');
-      props.navigation.navigate('HomeScreen');
+      setStatus(200);
     }
   };
   const onPressButtonRegister = () => {
-    props.navigation.navigate('Register');
+    props.navigation.navigate(ScreenKey.Register);
   };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
+      <View style={styles.view}>
+          <Image
+            source={require('../../../../assets/iconapp.png')}
+            style={styles.image}
+          />
+          <Text style={styles.textAppName}>Pluralsight</Text>
+        </View>
       <View style={styles.container1}>
         <TextInput
           label="Usernam (or Email)"
@@ -78,7 +91,7 @@ const Login = (props) => {
           SIGN UP FREE
         </Text>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
@@ -124,6 +137,20 @@ const styles = StyleSheet.create({
     borderColor: '#09577b',
     borderWidth: 1,
     borderRadius: 6,
+  },
+  textAppName: {
+    fontSize: 25,
+    fontWeight: 'bold',
+    color: 'white'
+  },
+  image: {
+    width: 100,
+    height: 100,
+  },
+  view: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 10,
   },
 });
 export default Login;

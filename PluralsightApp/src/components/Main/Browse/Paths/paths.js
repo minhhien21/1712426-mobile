@@ -1,5 +1,7 @@
 import React, {useState} from 'react';
-import {ScrollView, StyleSheet, Text, View} from 'react-native';
+import {ScrollView, StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
+import { ScreenKey } from '../../../../globals/constants';
+import FlatListPaths from '../../../Common/flatlist-paths';
 import PathsItem from '../PathsItem/paths-item';
 const Paths = (props) => {
   const paths = [
@@ -40,13 +42,31 @@ const Paths = (props) => {
       total: '6 courses',
     },
   ];
-  const renderListItems = (paths) => {
-    return paths.map((item) => <PathsItem navigation={props.navigation} item={item} />);
+  const onPress = () =>{
+    props.OnPress();
   };
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>Paths</Text>
-      <ScrollView horizontal={true}>{renderListItems(paths)}</ScrollView>
+      <View style={styles.view}>
+        <Text style={styles.text}>{props.title}</Text>
+        <TouchableOpacity onPress={onPress}>
+          <Text style={styles.textDark}>See all{'>'}</Text>
+        </TouchableOpacity>
+      </View>
+      <FlatList
+        data={paths}
+        horizontal={true}
+        renderItem={({item}) => (
+          <PathsItem
+            navigation={props.navigation}
+            item={item}
+            OnPressListenItem={() =>
+              props.navigation.push(ScreenKey.PathDetail, {item: item})
+            }
+          />
+        )}
+      />
+      
     </View>
   );
 };
@@ -55,12 +75,23 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#0e0f13',
   },
+  view: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginTop: 25,
+    marginBottom: 10,
+    marginRight: 15,
+},
   text: {
     color: 'white',
     fontSize: 20,
-    marginTop: 10,
-    marginLeft: 10,
-    marginBottom: 10,
+  },
+  textDark: {
+    color: 'darkgray',
+    alignSelf: 'center',
+    marginRight: 10,
   },
 });
 export default Paths;

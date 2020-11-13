@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {round} from 'react-native-reanimated';
 const InfoPath = (props) => {
-  console.log(props, 'míadfa');
+  var itemProps= props.navigation.state.params.item;
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
@@ -19,8 +19,8 @@ const InfoPath = (props) => {
             style={styles.image}
           />
           <View style={styles.viewText}>
-            <Text style={styles.title}>{props.title}</Text>
-            <Text style={styles.darktext}>{props.total}</Text>
+            <Text style={styles.title}>{itemProps.title}</Text>
+            <Text style={styles.darktext}>{itemProps.total}</Text>
           </View>
         </View>
 

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Image} from 'react-native';
+import { ScreenKey } from '../../../globals/constants';
 const ListAuthorsItem = (props) => {
-  const OnPressListenItem = () => {
-    props.navigation.navigate('AuthorDetail', {item: props.item});
-  };
   return (
-    <TouchableOpacity style={styles.item} onPress={OnPressListenItem}>
+    <TouchableOpacity style={styles.item} onPress={() => {
+      props.OnPressListenItem();
+    }}>
       <TouchableOpacity style={styles.button}>
         <Image source={props.item.link} style={styles.image} />
       </TouchableOpacity>

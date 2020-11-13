@@ -35,8 +35,11 @@ const Search = (props) => {
           <Text>Authors</Text>
         </View>
       </View>
+      <Text style={styles.text}>Courses</Text>
       <ListCourses {...props} />
+      <Text style={styles.text}>Paths</Text>
       <ListPaths {...props} />
+      <Text style={styles.text}>Authors</Text>
       <ListAuthors {...props} />
     </ScrollView>
   );
@@ -64,6 +67,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 10,
     height: 40,
+  },
+  text: {
+    color: 'white',
+    fontSize: 20,
+    marginTop: 10,
+    marginLeft: 10,
+    marginBottom: 10,
   },
 });
 export default Search;

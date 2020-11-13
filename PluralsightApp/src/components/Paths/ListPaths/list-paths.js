@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
-import { StyleSheet, Text, View} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import {StyleSheet, Text, View} from 'react-native';
+import {FlatList} from 'react-native-gesture-handler';
+import {ScreenKey} from '../../../globals/constants';
 import ListPathsItem from '../ListPathsItem/list-paths-item';
 
 const ListPaths = (props) => {
@@ -32,28 +33,25 @@ const ListPaths = (props) => {
   ];
   return (
     <View>
-      <Text style={styles.text}>Courses</Text>
       <FlatList
         data={paths}
         renderItem={({item}) => (
-          <ListPathsItem navigation={props.navigation} item={item}/>
+          <ListPathsItem
+            navigation={props.navigation}
+            item={item}
+            OnPressListenItem={() =>
+              props.navigation.navigate(ScreenKey.PathDetail, {item: item})
+            }
+          />
         )}
       />
     </View>
-    
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#0e0f13',
-  },
-  text: {
-    color: 'white',
-    fontSize: 20,
-    marginTop: 10,
-    marginLeft: 10,
-    marginBottom: 10,
   },
 });
 export default ListPaths;

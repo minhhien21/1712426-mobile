@@ -1,8 +1,8 @@
 import React, {useState} from 'react';
 import {ScrollView, StyleSheet, View, Text} from 'react-native';
-import { FlatList } from 'react-native-gesture-handler';
+import {FlatList} from 'react-native-gesture-handler';
+import {ScreenKey} from '../../../globals/constants';
 import ListAuthorsItem from '../ListAuthorsItem/list-authors-item';
-
 
 const ListAuthors = (props) => {
   const authors = [
@@ -33,11 +33,16 @@ const ListAuthors = (props) => {
   ];
   return (
     <View>
-      <Text style={styles.text}>Courses</Text>
       <FlatList
         data={authors}
         renderItem={({item}) => (
-          <ListAuthorsItem navigation={props.navigation} item={item} />
+          <ListAuthorsItem
+            navigation={props.navigation}
+            item={item}
+            OnPressListenItem={() =>
+              props.navigation.push(ScreenKey.AuthorDetail, {item: item})
+            }
+          />
         )}
       />
     </View>
@@ -47,13 +52,6 @@ const ListAuthors = (props) => {
 const styles = StyleSheet.create({
   layoutHome: {
     backgroundColor: '#0e0f13',
-  },
-  text: {
-    color: 'white',
-    fontSize: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    marginLeft: 10,
   },
 });
 export default ListAuthors;

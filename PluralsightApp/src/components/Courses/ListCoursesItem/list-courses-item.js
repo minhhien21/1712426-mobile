@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import {ScreenKey} from '../../../globals/constants';
 import CourseDetail from '../CourseDetail/course-detail';
 const ListCoursesItem = (props) => {
-  const OnPressListenItem = () => {
-    props.navigation.navigate('CourseDetail', {item: props.item});
-  };
   return (
-    <TouchableOpacity style={styles.item} onPress={OnPressListenItem}>
+    <TouchableOpacity
+      style={styles.item}
+      onPress={() => {
+        props.OnPressListenItem();
+      }}>
       <Image source={props.item.link} style={styles.image} />
       <View style={styles.viewText}>
         <Text style={styles.title}>{props.item.title}</Text>

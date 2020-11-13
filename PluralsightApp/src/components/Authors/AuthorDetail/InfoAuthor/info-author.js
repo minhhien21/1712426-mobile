@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import {round} from 'react-native-reanimated';
 const InfoAuthor = (props) => {
+  var itemProps= props.navigation.state.params.item;
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
@@ -18,7 +19,7 @@ const InfoAuthor = (props) => {
             style={styles.icon}
           />
         </TouchableOpacity>
-        <Text style={styles.textIcon}>{props.name}</Text>
+        <Text style={styles.textIcon}>{itemProps.name}</Text>
         <Text style={styles.textIcon}>Pluralsight Author</Text>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.textbutton}>FOLLOW</Text>
