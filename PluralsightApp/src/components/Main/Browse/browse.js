@@ -13,12 +13,20 @@ const Browse = (props) => {
     <ScrollView style={styles.container}>
       <View style={styles.view}>
         <View style={styles.imagebutton}>
-          <ImageButton title={`${'NEW\nRELEASES'}`} />
+          <ImageButton
+            title={`${'NEW\nRELEASES'}`}
+            OnPressListenItem={() =>
+              props.navigation.push(ScreenKey.NewReleases)
+            }
+          />
         </View>
         <View style={styles.imagebutton}>
           <ImageButton
             title={`${'RECOMMENDED\nFOR YOU'}`}
             style={styles.imagebutton}
+            OnPressListenItem={() =>
+              props.navigation.push(ScreenKey.NewReleases)
+            }
           />
         </View>
         <SectionImageButton />

@@ -19,7 +19,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#0e0f13',
   },
   view: {
-    marginTop: 20,
     marginLeft: 15,
   },
 });

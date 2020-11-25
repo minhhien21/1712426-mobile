@@ -8,7 +8,12 @@ const TopAuthorsItem = (props) => {
         onPress={() => {
           props.OnPressListenItem();
         }}>
-        <Image source={props.item.link} style={styles.image} />
+        <Image
+          source={{
+            uri: props.item.link,
+          }}
+          style={styles.image}
+        />
       </TouchableOpacity>
       <Text style={styles.text}>{props.item.name}</Text>
     </View>

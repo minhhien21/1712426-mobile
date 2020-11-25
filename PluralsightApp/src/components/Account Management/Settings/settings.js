@@ -10,11 +10,11 @@ import {
 import {ScreenKey} from '../../../globals/constants';
 import {NavigationActions} from 'react-navigation';
 const Settings = (props) => {
-    const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [
-          NavigationActions.navigate({ routeName: ScreenKey.Login})
-        ] })
+    // const resetAction = NavigationActions.reset({
+    //     index: 0,
+    //     actions: [
+    //       NavigationActions.navigate({ routeName: ScreenKey.Login})
+    //     ] })
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container1}>
@@ -58,7 +58,7 @@ const Settings = (props) => {
         style={styles.button}
         onPress={() => {
           //props.navigation.popToTop();
-          props.navigation.dispatch(resetAction);
+          //props.navigation.dispatch(resetAction);
           props.navigation.push(ScreenKey.Login);
         }}>
         <Text style={styles.textButton}>SIGN OUT</Text>

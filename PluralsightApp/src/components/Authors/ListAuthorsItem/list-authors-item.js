@@ -7,7 +7,7 @@ const ListAuthorsItem = (props) => {
       props.OnPressListenItem();
     }}>
       <TouchableOpacity style={styles.button}>
-        <Image source={props.item.link} style={styles.image} />
+        <Image source={{uri:props.item.link}} style={styles.image} />
       </TouchableOpacity>
       <View style={styles.viewText}>
         <Text style={styles.title}>{props.item.name}</Text>

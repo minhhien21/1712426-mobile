@@ -8,7 +8,12 @@ const PathsItem = (props) => {
       onPress={() => {
         props.OnPressListenItem();
       }}>
-      <Image source={props.item.link} style={styles.image} />
+      <Image
+        source={{
+          uri: props.item.link,
+        }}
+        style={styles.image}
+      />
       <View>
         <Text style={styles.title}>{props.item.title}</Text>
         <Text style={styles.darktext}>{props.item.total}</Text>

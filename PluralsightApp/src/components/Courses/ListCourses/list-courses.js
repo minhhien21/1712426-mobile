@@ -7,7 +7,7 @@ const ListCourses = (props) => {
   const courses = [
     {
       id: 1,
-      link: require('../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'Angular Fundamentals',
       author: 'Joe Eames',
       level: 'Intermediate',
@@ -16,7 +16,7 @@ const ListCourses = (props) => {
     },
     {
       id: 2,
-      link: require('../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'C# Fundamentals',
       author: 'Scott Allen',
       level: 'Beginner',
@@ -25,7 +25,7 @@ const ListCourses = (props) => {
     },
     {
       id: 3,
-      link: require('../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'Managing AWS Operations',
       author: 'Andru Estes',
       level: 'Intermediate',
@@ -34,12 +34,21 @@ const ListCourses = (props) => {
     },
     {
       id: 4,
-      link: require('../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'Spring Framework: Spring MVC Fundamentals',
       author: 'Bryan Hansen',
       level: 'Beginner',
       released: 'Fed 12 2020',
       duration: '2h 32m',
+    },
+    {
+      id: 5,
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
+      title: 'Spring: The Big Picture',
+      author: 'Dustin Schultz',
+      level: 'Beginner',
+      released: 'May 15 2018',
+      duration: '1h 15m',
     },
   ];
 

@@ -15,7 +15,7 @@ const InfoAuthor = (props) => {
       <View style={styles.item}>
         <TouchableOpacity styles={styles.iconButton}>
           <Image
-            source={require('../../../../../assets/ScottAllen.jpg')}
+            source={{uri:itemProps.link}}
             style={styles.icon}
           />
         </TouchableOpacity>

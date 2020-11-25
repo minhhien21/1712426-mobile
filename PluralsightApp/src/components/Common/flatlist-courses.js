@@ -30,15 +30,6 @@ const FlatListCourses = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    marginLeft: 10,
-  },
-  textHeader: {
-    color: 'white',
-    fontSize: 20,
-  },
-  text: {
-    color: 'darkgray',
-    alignSelf: 'center'
   },
 });
 export default FlatListCourses;

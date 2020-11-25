@@ -7,37 +7,37 @@ const Paths = (props) => {
   const paths = [
     {
       id: 1,
-      link: require('../../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
     {
       id: 2,
-      link: require('../../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
     {
       id: 3,
-      link: require('../../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
     {
       id: 4,
-      link: require('../../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
     {
       id: 5,
-      link: require('../../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
     {
       id: 6,
-      link: require('../../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
@@ -53,7 +53,12 @@ const Paths = (props) => {
           <Text style={styles.textDark}>See all{'>'}</Text>
         </TouchableOpacity>
       </View>
-      <FlatList
+      <FlatListPaths data={paths} {...props}/>
+    </View>
+  );
+};
+
+{/* <FlatList
         data={paths}
         horizontal={true}
         renderItem={({item}) => (
@@ -65,12 +70,7 @@ const Paths = (props) => {
             }
           />
         )}
-      />
-      
-    </View>
-  );
-};
-
+      /> */}
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#0e0f13',

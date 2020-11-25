@@ -22,7 +22,9 @@ const InfoCourse = (props) => {
           <TouchableOpacity styles={styles.imageButton} onPress={OnPressListen}>
             <View style={styles.imageButton}>
               <Image
-                source={require('../../../../../assets/ScottAllen.jpg')}
+                source={{
+                  uri: itemProps.link,
+                }}
                 style={styles.image}
               />
               <Text style={styles.textImage}>{itemProps.author}</Text>

@@ -6,17 +6,17 @@ import { ScreenKey } from '../../../globals/constants';
 import {NavigationActions} from 'react-navigation';
 
 const Login = (props) => {
-  const resetAction = () => NavigationActions.reset({
-    index: 0,
-    actions: [
-      NavigationActions.navigate({ routeName: ScreenKey.HomeScreen})
-    ] })
+  // const resetAction = () => NavigationActions.reset({
+  //   index: 0,
+  //   actions: [
+  //     NavigationActions.navigate({ routeName: ScreenKey.HomeScreen})
+  //   ] })
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const [status, setStatus] = useState(null);
   useEffect(() => {
     if(status && status === 200){
-      props.navigation.dispatch(resetAction);
+      //props.navigation.dispatch(resetAction);
       props.navigation.navigate(ScreenKey.HomeScreen);
     }
   });

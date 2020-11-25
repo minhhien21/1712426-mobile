@@ -8,28 +8,28 @@ const ListPaths = (props) => {
   const paths = [
     {
       id: 1,
-      link: require('../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
     {
       id: 2,
-      link: require('../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
     {
       id: 3,
-      link: require('../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
     },
     {
       id: 4,
-      link: require('../../../../assets/google-cloud.png'),
+      link: 'http://www.gcppodcast.com/images/logo_large.png',
       title: 'Google Cloud Certified Associate Cloud Engineer',
       total: '6 courses',
-    },
+    }
   ];
   return (
     <View>

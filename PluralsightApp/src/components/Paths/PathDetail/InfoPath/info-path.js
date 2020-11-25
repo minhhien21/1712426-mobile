@@ -15,7 +15,7 @@ const InfoPath = (props) => {
       <View style={styles.item}>
         <View style={styles.pathItem}>
           <Image
-            source={require('../../../../../assets/google-cloud.png')}
+            source={{uri:itemProps.link}}
             style={styles.image}
           />
           <View style={styles.viewText}>

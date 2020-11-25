@@ -14,7 +14,7 @@ const SectionCourses = (props) => {
   const courses = [
     {
       id: 1,
-      link: require('../../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'Angular Fundamentals',
       author: 'Joe Eames',
       level: 'Intermediate',
@@ -23,7 +23,7 @@ const SectionCourses = (props) => {
     },
     {
       id: 2,
-      link: require('../../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'C# Fundamentals',
       author: 'Scott Allen',
       level: 'Beginner',
@@ -32,7 +32,7 @@ const SectionCourses = (props) => {
     },
     {
       id: 3,
-      link: require('../../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'Managing AWS Operations',
       author: 'Andru Estes',
       level: 'Intermediate',
@@ -41,7 +41,7 @@ const SectionCourses = (props) => {
     },
     {
       id: 4,
-      link: require('../../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'Spring Framework: Spring MVC Fundamentals',
       author: 'Bryan Hansen',
       level: 'Beginner',
@@ -50,7 +50,7 @@ const SectionCourses = (props) => {
     },
     {
       id: 5,
-      link: require('../../../../../assets/angular-fundamentals.jpg'),
+      link: 'https://www.freecoursesonline.me/wp-content/uploads/2018/12/angular-fundamentals-v1.jpg',
       title: 'Spring: The Big Picture',
       author: 'Dustin Schultz',
       level: 'Beginner',
@@ -71,7 +71,11 @@ const SectionCourses = (props) => {
           <Text style={styles.text}>See all{'>'}</Text>
         </TouchableOpacity>
       </View>
-      <FlatList data={courses} horizontal={true}
+      <FlatListCourses data={courses} {...props}/>
+    </View>
+  );
+};
+{/* <FlatList data={courses} horizontal={true}
       renderItem={({item}) => (
         <SectionCoursesItem
           navigation={props.navigation}
@@ -80,12 +84,7 @@ const SectionCourses = (props) => {
             props.navigation.push(ScreenKey.CourseDetail, {item: item})
           }
         />
-      )}/>
-      
-    </View>
-  );
-};
-
+      )}/> */}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

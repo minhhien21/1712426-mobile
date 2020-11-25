@@ -24,6 +24,7 @@ import PopularSkillsDetail from '../../Main/Browse/PopularSkillsDetail/popular-s
 import AccountManagement from '../../Account Management/account-management';
 import SplashScreen from '../SplashScreen/splash-screen';
 import Settings from '../../Account Management/Settings/settings';
+import NewReleases from '../../Main/Browse/SectionImageButton/NewReleases/new-releases';
 
 // const TabNavigator = createMaterialTopTabNavigator(
 //   {
@@ -181,7 +182,6 @@ const createBrowseStack = createStackNavigator({
       headerTintColor: 'white',
     },
   },
-
   [ScreenKey.PathDetail]: {
     screen: PathDetail,
     navigationOptions: {
@@ -232,6 +232,12 @@ const createBrowseStack = createStackNavigator({
   },
   [ScreenKey.AllListCourses]: {
     screen: AllListCourses,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.NewReleases]: {
+    screen: NewReleases,
     navigationOptions: {
       headerShown: false,
     },
@@ -364,7 +370,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: ScreenKey.Login,
+    initialRouteName: ScreenKey.HomeScreen,
   },
 );
 
