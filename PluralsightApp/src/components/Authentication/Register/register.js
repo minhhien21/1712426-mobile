@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, CheckBox, Alert, TextInput} from 'react-native';
-import {HelperText} from 'react-native-paper';
 
 const Register = (props) => {
   const [email, setEmail] = useState('');
