@@ -25,6 +25,8 @@ import AccountManagement from '../../Account Management/account-management';
 import SplashScreen from '../SplashScreen/splash-screen';
 import Settings from '../../Account Management/Settings/settings';
 import NewReleases from '../../Main/Browse/SectionImageButton/NewReleases/new-releases';
+import UpdateInformation from '../../Account Management/UpdateInformation/update-information';
+import ChangePassword from '../../Account Management/ChangePassword/change-password';
 
 // const TabNavigator = createMaterialTopTabNavigator(
 //   {
@@ -97,6 +99,26 @@ const createHomeStack = createStackNavigator({
     screen: Settings,
     navigationOptions: {
       title: 'Settings',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.UpdateInformation]: {
+    screen: UpdateInformation,
+    navigationOptions: {
+      title: 'Update Information',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.ChangePassword]: {
+    screen: ChangePassword,
+    navigationOptions: {
+      title: 'Change Password',
       headerStyle: {
         backgroundColor: '#181b20',
       },
@@ -176,6 +198,26 @@ const createBrowseStack = createStackNavigator({
     screen: Settings,
     navigationOptions: {
       title: 'Settings',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.UpdateInformation]: {
+    screen: UpdateInformation,
+    navigationOptions: {
+      title: 'Update Information',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.ChangePassword]: {
+    screen: ChangePassword,
+    navigationOptions: {
+      title: 'Change Password',
       headerStyle: {
         backgroundColor: '#181b20',
       },

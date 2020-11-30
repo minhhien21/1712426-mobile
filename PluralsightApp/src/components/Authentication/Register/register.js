@@ -49,35 +49,35 @@ const Register = (props) => {
       <TextInput
         value={email}
         onChangeText={(email) => setEmail(email)}
-        style={[styles.textinput, styles.inputUs]}
+        style={styles.textinput}
       />
 
       <Text style={styles.text}>First name *</Text>
       <TextInput
         value={firstName}
         onChangeText={(firstName) => setFirstName(firstName)}
-        style={[styles.textinput, styles.inputUs]}
+        style={styles.textinput}
       />
 
       <Text style={styles.text}>LastName *</Text>
       <TextInput
         value={lastName}
         onChangeText={(lastName) => setLastName(lastName)}
-        style={[styles.textinput, styles.inputUs]}
+        style={styles.textinput}
       />
 
       <Text style={styles.text}>Company *</Text>
       <TextInput
         value={company}
         onChangeText={(company) => setCompany(company)}
-        style={[styles.textinput, styles.inputUs]}
+        style={styles.textinput}
       />
 
       <Text style={styles.text}>Phone</Text>
       <TextInput
         value={phone}
         onChangeText={(phone) => setPhone(phone)}
-        style={[styles.textinput, styles.inputUs]}
+        style={styles.textinput}
       />
 
       <Text style={styles.text}>* Required field</Text>

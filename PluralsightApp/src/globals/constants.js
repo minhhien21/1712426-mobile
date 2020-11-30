@@ -20,5 +20,7 @@ export const ScreenKey ={
     PopularSkillsDetail:"PopularSkillsDetail",
     AccountManagement:"AccountManagement",
     Settings:"Settings",
+    UpdateInformation:"UpdateInformation",
+    ChangePassword:"ChangePassword",
     NewReleases:"NewReleases"
 }

@@ -1,5 +1,6 @@
 import React from 'react';
-import {StyleSheet, View, Text, Image} from 'react-native';
+import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import {ScreenKey} from '../../globals/constants';
 
 const AccountManagement = (props) => {
   return (
@@ -13,10 +14,31 @@ const AccountManagement = (props) => {
           <Text style={styles.textHeader}>Minh Hien</Text>
         </View>
         <View style={{marginTop: 30}}>
-          <Text style={styles.text}>Activity insights (last 30days)</Text>
-          <Text style={styles.darktext}>MOST ACTIVE TIME OF DAY</Text>
-          <Text style={styles.boldtext}>10:00 PM</Text>
+          <Text style={styles.boldtext}>Email</Text>
+          <Text style={styles.text}>minhhien21@gmail.com</Text>
+          <Text style={styles.boldtext}>Phone</Text>
+          <Text style={styles.text}>0787559267</Text>
+          <Text style={styles.boldtext}>Password</Text>
+          <View
+            style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-between',
+            }}>
+            <Text style={styles.text}>********</Text>
+
+            <TouchableOpacity
+              style={{backgroundColor: '#026f9b', borderRadius: 10}}
+              onPress={() => props.navigation.push(ScreenKey.ChangePassword)}>
+              <Text style={styles.buttontext}>CHANGE</Text>
+            </TouchableOpacity>
+          </View>
         </View>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() => props.navigation.push(ScreenKey.UpdateInformation)}>
+          <Text style={styles.buttontext}>UPDATE</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -29,7 +51,7 @@ const styles = StyleSheet.create({
   },
   container1: {
     marginTop: 30,
-    marginLeft: 30,
+    marginHorizontal: 20,
   },
   view: {
     flexDirection: 'row',
@@ -48,16 +70,25 @@ const styles = StyleSheet.create({
   text: {
     color: 'white',
     fontWeight: 'bold',
-    marginTop: 20
+    marginTop: 5,
+    fontSize: 20,
   },
-  darktext:{
-    color: 'gray',
-    marginTop: 20
-  },
-  boldtext:{
+  boldtext: {
     color: 'white',
     fontSize: 25,
     fontWeight: 'bold',
-  }
+  },
+  button: {
+    marginTop: 30,
+    width: '100%',
+    backgroundColor: '#026f9b',
+    borderRadius: 10,
+  },
+  buttontext: {
+    fontSize: 18,
+    margin: 10,
+    textAlign: 'center',
+    color: 'white',
+  },
 });
 export default AccountManagement;
