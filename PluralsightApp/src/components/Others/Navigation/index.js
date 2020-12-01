@@ -412,7 +412,7 @@ const AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: ScreenKey.HomeScreen,
+    initialRouteName: ScreenKey.SplashScreen,
   },
 );
 
