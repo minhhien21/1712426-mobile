@@ -1,0 +1,1 @@
+export const URLAPI = "http://api.dev.letstudy.org"

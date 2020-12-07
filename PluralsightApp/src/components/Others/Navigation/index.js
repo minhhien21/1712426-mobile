@@ -386,6 +386,7 @@ const HomeStack = createBottomTabNavigator(
     },
   },
 );
+
 var AppNavigator;
 if (userToken == null) {
   AppNavigator = createStackNavigator(
@@ -452,7 +453,9 @@ if (userToken == null) {
     },
   );
 }
-// var AppNavigator = createStackNavigator(
+
+
+// const AppNavigator = createStackNavigator(
 //   {
 //     [ScreenKey.SplashScreen]: {
 //       screen: SplashScreen,

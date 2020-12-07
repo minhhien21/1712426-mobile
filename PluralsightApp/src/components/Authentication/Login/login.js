@@ -1,28 +1,27 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext, useReducer} from 'react';
 import {StyleSheet, View, Text, TouchableOpacity, Alert, Image} from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
-import {HelperText, TextInput} from 'react-native-paper';
+import {TextInput} from 'react-native-paper';
 import { ScreenKey } from '../../../globals/constants';
-import {NavigationActions} from 'react-navigation';
-
+import { AuthenticationContext } from '../../../provider/authentication-provider';
 const Login = (props) => {
 
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [status, setStatus] = useState(null);
+  const authContext = useContext(AuthenticationContext);
   useEffect(() => {
-    if(status && status === 200){
+    console.log("authoContext:",authContext)
+    if(authContext.state.isAuthenticated){
       props.navigation.navigate(ScreenKey.HomeScreen);
-     
+
       // const resetAction = () => NavigationActions.reset({
       //   index: 0,
       //   actions: [
       //     NavigationActions.navigate({ routeName: ScreenKey.HomeScreen})
       //   ] })
       // props.navigation.dispatch(resetAction);
-      
     }
-  },[status]);
+  },[authContext.state.isAuthenticated]);
   const hasErrorEmail = () => {
     return userName.trim() == '';
   };
@@ -30,15 +29,27 @@ const Login = (props) => {
     return password.trim() == '';
   };
   const onPressButtonLogin = () => {
-    if (hasErrorEmail() || hasErrorPassword()) {
-      Alert.alert('Fail');
-    } else {
-      setStatus(200);
-    }
+    // if (hasErrorEmail() || hasErrorPassword()) {
+    //   Alert.alert('Fail');
+    // } else {
+    //   authContext.login(userName,password);
+    // }
+
+    authContext.login(userName,password);
   };
   const onPressButtonRegister = () => {
     props.navigation.navigate(ScreenKey.Register);
   };
+
+  const renderLoginStatus = (status) => {
+    if(!status){
+      return <View/>
+    } else if(status.status === 200){
+      return (<Text>Login successed</Text>)
+    } else{
+      return (<Text>{status.erroString}</Text>)
+    }
+  }
 
   return (
     <ScrollView style={styles.container}>
@@ -51,7 +62,7 @@ const Login = (props) => {
         </View>
       <View style={styles.container1}>
         <TextInput
-          label="Usernam (or Email)"
+          label="Email"
           value={userName}
           onChangeText={(userName) => setUserName(userName)}
           style={[styles.textinput, styles.inputUs]}
