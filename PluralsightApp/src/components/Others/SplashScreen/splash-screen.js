@@ -18,7 +18,7 @@ const SplashScreen = (props) => {
     return () => {
       clearInterval(timer);
     };
-  });
+  },[loading]);
   return (
     <View style={styles.container}>
       <View style={styles.view}>

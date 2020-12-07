@@ -28,6 +28,7 @@ import NewReleases from '../../Main/Browse/SectionImageButton/NewReleases/new-re
 import UpdateInformation from '../../Account Management/UpdateInformation/update-information';
 import ChangePassword from '../../Account Management/ChangePassword/change-password';
 
+const userToken = null;
 // const TabNavigator = createMaterialTopTabNavigator(
 //   {
 //     All: {
@@ -62,7 +63,7 @@ const createHomeStack = createStackNavigator({
         backgroundColor: '#181b20',
       },
       headerTintColor: 'white',
-
+      headerLeft: null,
       headerRight: () => (
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
@@ -163,6 +164,7 @@ const createBrowseStack = createStackNavigator({
         backgroundColor: '#181b20',
       },
       headerTintColor: 'white',
+      headerLeft: null,
       headerRight: () => (
         <View style={{flexDirection: 'row'}}>
           <TouchableOpacity
@@ -384,37 +386,103 @@ const HomeStack = createBottomTabNavigator(
     },
   },
 );
-const AppNavigator = createStackNavigator(
-  {
-    [ScreenKey.SplashScreen]: {
-      screen: SplashScreen,
-      navigationOptions: {
-        headerShown: false,
+var AppNavigator;
+if (userToken == null) {
+  AppNavigator = createStackNavigator(
+    {
+      [ScreenKey.SplashScreen]: {
+        screen: SplashScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      [ScreenKey.Login]: {
+        screen: Login,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      [ScreenKey.Register]: {
+        screen: Register,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      [ScreenKey.HomeScreen]: {
+        screen: HomeStack,
+        navigationOptions: {
+          headerShown: false,
+        },
       },
     },
-    [ScreenKey.Login]: {
-      screen: Login,
-      navigationOptions: {
-        headerShown: false,
+    {
+      initialRouteName: ScreenKey.Login,
+    },
+  );
+} else {
+  AppNavigator = createStackNavigator(
+    {
+      [ScreenKey.SplashScreen]: {
+        screen: SplashScreen,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      [ScreenKey.Login]: {
+        screen: Login,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      [ScreenKey.Register]: {
+        screen: Register,
+        navigationOptions: {
+          headerShown: false,
+        },
+      },
+      [ScreenKey.HomeScreen]: {
+        screen: HomeStack,
+        navigationOptions: {
+          headerShown: false,
+        },
       },
     },
-    [ScreenKey.Register]: {
-      screen: Register,
-      navigationOptions: {
-        headerShown: false,
-      },
+    {
+      initialRouteName: ScreenKey.HomeScreen,
     },
-    [ScreenKey.HomeScreen]: {
-      screen: HomeStack,
-      navigationOptions: {
-        headerShown: false,
-      },
-    },
-  },
-  {
-    initialRouteName: ScreenKey.SplashScreen,
-  },
-);
+  );
+}
+// var AppNavigator = createStackNavigator(
+//   {
+//     [ScreenKey.SplashScreen]: {
+//       screen: SplashScreen,
+//       navigationOptions: {
+//         headerShown: false,
+//       },
+//     },
+//     [ScreenKey.Login]: {
+//       screen: Login,
+//       navigationOptions: {
+//         headerShown: false,
+//       },
+//     },
+//     [ScreenKey.Register]: {
+//       screen: Register,
+//       navigationOptions: {
+//         headerShown: false,
+//       },
+//     },
+//     [ScreenKey.HomeScreen]: {
+//       screen: HomeStack,
+//       navigationOptions: {
+//         headerShown: false,
+//       },
+//     },
+//   },
+//   {
+//     initialRouteName: ScreenKey.Login,
+//   },
+// );
 
 //const CustomTabNavigator = createAppContainer(TabNavigator);
 const AppNavigation = createAppContainer(AppNavigator);
