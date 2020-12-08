@@ -5,23 +5,20 @@ import {TextInput} from 'react-native-paper';
 import { ScreenKey } from '../../../globals/constants';
 import { AuthenticationContext } from '../../../provider/authentication-provider';
 const Login = (props) => {
-
+  const [status, setStatus] = useState(false);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
   const authContext = useContext(AuthenticationContext);
   useEffect(() => {
-    console.log("authoContext:",authContext)
     if(authContext.state.isAuthenticated){
       props.navigation.navigate(ScreenKey.HomeScreen);
-
-      // const resetAction = () => NavigationActions.reset({
-      //   index: 0,
-      //   actions: [
-      //     NavigationActions.navigate({ routeName: ScreenKey.HomeScreen})
-      //   ] })
-      // props.navigation.dispatch(resetAction);
     }
   },[authContext.state.isAuthenticated]);
+  useEffect(() => {
+    if(authContext.state.errorMessage != null){
+      Alert.alert(authContext.state.errorMessage);
+    }
+  },[authContext.state.errorMessage]);
   const hasErrorEmail = () => {
     return userName.trim() == '';
   };
@@ -29,27 +26,13 @@ const Login = (props) => {
     return password.trim() == '';
   };
   const onPressButtonLogin = () => {
-    // if (hasErrorEmail() || hasErrorPassword()) {
-    //   Alert.alert('Fail');
-    // } else {
-    //   authContext.login(userName,password);
-    // }
-
-    authContext.login(userName,password);
-  };
-  const onPressButtonRegister = () => {
-    props.navigation.navigate(ScreenKey.Register);
-  };
-
-  const renderLoginStatus = (status) => {
-    if(!status){
-      return <View/>
-    } else if(status.status === 200){
-      return (<Text>Login successed</Text>)
-    } else{
-      return (<Text>{status.erroString}</Text>)
+    if (hasErrorEmail() || hasErrorPassword()) {
+      Alert.alert('Vui lòng điền đầy đủ thông tin');
+    } else {
+      authContext.login(userName,password);
+      setStatus(true);
     }
-  }
+  };
 
   return (
     <ScrollView style={styles.container}>
@@ -97,7 +80,7 @@ const Login = (props) => {
             SIGN IN
           </Text>
         </TouchableOpacity>
-        <Text style={styles.text} onPress={() => console.log('1st')}>
+        <Text style={styles.text} onPress={() => props.navigation.navigate(ScreenKey.ForgetPassword)}>
           FORGOT PASSWORD?
         </Text>
         <Text
@@ -105,7 +88,7 @@ const Login = (props) => {
           onPress={() => console.log('1st')}>
           USE SINGLE SIGN-ON (SSO)
         </Text>
-        <Text style={styles.text} onPress={onPressButtonRegister}>
+        <Text style={styles.text} onPress={()=> props.navigation.navigate(ScreenKey.Register)}>
           SIGN UP FREE
         </Text>
       </View>

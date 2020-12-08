@@ -7,6 +7,7 @@ const initialState = {
     isAuthenticated: false,
     userInfo: null,
     token: null,
+    errorMessage: null,
 }
 
 const AuthenticationProvider = ({children}) => {

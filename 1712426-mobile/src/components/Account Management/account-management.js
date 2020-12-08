@@ -1,23 +1,32 @@
-import React from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity} from 'react-native';
+import React, {useContext} from 'react';
+import {StyleSheet, View, Text, Image, TouchableOpacity, Alert} from 'react-native';
 import {ScreenKey} from '../../globals/constants';
+import {AuthenticationContext} from '../../provider/authentication-provider';
 
 const AccountManagement = (props) => {
+  const authContext = useContext(AuthenticationContext);
+  const data = authContext.state.userInfo;
+  const refresh = () => {
+    Alert.alert("GO BACK");
+    console.log(data.name);
+  }
   return (
     <View style={styles.container}>
       <View style={styles.container1}>
         <View style={styles.view}>
           <Image
-            source={require('../../../assets/person.png')}
+            source={{uri:data.avatar}}
             style={styles.image}
           />
-          <Text style={styles.textHeader}>Minh Hien</Text>
+          <Text style={styles.textHeader}>
+            {data.name}
+          </Text>
         </View>
         <View style={{marginTop: 30}}>
           <Text style={styles.boldtext}>Email</Text>
-          <Text style={styles.text}>minhhien21@gmail.com</Text>
+          <Text style={styles.text}>{data.email}</Text>
           <Text style={styles.boldtext}>Phone</Text>
-          <Text style={styles.text}>0787559267</Text>
+          <Text style={styles.text}>{data.phone}</Text>
           <Text style={styles.boldtext}>Password</Text>
           <View
             style={{
@@ -36,7 +45,9 @@ const AccountManagement = (props) => {
         </View>
         <TouchableOpacity
           style={styles.button}
-          onPress={() => props.navigation.push(ScreenKey.UpdateInformation)}>
+          onPress={() => {
+            props.navigation.navigate(ScreenKey.UpdateInformation, {onGoBack: () => refresh()});
+            }}>
           <Text style={styles.buttontext}>UPDATE</Text>
         </TouchableOpacity>
       </View>

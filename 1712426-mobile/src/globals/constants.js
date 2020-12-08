@@ -2,6 +2,7 @@ export const ScreenKey ={
     SplashScreen:"SplashScreen",
     Login:"Login",
     Register:"Register",
+    ForgetPassword:"ForgetPassword",
     HomeScreen:"HomeScreen",
     HomeStack:"Home",
     DownloadStack:"Download",

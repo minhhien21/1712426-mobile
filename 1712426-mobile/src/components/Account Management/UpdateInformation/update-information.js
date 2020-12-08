@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,20 +6,57 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Alert,
 } from 'react-native';
+import {apiUpdateProfile} from '../../../core/service/user-information';
+import {AuthenticationContext} from '../../../provider/authentication-provider';
 
 const UpdateInformation = (props) => {
-  const [name, setName] = useState('Minh Hien');
-  const [email, setEmail] = useState('minhhien21@gmail.com');
-  const [phone, setPhone] = useState('0787559267');
+  const authContext = useContext(AuthenticationContext);
+  const data = authContext.state.userInfo;
+  const [name, setName] = useState(data.name);
+  const [email, setEmail] = useState(data.email);
+  const [phone, setPhone] = useState(data.phone);
+  const onPressUpdate = () => {
+    if (name.trim() == '' || phone.trim() == '') {
+      Alert.alert('Tên hoặc số điện thoại rỗng');
+    } else {
+      const res = apiUpdateProfile(
+        authContext.state.token,
+        name,
+        data.avatar,
+        phone,
+      );
+      res
+        .then((response) => {
+          Alert.alert(
+            'Cập nhật thông tin thành công',
+            '',
+            [
+              {
+                text: 'OK',
+                onPress: () => {
+                  data.name = name;
+                  data.phone = phone;
+                  props.navigation.state.params.onGoBack();
+                  props.navigation.goBack();
+                },
+              },
+            ],
+            {cancelable: false},
+          );
+        })
+        .catch((error) => {
+          Alert.alert(error.response.data.message);
+          throw error;
+        });
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.container1}>
         <View style={styles.view}>
-          <Image
-            source={require('../../../../assets/person.png')}
-            style={styles.image}
-          />
+          <Image source={{uri: data.avatar}} style={styles.image} />
         </View>
         <View style={{marginTop: 30}}>
           <Text style={styles.boldtext}>Name</Text>
@@ -41,7 +78,7 @@ const UpdateInformation = (props) => {
             style={styles.textinput}
           />
         </View>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onPressUpdate}>
           <Text style={styles.buttontext}>UPDATE</Text>
         </TouchableOpacity>
       </View>

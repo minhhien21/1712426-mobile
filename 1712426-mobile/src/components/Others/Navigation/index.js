@@ -27,6 +27,7 @@ import Settings from '../../Account Management/Settings/settings';
 import NewReleases from '../../Main/Browse/SectionImageButton/NewReleases/new-releases';
 import UpdateInformation from '../../Account Management/UpdateInformation/update-information';
 import ChangePassword from '../../Account Management/ChangePassword/change-password';
+import ForgetPassword from '../../Authentication/ForgetPassword/forget-password';
 
 const userToken = null;
 // const TabNavigator = createMaterialTopTabNavigator(
@@ -406,7 +407,21 @@ if (userToken == null) {
       [ScreenKey.Register]: {
         screen: Register,
         navigationOptions: {
-          headerShown: false,
+          title: 'Register',
+          headerStyle: {
+            backgroundColor: '#181b20',
+          },
+          headerTintColor: 'white',
+        },
+      },
+      [ScreenKey.ForgetPassword]: {
+        screen: ForgetPassword,
+        navigationOptions: {
+          title: 'Forget Password',
+          headerStyle: {
+            backgroundColor: '#181b20',
+          },
+          headerTintColor: 'white',
         },
       },
       [ScreenKey.HomeScreen]: {
@@ -438,7 +453,21 @@ if (userToken == null) {
       [ScreenKey.Register]: {
         screen: Register,
         navigationOptions: {
-          headerShown: false,
+          title: 'Register',
+          headerStyle: {
+            backgroundColor: '#181b20',
+          },
+          headerTintColor: 'white',
+        },
+      },
+      [ScreenKey.ForgetPassword]: {
+        screen: ForgetPassword,
+        navigationOptions: {
+          title: 'Forget Password',
+          headerStyle: {
+            backgroundColor: '#181b20',
+          },
+          headerTintColor: 'white',
         },
       },
       [ScreenKey.HomeScreen]: {
@@ -453,7 +482,6 @@ if (userToken == null) {
     },
   );
 }
-
 
 // const AppNavigator = createStackNavigator(
 //   {

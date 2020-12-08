@@ -1,97 +1,108 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, CheckBox, Alert, TextInput} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  CheckBox,
+  Alert,
+  TextInput,
+} from 'react-native';
+import {apiRegister} from '../../../core/service/authentication-service';
 
 const Register = (props) => {
   const [email, setEmail] = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName] = useState('');
-  const [company, setCompany] = useState('');
+  const [username, setUsername] = useState('');
   const [phone, setPhone] = useState('');
+  const [password, setPassword] = useState('');
   const [isSelected, setSelection] = useState(false);
-  const [errorEmail, setErrorEmail] = useState('Email address is empty!');
-
-  const hasErrorsEmail = () => {
-    if (email.trim() === '') {
-      setErrorEmail('Email address is empty!');
-      return true;
-    } 
-    if (email.includes('@')) {
-      setErrorEmail('Email address is invalid!');
-      return true;
-    }
-    return false;
-  };
   const hasEmptyEmail = () => {
     return email.trim() == '';
   };
-  const hasEmptyFN = () => {
-    return firstName.trim() == '';
+  const hasEmptyUsername = () => {
+    return username.trim() == '';
   };
-  const hasEmptysLN = () => {
-    return lastName.trim() == '';
+  const hasEmptyPhone = () => {
+    return phone.trim() == '';
   };
-  const hasEmptyCompany = () => {
-    return company.trim() == '';
+  const hasEmptyPassword = () => {
+    return password.trim() == '';
   };
 
   const onPressButton = () => {
-    if (hasEmptyEmail() || hasEmptyFN() || hasEmptysLN() || hasEmptyCompany() || isSelected == false) {
-        Alert.alert("Fail")
-    }else{
-        Alert.alert("Success")
+    if (
+      hasEmptyEmail() ||
+      hasEmptyUsername() ||
+      hasEmptyPhone() ||
+      hasEmptyPassword() ||
+      isSelected == false
+    ) {
+      Alert.alert('Vui lòng điền đầy đủ thông tin');
+    } else {
+      const res = apiRegister(username, email, phone, password);
+      res.then((response) => {
+          Alert.alert(
+            'Đăng ký thành công',
+            '',
+            [
+              { text: 'OK', onPress: () => props.navigation.goBack()}
+            ],
+            { cancelable: false }
+          );
+        })
+        .catch((error) => {
+          Alert.alert(error.response.data.message)
+          throw error;
+        });
     }
   };
   return (
     <View style={styles.container}>
       <View style={styles.container1}>
-      <Text style={styles.texttitle}>Create your free account</Text>
-      <Text style={styles.text}>Email *</Text>
-      <TextInput
-        value={email}
-        onChangeText={(email) => setEmail(email)}
-        style={styles.textinput}
-      />
+        <Text style={styles.texttitle}>Create your free account</Text>
 
-      <Text style={styles.text}>First name *</Text>
-      <TextInput
-        value={firstName}
-        onChangeText={(firstName) => setFirstName(firstName)}
-        style={styles.textinput}
-      />
+        <Text style={styles.text}>Username *</Text>
+        <TextInput
+          value={username}
+          onChangeText={(username) => setUsername(username)}
+          style={styles.textinput}
+        />
 
-      <Text style={styles.text}>LastName *</Text>
-      <TextInput
-        value={lastName}
-        onChangeText={(lastName) => setLastName(lastName)}
-        style={styles.textinput}
-      />
+        <Text style={styles.text}>Email *</Text>
+        <TextInput
+          value={email}
+          onChangeText={(email) => setEmail(email)}
+          style={styles.textinput}
+        />
 
-      <Text style={styles.text}>Company *</Text>
-      <TextInput
-        value={company}
-        onChangeText={(company) => setCompany(company)}
-        style={styles.textinput}
-      />
+        <Text style={styles.text}>Phone *</Text>
+        <TextInput
+          value={phone}
+          onChangeText={(phone) => setPhone(phone)}
+          style={styles.textinput}
+        />
+        <Text style={styles.text}>Password *</Text>
+        <TextInput
+          value={password}
+          onChangeText={(password) => setPassword(password)}
+          style={styles.textinput}
+        />
+        <Text style={styles.text}>* Required field</Text>
+        <CheckBox
+          value={isSelected}
+          onValueChange={setSelection}
+          backgroundColor="#222327"
+          color="white"
+        />
+        <Text style={styles.text}>
+          By activating this benefit, you agree to abide bv Pluralsight's terms
+          of use and privacy
+        </Text>
 
-      <Text style={styles.text}>Phone</Text>
-      <TextInput
-        value={phone}
-        onChangeText={(phone) => setPhone(phone)}
-        style={styles.textinput}
-      />
-
-      <Text style={styles.text}>* Required field</Text>
-      <CheckBox value={isSelected} onValueChange={setSelection} backgroundColor='#222327' color='white'/>
-      <Text style={styles.text}>
-        By activating this benefit, you agree to abide bv Pluralsight's terms of
-        use and privacy
-      </Text>
-
-      <TouchableOpacity style={styles.button} onPress={onPressButton}>
-        <Text style={styles.buttontext}>REGISTER</Text>
-      </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={onPressButton}>
+          <Text style={styles.buttontext}>REGISTER</Text>
+        </TouchableOpacity>
       </View>
-      
     </View>
   );
 };
@@ -101,7 +112,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#0e0f13',
   },
-  container1:{
+  container1: {
     marginLeft: 15,
     marginRight: 15,
   },
@@ -127,6 +138,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
+    marginTop: 10,
   },
   texttitle: {
     color: 'white',
