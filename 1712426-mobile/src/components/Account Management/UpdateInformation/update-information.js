@@ -8,7 +8,7 @@ import {
   TextInput,
   Alert,
 } from 'react-native';
-import {apiUpdateProfile} from '../../../core/service/user-information';
+import { apiUpdateProfile } from '../../../core/service/user-service';
 import {AuthenticationContext} from '../../../provider/authentication-provider';
 
 const UpdateInformation = (props) => {

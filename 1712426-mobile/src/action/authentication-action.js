@@ -1,6 +1,4 @@
-import axios from 'axios';
 import {apiLogin} from '../core/service/authentication-service';
-import {URLAPI} from '../globals/urlApi';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESSED = 'LOGIN_SUCCESSED';
 export const LOGIN_FAILED = 'LOGIN_FAILED';

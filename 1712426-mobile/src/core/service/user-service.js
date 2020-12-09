@@ -13,3 +13,16 @@ export const apiUpdateProfile = (token, name, avatar, phone) => {
     },
   );
 };
+export const apiChangePassword = (token, id, oldPass, newPass) => {
+  return axios.post(
+    URLAPI + '/user/change-password',
+    {
+      id: id,
+      oldPass: oldPass,
+      newPass: newPass,
+    },
+    {
+      headers: {Authorization: `Bearer ${token}`},
+    },
+  );
+};

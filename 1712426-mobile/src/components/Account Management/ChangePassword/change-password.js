@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,18 +6,59 @@ import {
   Image,
   TouchableOpacity,
   TextInput,
+  Alert
 } from 'react-native';
+import { apiChangePassword } from '../../../core/service/user-service';
+import { AuthenticationContext } from '../../../provider/authentication-provider';
 
 const ChangePassword = (props) => {
-  const [oldPW, setOldPW] = useState('1234567');
+  const authContext = useContext(AuthenticationContext);
+  const [oldPW, setOldPW] = useState('');
   const [newPW, setNewPW] = useState('');
   const [confirmPW, setConfirmPW] = useState('');
+  const onPressChangePassword = () => {
+    if (oldPW.trim() == '' || newPW.trim() == '' || confirmPW.trim() == '') {
+      Alert.alert('Mật khẩu rỗng');
+    } else if(newPW != confirmPW){
+      Alert.alert('Mật khẩu mới không trùng khớp');
+    }
+     else {
+      const res = apiChangePassword(
+        authContext.state.token,
+        authContext.state.userInfo.id,
+        oldPW,
+        newPW,
+      );
+      res
+        .then((response) => {
+          console.log("change-password.js",response.data);
+          Alert.alert(
+            response.data.message,
+            '',
+            [
+              {
+                text: 'OK',
+                onPress: () => {
+                  props.navigation.goBack();
+                },
+              },
+            ],
+            {cancelable: false},
+          );
+        })
+        .catch((error) => {
+          console.log("change-password.js1",error.response.data);
+          Alert.alert(error.response.data.message);
+          throw error;
+        });
+    }
+  };
   return (
     <View style={styles.container}>
       <View style={styles.container1}>
         <View style={styles.view}>
-          <Image
-            source={require('../../../../assets/person.png')}
+        <Image
+            source={{uri:authContext.state.userInfo.avatar}}
             style={styles.image}
           />
         </View>
@@ -44,7 +85,7 @@ const ChangePassword = (props) => {
             secureTextEntry={true}
           />
         </View>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={onPressChangePassword}>
           <Text style={styles.buttontext}>CHANGE</Text>
         </TouchableOpacity>
       </View>

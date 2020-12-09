@@ -17,7 +17,6 @@ import CourseDetail from '../../Courses/CourseDetail/course-detail';
 import AuthorDetail from '../../Authors/AuthorDetail/author-detail';
 import PathDetail from '../../Paths/PathDetail/path-detail';
 import Icon from 'react-native-vector-icons/Ionicons';
-import AllListCourses from '../../Courses/AllListCourses/all-list-courses';
 import ListOfListPaths from '../../Paths/ListofListPaths/list-of-list-paths';
 import AllListPaths from '../../Paths/AllListPaths/all-list-paths';
 import PopularSkillsDetail from '../../Main/Browse/PopularSkillsDetail/popular-skills-detail';
@@ -29,7 +28,7 @@ import UpdateInformation from '../../Account Management/UpdateInformation/update
 import ChangePassword from '../../Account Management/ChangePassword/change-password';
 import ForgetPassword from '../../Authentication/ForgetPassword/forget-password';
 
-const userToken = null;
+const userToken = 1;
 // const TabNavigator = createMaterialTopTabNavigator(
 //   {
 //     All: {
@@ -149,12 +148,6 @@ const createHomeStack = createStackNavigator({
       headerTintColor: 'white',
     },
   },
-  [ScreenKey.AllListCourses]: {
-    screen: AllListCourses,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
 });
 const createBrowseStack = createStackNavigator({
   [ScreenKey.Browse]: {
@@ -271,12 +264,6 @@ const createBrowseStack = createStackNavigator({
   },
   [ScreenKey.PopularSkillsDetail]: {
     screen: PopularSkillsDetail,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  [ScreenKey.AllListCourses]: {
-    screen: AllListCourses,
     navigationOptions: {
       headerShown: false,
     },

@@ -1,6 +1,12 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import { min } from 'react-native-reanimated';
 const SectionCoursesItem = (props) => {
+  const createdAt = String(props.item.createdAt).split('T');
+  const totalHours = parseFloat(props.item.totalHours);
+  const hour = parseInt(totalHours);
+  const convertMinute = 60*(totalHours - hour);
+  const minute = parseInt(convertMinute);
   return (
     <TouchableOpacity
       style={styles.item}
@@ -9,16 +15,18 @@ const SectionCoursesItem = (props) => {
       }}>
       <Image
       source={{
-        uri:props.item.link,
+        uri:props.item.imageUrl,
       }}
       style={styles.image} />
       <View>
         <Text style={styles.title}>{props.item.title}</Text>
-        <Text style={styles.darktext}>{props.item.author}</Text>
+        <Text style={styles.darktext}></Text>
+        <Text style={styles.darktext}>{props.item.price}</Text>
+        <Text style={styles.darktext}>{props.item.status}</Text>
         <Text
           style={
             styles.darktext
-          }>{`${props.item.level} . ${props.item.released} . ${props.item.duration}`}</Text>
+          }>{`${createdAt[0]} . ${hour}${'h '}${minute}${'m'}`}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -36,11 +44,11 @@ const styles = StyleSheet.create({
     height: 100,
   },
   title: {
-    padding: 5,
+    paddingLeft: 5,
     color: 'white',
   },
   darktext: {
-    padding: 5,
+    paddingLeft: 5,
     color: 'darkgray',
   },
 });

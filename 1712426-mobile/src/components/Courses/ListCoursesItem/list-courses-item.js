@@ -1,22 +1,26 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
-import {ScreenKey} from '../../../globals/constants';
-import CourseDetail from '../CourseDetail/course-detail';
 const ListCoursesItem = (props) => {
+  const createdAt = String(props.item.createdAt).split('T');
+  const totalHours = parseFloat(props.item.totalHours);
+  const hour = parseInt(totalHours);
+  const convertMinute = 60 * (totalHours - hour);
+  const minute = parseInt(convertMinute);
   return (
     <TouchableOpacity
       style={styles.item}
       onPress={() => {
         props.OnPressListenItem();
       }}>
-      <Image source={{uri:props.item.link}} style={styles.image} />
+      <Image source={{uri: props.item.imageUrl}} style={styles.image} />
       <View style={styles.viewText}>
         <Text style={styles.title}>{props.item.title}</Text>
         <Text style={styles.darktext}>{props.item.author}</Text>
-        <Text
-          style={
-            styles.darktext
-          }>{`${props.item.level} . ${props.item.released} . ${props.item.duration}`}</Text>
+        <Text style={styles.darktext}>{props.item.price}</Text>
+        <Text style={styles.darktext}>{props.item.status}</Text>
+        <Text style={[styles.darktext, ]}>{`${
+          createdAt[0]
+        } . ${hour}${'h '}${minute}${'m'}`}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -25,14 +29,14 @@ const ListCoursesItem = (props) => {
 const styles = StyleSheet.create({
   item: {
     marginHorizontal: 15,
-    height: 90,
+    height: 105,
     flexDirection: 'row',
-    borderWidth: 1,
+    borderWidth: 3,
     borderBottomColor: '#1f242a',
   },
   image: {
     width: '25%',
-    height: 70,
+    height: '90%',
     alignSelf: 'center',
     marginLeft: 10,
   },
@@ -43,6 +47,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
+    marginTop: 5,
   },
   darktext: {
     color: 'darkgray',

@@ -11,6 +11,13 @@ import {round} from 'react-native-reanimated';
 import {ScreenKey} from '../../../../globals/constants';
 const InfoCourse = (props) => {
   var itemProps = props.navigation.state.params.item;
+  console.log('info-course.js', itemProps);
+  const createdAt = String(itemProps.createdAt).split('T');
+  const totalHours = parseFloat(itemProps.totalHours);
+  const hour = parseInt(totalHours);
+  const convertMinute = 60 * (totalHours - hour);
+  const minute = parseInt(convertMinute);
+
   const OnPressListen = () => {
     props.navigation.push(ScreenKey.AuthorDetail, {item: props});
   };
@@ -31,8 +38,10 @@ const InfoCourse = (props) => {
             </View>
           </TouchableOpacity>
         </View>
+        <Text style={styles.darktext}>{`${'Giá: '}${itemProps.price}`}</Text>
+        <Text style={styles.darktext}>{itemProps.status}</Text>
         <Text style={styles.darktext}>
-          {`${itemProps.level} . ${itemProps.released} . ${itemProps.duration}`}
+          {`${createdAt[0]} . ${hour}${'h '}${minute}${'m'}`}
         </Text>
 
         <View style={styles.iconView}>
@@ -71,21 +80,15 @@ const InfoCourse = (props) => {
             </View>
           </TouchableOpacity>
         </View>
-        <Text style={styles.content}>
-          Angular has become one of the most widely used web development
-          franeworks. This courses, Angular Fundamentals, will teach you the
-          fundamentals of writing applications with Angular-whether or not
-          you've had past experience with Angular 1. You will learn how to
-          bootstrap an application and how to build pages and reusable elements
-          using Angular Components and the new Angular syntax. You'll also learn
-          the fundamentals of: routing, creating reusable services and
-          dependency injection, building forms with validation, and
-          communicating with the server using HTTP and observables. You'll even
-          learn how to test all of this using unit tests and end-to-end UI
-          tests. When you finish this course, you will have the fundamental
-          knowledge necessary to create professional and personal websites using
-          Angular
+        <Text style={[styles.content, {marginTop: 25}]}>
+          - {itemProps.description}
         </Text>
+        <Text style={styles.content}>- Yêu cầu:</Text>
+        <Text style={styles.itemContent}>{itemProps.requirement}</Text>
+        <Text style={styles.content}>- Kiến thức được học:</Text>
+        {itemProps.learnWhat.map((item) => (
+          <Text style={styles.itemContent}>{item}</Text>
+        ))}
         <TouchableOpacity style={styles.button}>
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>
             <Image
@@ -192,7 +195,10 @@ const styles = StyleSheet.create({
   },
   content: {
     color: 'white',
-    marginTop: 25,
+  },
+  itemContent: {
+    color: 'white',
+    marginLeft: 20,
   },
 });
 export default InfoCourse;

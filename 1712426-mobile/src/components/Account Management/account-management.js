@@ -1,17 +1,26 @@
-import React, {useContext} from 'react';
-import {StyleSheet, View, Text, Image, TouchableOpacity, Alert} from 'react-native';
+import React, {useState, useContext, useCallback} from 'react';
+import {StyleSheet, View, Text, Image, TouchableOpacity, Alert,ScrollView, RefreshControl} from 'react-native';
 import {ScreenKey} from '../../globals/constants';
 import {AuthenticationContext} from '../../provider/authentication-provider';
 
 const AccountManagement = (props) => {
   const authContext = useContext(AuthenticationContext);
   const data = authContext.state.userInfo;
-  const refresh = () => {
-    Alert.alert("GO BACK");
-    console.log(data.name);
+  const [refreshing, setRefreshing] = useState(false);
+  const wait = (timeout) => {
+    return new Promise(resolve => {
+      setTimeout(resolve, timeout);
+    });
   }
+  const onRefresh = useCallback(() => {
+    setRefreshing(true);
+    wait(0).then(() => setRefreshing(false));
+  }, []);
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}
+    refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }>
       <View style={styles.container1}>
         <View style={styles.view}>
           <Image
@@ -46,12 +55,12 @@ const AccountManagement = (props) => {
         <TouchableOpacity
           style={styles.button}
           onPress={() => {
-            props.navigation.navigate(ScreenKey.UpdateInformation, {onGoBack: () => refresh()});
+            props.navigation.navigate(ScreenKey.UpdateInformation, {onGoBack: () => onRefresh()});
             }}>
           <Text style={styles.buttontext}>UPDATE</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </ScrollView>
   );
 };
 
