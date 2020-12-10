@@ -27,6 +27,7 @@ import NewReleases from '../../Main/Browse/SectionImageButton/NewReleases/new-re
 import UpdateInformation from '../../Account Management/UpdateInformation/update-information';
 import ChangePassword from '../../Account Management/ChangePassword/change-password';
 import ForgetPassword from '../../Authentication/ForgetPassword/forget-password';
+import ViewListCourses from '../../Courses/ViewListCourse/view-list-course';
 
 const userToken = 1;
 // const TabNavigator = createMaterialTopTabNavigator(
@@ -138,6 +139,12 @@ const createHomeStack = createStackNavigator({
       headerShown: false,
     },
   },
+  [ScreenKey.ViewListCourses]: {
+    screen: ViewListCourses,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
   [ScreenKey.AuthorDetail]: {
     screen: AuthorDetail,
     navigationOptions: {
@@ -242,6 +249,18 @@ const createBrowseStack = createStackNavigator({
   },
   [ScreenKey.CourseDetail]: {
     screen: CourseDetail,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.ListCourses]: {
+    screen: ListCourses,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.ViewListCourses]: {
+    screen: ViewListCourses,
     navigationOptions: {
       headerShown: false,
     },

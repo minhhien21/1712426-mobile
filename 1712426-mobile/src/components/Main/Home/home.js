@@ -1,8 +1,9 @@
 import React, {useState, useCallback, useContext, useEffect} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, View} from 'react-native';
+import {RefreshControl, ScrollView, StyleSheet, View, ActivityIndicator} from 'react-native';
 import { ListCourseContext } from '../../../provider/listcourse-provider';
 import SectionCourses from './SectionCourses/section-courses';
 const Home = (props) => {
+  const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
   const listCourseContext = useContext(ListCourseContext);
@@ -11,7 +12,6 @@ const Home = (props) => {
       listCourseContext.requestTopSellListCourse(20, 1);
     }
   }, [listCourseContext.state.isRequestedTopSell]);
-  const data = listCourseContext.state.TopSellListCourse.payload
 
   useEffect(() => {
     if (!listCourseContext.state.isRequestedTopNew) {
@@ -44,11 +44,14 @@ const Home = (props) => {
     listCourseContext.state.isRequestedFavorite = false;
     wait(2000).then(() => setRefreshing(false));
   }, []);
+  //{isLoading && <ActivityIndicator size="large" color='#ff0000'/>}
+
   return (
     <ScrollView style={styles.container} 
     refreshControl={
       <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
     }>
+
       <View style={styles.view}>
         <SectionCourses title="Top sell" {...props} data={listCourseContext.state.TopSellListCourse.payload}/>
         <SectionCourses title="Top new" {...props} data={listCourseContext.state.TopNewListCourse.payload}/>

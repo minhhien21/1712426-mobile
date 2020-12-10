@@ -6,9 +6,8 @@ import ListCoursesItem from '../ListCoursesItem/list-courses-item';
 const ListCourses = (props) => {
   return (
     <View style={styles.container}>
-      <Text style={styles.text}>{props.navigation.state.params.title}</Text>
       <FlatList
-        data={props.navigation.state.params.data}
+        data={props.data}
         renderItem={({item}) => (
           <ListCoursesItem
             navigation={props.navigation}
@@ -27,14 +26,6 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#0e0f13',
     flex: 1,
-  },
-  text: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 25,
-    marginTop: 15,
-    marginLeft: 25,
-    marginBottom: 25,
   },
 });
 export default ListCourses;

@@ -20,7 +20,7 @@ const SectionCoursesItem = (props) => {
       style={styles.image} />
       <View>
         <Text style={styles.title}>{props.item.title}</Text>
-        <Text style={styles.darktext}></Text>
+        <Text style={styles.title}>{props.item['instructor.user.name']}</Text>
         <Text style={styles.darktext}>{props.item.price}</Text>
         <Text style={styles.darktext}>{props.item.status}</Text>
         <Text

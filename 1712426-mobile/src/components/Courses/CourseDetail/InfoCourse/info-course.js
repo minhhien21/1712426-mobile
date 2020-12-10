@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,19 +7,26 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {round} from 'react-native-reanimated';
 import {ScreenKey} from '../../../../globals/constants';
+import {InstructorContext} from '../../../../provider/instructor-provider';
 const InfoCourse = (props) => {
   var itemProps = props.navigation.state.params.item;
-  console.log('info-course.js', itemProps);
   const createdAt = String(itemProps.createdAt).split('T');
   const totalHours = parseFloat(itemProps.totalHours);
   const hour = parseInt(totalHours);
   const convertMinute = 60 * (totalHours - hour);
   const minute = parseInt(convertMinute);
 
+  const instructorContext = useContext(InstructorContext);
+  instructorContext.state.isRequestedDetailInstructor = false;
+  useEffect(() => {
+    if (!instructorContext.state.isRequestedDetailInstructor) {
+      instructorContext.requestDetailInstructor(itemProps.instructorId);
+    }
+  }, [instructorContext.state.isRequestedDetailInstructor]);
+  const data = instructorContext.state.DetailInstructor.payload;
   const OnPressListen = () => {
-    props.navigation.push(ScreenKey.AuthorDetail, {item: props});
+    props.navigation.push(ScreenKey.AuthorDetail, {item: data});
   };
   return (
     <ScrollView style={styles.container}>
@@ -30,16 +37,20 @@ const InfoCourse = (props) => {
             <View style={styles.imageButton}>
               <Image
                 source={{
-                  uri: itemProps.link,
+                  uri: data.avatar,
                 }}
                 style={styles.image}
               />
-              <Text style={styles.textImage}>{itemProps.author}</Text>
+              <Text style={styles.textImage}>
+                {data.name}
+              </Text>
             </View>
           </TouchableOpacity>
         </View>
         <Text style={styles.darktext}>{`${'Giá: '}${itemProps.price}`}</Text>
-        <Text style={styles.darktext}>{itemProps.status}</Text>
+        <Text style={styles.darktext}>{`${'Trạng thái: '}${
+          itemProps.status
+        }`}</Text>
         <Text style={styles.darktext}>
           {`${createdAt[0]} . ${hour}${'h '}${minute}${'m'}`}
         </Text>
@@ -84,10 +95,12 @@ const InfoCourse = (props) => {
           - {itemProps.description}
         </Text>
         <Text style={styles.content}>- Yêu cầu:</Text>
-        <Text style={styles.itemContent}>{itemProps.requirement}</Text>
+        {itemProps.requirement.map((item) => (
+          <Text style={styles.itemContent}>{`${'+ '}${item}`}</Text>
+        ))}
         <Text style={styles.content}>- Kiến thức được học:</Text>
         {itemProps.learnWhat.map((item) => (
-          <Text style={styles.itemContent}>{item}</Text>
+          <Text style={styles.itemContent}>{`${'+ '}${item}`}</Text>
         ))}
         <TouchableOpacity style={styles.button}>
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>

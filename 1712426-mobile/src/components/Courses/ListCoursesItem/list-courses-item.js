@@ -15,7 +15,7 @@ const ListCoursesItem = (props) => {
       <Image source={{uri: props.item.imageUrl}} style={styles.image} />
       <View style={styles.viewText}>
         <Text style={styles.title}>{props.item.title}</Text>
-        <Text style={styles.darktext}>{props.item.author}</Text>
+        <Text style={styles.title}>{props.item['instructor.user.name']}</Text>
         <Text style={styles.darktext}>{props.item.price}</Text>
         <Text style={styles.darktext}>{props.item.status}</Text>
         <Text style={[styles.darktext, ]}>{`${
@@ -47,7 +47,6 @@ const styles = StyleSheet.create({
   },
   title: {
     color: 'white',
-    marginTop: 5,
   },
   darktext: {
     color: 'darkgray',

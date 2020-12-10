@@ -7,39 +7,31 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import {round} from 'react-native-reanimated';
 const InfoAuthor = (props) => {
-  var itemProps= props.navigation.state.params.item;
+  var itemProps = props.navigation.state.params.item;
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
         <TouchableOpacity styles={styles.iconButton}>
-          <Image
-            source={{uri:itemProps.link}}
-            style={styles.icon}
-          />
+          <Image source={{uri: itemProps.avatar}} style={styles.icon} />
         </TouchableOpacity>
         <Text style={styles.textIcon}>{itemProps.name}</Text>
-        <Text style={styles.textIcon}>Pluralsight Author</Text>
+        <Text style={styles.textIcon}>ITEDU Author</Text>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.textbutton}>FOLLOW</Text>
         </TouchableOpacity>
 
-        <Text style={{color: 'white'}}>
-          Angular has become one of the most widely used web development
-          franeworks. This courses, Angular Fundamentals, will teach you the
-          fundamentals of writing applications with Angular-whether or not
-          you've had past experience with Angular 1. You will learn how to
-          bootstrap an application and how to build pages and reusable elements
-          using Angular Components and the new Angular syntax. You'll also learn
-          the fundamentals of: routing, creating reusable services and
-          dependency injection, building forms with validation, and
-          communicating with the server using HTTP and observables. You'll even
-          learn how to test all of this using unit tests and end-to-end UI
-          tests. When you finish this course, you will have the fundamental
-          knowledge necessary to create professional and personal websites using
-          Angular
-        </Text>
+        <Text style={styles.content}>{itemProps.intro}</Text>
+        <Text style={styles.content}>{`${'Email: '}${itemProps.email}`}</Text>
+        <Text style={styles.content}>{`${'Major: '}${itemProps.major}`}</Text>
+        <Text style={styles.content}>{`${'TotalCourse: '}${
+          itemProps.totalCourse
+        }`}</Text>
+        <Text style={styles.content}>Skills:</Text>
+        {itemProps.skills.map((item) => (
+          <Text style={styles.itemContent}>{`${'- '}${item}`}</Text>
+        ))}
+        <Text style={styles.courses}>Courses</Text>
       </View>
     </ScrollView>
   );
@@ -88,6 +80,18 @@ const styles = StyleSheet.create({
   darktext: {
     marginTop: 10,
     color: 'darkgray',
+  },
+  content: {
+    color: 'white',
+  },
+  itemContent: {
+    color: 'white',
+    marginLeft: 20,
+  },
+  courses: {
+    color: 'white',
+    marginTop: 25,
+    fontSize: 20
   },
 });
 export default InfoAuthor;

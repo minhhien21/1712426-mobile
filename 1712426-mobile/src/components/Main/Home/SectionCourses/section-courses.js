@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   View,
@@ -6,15 +6,13 @@ import {
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
 import {ScreenKey} from '../../../../globals/constants';
-import {ListCourseContext} from '../../../../provider/listcourse-provider';
 import FlatListCourses from '../../../Common/flatlist-courses';
 const SectionCourses = (props) => {
   const onPressListCourses = () => {
-    props.navigation.push(ScreenKey.ListCourses, {
+    props.navigation.push(ScreenKey.ViewListCourses, {
       title: props.title,
-      data: props.data
+      item: props.data
     });
   };
   return (
