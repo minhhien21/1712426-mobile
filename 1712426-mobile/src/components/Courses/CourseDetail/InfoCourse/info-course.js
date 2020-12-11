@@ -1,4 +1,5 @@
 import React, {useContext, useState, useEffect} from 'react';
+import {Rating} from 'react-native-elements';
 import {
   StyleSheet,
   View,
@@ -12,10 +13,16 @@ import {InstructorContext} from '../../../../provider/instructor-provider';
 const InfoCourse = (props) => {
   var itemProps = props.navigation.state.params.item;
   const createdAt = String(itemProps.createdAt).split('T');
+  const convertDate = String(createdAt[0]).split('-');
   const totalHours = parseFloat(itemProps.totalHours);
   const hour = parseInt(totalHours);
   const convertMinute = 60 * (totalHours - hour);
   const minute = parseInt(convertMinute);
+
+  const formalityPoint = parseInt(itemProps.formalityPoint);
+  const contentPoint = parseInt(itemProps.contentPoint);
+  const presentationPoint = parseInt(itemProps.presentationPoint);
+  const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
 
   const instructorContext = useContext(InstructorContext);
   instructorContext.state.isRequestedDetailInstructor = false;
@@ -41,9 +48,7 @@ const InfoCourse = (props) => {
                 }}
                 style={styles.image}
               />
-              <Text style={styles.textImage}>
-                {data.name}
-              </Text>
+              <Text style={styles.textImage}>{data.name}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -51,9 +56,23 @@ const InfoCourse = (props) => {
         <Text style={styles.darktext}>{`${'Trạng thái: '}${
           itemProps.status
         }`}</Text>
-        <Text style={styles.darktext}>
-          {`${createdAt[0]} . ${hour}${'h '}${minute}${'m'}`}
-        </Text>
+        <View
+          style={{flexDirection: 'row', marginTop: 10, alignItems: 'center'}}>
+          <Text style={{color: 'darkgray'}}>
+            {`${convertDate[2]}-${convertDate[1]}-${convertDate[0]} . ${hour}${'h '}${minute}${'m'}`}
+          </Text>
+          <Rating
+            type="custom"
+            ratingBackgroundColor="darkgray"
+            tintColor="#1f242a"
+            imageSize={22}
+            startingValue={averagePoint}
+            style={{marginLeft: 10}}
+          />
+          <Text style={{color: 'darkgray', marginLeft: 5}}>
+            ({itemProps.ratedNumber})
+          </Text>
+        </View>
 
         <View style={styles.iconView}>
           <TouchableOpacity>
@@ -86,7 +105,6 @@ const InfoCourse = (props) => {
                   style={styles.icon}
                 />
               </View>
-
               <Text style={styles.textIcon}>Download</Text>
             </View>
           </TouchableOpacity>

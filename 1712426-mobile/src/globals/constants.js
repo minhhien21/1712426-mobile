@@ -23,5 +23,7 @@ export const ScreenKey ={
     Settings:"Settings",
     UpdateInformation:"UpdateInformation",
     ChangePassword:"ChangePassword",
-    NewReleases:"NewReleases"
+    NewReleases:"NewReleases",
+    Section:"Section",
+    Ratings:"Ratings",
 }

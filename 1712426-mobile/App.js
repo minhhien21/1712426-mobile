@@ -3,16 +3,16 @@ import 'react-native-gesture-handler';
 import AppNavigation from './src/components/Others/Navigation';
 import {AuthenticationProvider} from './src/provider/authentication-provider';
 import {InstructorProvider} from './src/provider/instructor-provider';
-import {ListCourseProvider} from './src/provider/listcourse-provider';
+import {CourseProvider} from './src/provider/course-provider';
 
 export default function App() {
   return (
     <AuthenticationProvider>
-      <ListCourseProvider>
+      <CourseProvider>
         <InstructorProvider>
           <AppNavigation />
         </InstructorProvider>
-      </ListCourseProvider>
+      </CourseProvider>
     </AuthenticationProvider>
   );
 }

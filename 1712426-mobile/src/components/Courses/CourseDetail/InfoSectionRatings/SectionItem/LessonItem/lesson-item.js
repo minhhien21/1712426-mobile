@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
-const ListContentLessonItem = (props) => {
+const LessonItem = (props) => {
   return (
     <TouchableOpacity style={styles.item}>
       <Text style={styles.text}>{props.item.name}</Text>
@@ -21,4 +21,4 @@ const styles = StyleSheet.create({
     color: 'darkgray',
   },
 });
-export default ListContentLessonItem;
+export default LessonItem;

@@ -1,4 +1,6 @@
 import {
+  REQUEST_DETAIL_COURSE_FAILED,
+  REQUEST_DETAIL_COURSE_SUCCESSED,
   REQUEST_FAVORITE_LIST_COURSE_FAILED,
   REQUEST_FAVORITE_LIST_COURSE_SUCCESSED,
   REQUEST_TOP_NEW_LIST_COURSE_FAILED,
@@ -7,7 +9,7 @@ import {
   REQUEST_TOP_RATE_LIST_COURSE_SUCCESSED,
   REQUEST_TOP_SELL_LIST_COURSE_FAILED,
   REQUEST_TOP_SELL_LIST_COURSE_SUCCESSED,
-} from '../action/listcourses-action';
+} from '../action/courses-action';
 
 export const reducer = (prevState, action) => {
   switch (action.type) {
@@ -46,6 +48,14 @@ export const reducer = (prevState, action) => {
       };
     case REQUEST_FAVORITE_LIST_COURSE_FAILED:
       return {...prevState, isRequestedFavorite: false};
+      case REQUEST_DETAIL_COURSE_SUCCESSED:
+      return {
+        ...prevState,
+        isRequestedDetail: true,
+        DetailCourse: action.data,
+      };
+    case REQUEST_DETAIL_COURSE_FAILED:
+      return {...prevState, isRequestedDetail: false};
     default:
       throw new Error();
   }

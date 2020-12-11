@@ -1,24 +1,24 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
-import ListLessonsItem from '../ListLessonsItem/list-lessons-item';
-const ListLessons = (props) => {
+import SectionItem from '../SectionItem/section-item';
+const Section = (props) => {
   const lessons = [
     {
       id: 1,
       nameLesson: 'Course OverView',
       totalTime: '2:04',
-      detailLesson:[
+      detailLesson: [
         {
           name: 'Course OverView',
           time: '2:04',
-        }
-      ]
+        },
+      ],
     },
     {
       id: 2,
       nameLesson: 'Getting Started with Angular',
       totalTime: '38:45',
-      detailLesson:[
+      detailLesson: [
         {
           name: 'Introduction',
           time: '2:55',
@@ -67,13 +67,13 @@ const ListLessons = (props) => {
           name: 'Summary',
           time: '0:42',
         },
-      ]
+      ],
     },
     {
       id: 3,
       nameLesson: 'Creating and Communicating Between Angular Components',
       totalTime: '33:32',
-      detailLesson:[
+      detailLesson: [
         {
           name: 'Introduction',
           time: '0:42',
@@ -86,13 +86,13 @@ const ListLessons = (props) => {
           name: 'Using External Templates',
           time: '0:59',
         },
-      ]
+      ],
     },
     {
       id: 4,
       nameLesson: 'Exploring the Angular Template Syntax',
       totalTime: '32:06',
-      detailLesson:[
+      detailLesson: [
         {
           name: 'Introduction',
           time: '0:42',
@@ -105,13 +105,13 @@ const ListLessons = (props) => {
           name: 'Using External Templates',
           time: '0:59',
         },
-      ]
+      ],
     },
     {
       id: 5,
       nameLesson: 'Creatubg Reusable Angular Services',
       totalTime: '32:06',
-      detailLesson:[
+      detailLesson: [
         {
           name: 'Introduction',
           time: '0:42',
@@ -124,13 +124,13 @@ const ListLessons = (props) => {
           name: 'Using External Templates',
           time: '0:59',
         },
-      ]
+      ],
     },
     {
       id: 6,
       nameLesson: 'Creatubg Reusable Angular Services',
       totalTime: '32:06',
-      detailLesson:[
+      detailLesson: [
         {
           name: 'Introduction',
           time: '0:42',
@@ -143,13 +143,13 @@ const ListLessons = (props) => {
           name: 'Using External Templates',
           time: '0:59',
         },
-      ]
+      ],
     },
     {
       id: 7,
       nameLesson: 'Creatubg Reusable Angular Services',
       totalTime: '32:06',
-      detailLesson:[
+      detailLesson: [
         {
           name: 'Introduction',
           time: '0:42',
@@ -162,26 +162,21 @@ const ListLessons = (props) => {
           name: 'Using External Templates',
           time: '0:59',
         },
-      ]
+      ],
     },
   ];
 
   const renderListItems = (lessons) => {
-    return lessons.map((item) => <ListLessonsItem item={item}/>);
+    return lessons.map((item) => <SectionItem item={item} />);
   };
   return (
-    <View style={styles.container}>
-      <ScrollView style={styles.scrollView}>{renderListItems(lessons)}</ScrollView>
-    </View>
+    <ScrollView style={styles.container}>{renderListItems(lessons)}</ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
-  container:{
+  container: {
     backgroundColor: '#0e0f13',
   },
-  scrollView:{
-    marginHorizontal: 15,
-  },
 });
-export default ListLessons;
+export default Section;

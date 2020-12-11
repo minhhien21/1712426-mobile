@@ -1,35 +1,35 @@
 import React, {useState, useCallback, useContext, useEffect} from 'react';
 import {RefreshControl, ScrollView, StyleSheet, View, ActivityIndicator} from 'react-native';
-import { ListCourseContext } from '../../../provider/listcourse-provider';
+import { CourseContext } from '../../../provider/course-provider';
 import SectionCourses from './SectionCourses/section-courses';
 const Home = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
 
-  const listCourseContext = useContext(ListCourseContext);
+  const courseContext = useContext(CourseContext);
   useEffect(() => {
-    if (!listCourseContext.state.isRequestedTopSell) {
-      listCourseContext.requestTopSellListCourse(20, 1);
+    if (!courseContext.state.isRequestedTopSell) {
+      courseContext.requestTopSellListCourse(20, 1);
     }
-  }, [listCourseContext.state.isRequestedTopSell]);
+  }, [courseContext.state.isRequestedTopSell]);
 
   useEffect(() => {
-    if (!listCourseContext.state.isRequestedTopNew) {
-      listCourseContext.requestTopNewListCourse(20, 1);
+    if (!courseContext.state.isRequestedTopNew) {
+      courseContext.requestTopNewListCourse(20, 1);
     }
-  }, [listCourseContext.state.isRequestedTopNew]);
+  }, [courseContext.state.isRequestedTopNew]);
 
   useEffect(() => {
-    if (!listCourseContext.state.isRequestedTopRate) {
-      listCourseContext.requestTopRateListCourse(20, 1);
+    if (!courseContext.state.isRequestedTopRate) {
+      courseContext.requestTopRateListCourse(20, 1);
     }
-  }, [listCourseContext.state.isRequestedTopRate]);
+  }, [courseContext.state.isRequestedTopRate]);
 
   useEffect(() => {
-    if (!listCourseContext.state.isRequestedFavorite) {
-      listCourseContext.requestFavoriteListCourse(20, 1);
+    if (!courseContext.state.isRequestedFavorite) {
+      courseContext.requestFavoriteListCourse(20, 1);
     }
-  }, [listCourseContext.state.isRequestedFavorite]);
+  }, [courseContext.state.isRequestedFavorite]);
 
   const wait = (timeout) => {
     return new Promise(resolve => {
@@ -38,10 +38,10 @@ const Home = (props) => {
   }
   const onRefresh = useCallback(() => {
     setRefreshing(true);
-    listCourseContext.state.isRequestedTopSell = false;
-    listCourseContext.state.isRequestedTopNew = false;
-    listCourseContext.state.isRequestedTopRate = false;
-    listCourseContext.state.isRequestedFavorite = false;
+    courseContext.state.isRequestedTopSell = false;
+    courseContext.state.isRequestedTopNew = false;
+    courseContext.state.isRequestedTopRate = false;
+    courseContext.state.isRequestedFavorite = false;
     wait(2000).then(() => setRefreshing(false));
   }, []);
   //{isLoading && <ActivityIndicator size="large" color='#ff0000'/>}
@@ -53,10 +53,10 @@ const Home = (props) => {
     }>
 
       <View style={styles.view}>
-        <SectionCourses title="Top sell" {...props} data={listCourseContext.state.TopSellListCourse.payload}/>
-        <SectionCourses title="Top new" {...props} data={listCourseContext.state.TopNewListCourse.payload}/>
-        <SectionCourses title="Top rate" {...props} data={listCourseContext.state.TopRateListCourse.payload}/>
-        <SectionCourses title="Favorite" {...props} data={listCourseContext.state.FavoriteListCourse.payload}/>
+        <SectionCourses title="Top sell" {...props} data={courseContext.state.TopSellListCourse.payload}/>
+        <SectionCourses title="Top new" {...props} data={courseContext.state.TopNewListCourse.payload}/>
+        <SectionCourses title="Top rate" {...props} data={courseContext.state.TopRateListCourse.payload}/>
+        <SectionCourses title="Favorite" {...props} data={courseContext.state.FavoriteListCourse.payload}/>
       </View>
     </ScrollView>
   );
