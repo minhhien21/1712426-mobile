@@ -1,5 +1,5 @@
-import React, {useState} from 'react';
-import {Button, TouchableOpacity, Image, View} from 'react-native';
+import React, {useContext} from 'react';
+import {TouchableOpacity, Image, View} from 'react-native';
 import {createAppContainer, NavigationContainer} from 'react-navigation';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
@@ -28,32 +28,16 @@ import UpdateInformation from '../../Account Management/UpdateInformation/update
 import ChangePassword from '../../Account Management/ChangePassword/change-password';
 import ForgetPassword from '../../Authentication/ForgetPassword/forget-password';
 import ViewListCourses from '../../Courses/ViewListCourse/view-list-course';
+import { AuthenticationContext } from '../../../provider/authentication-provider';
 
-const userToken = 1;
-// const TabNavigator = createMaterialTopTabNavigator(
-//   {
-//     All: {
-//       screen: ListCourses,
-//     },
-//     Courses: {
-//       screen: ListCourses,
-//     },
-//     Paths: {
-//       screen: ListPaths,
-//     },
-//     Authors: {
-//       screen: ListAuthor,
-//     },
-//   },
-//   {
-//     tabBarComponent: Search,
-//     tabBarOptions: {
-//       activeTintColor: '#1BA1F3',
-//       inactiveTintColor: '#000',
-//     },
-//     initialRouteName: 'All',
-//   },
-// );
+
+
+const getStatusLogin = () => {
+  const authContext = useContext(AuthenticationContext);
+  return authContext.state.isAuthenticated;
+}
+//const loggedIn = getStatusLogin();
+const loggedIn = false;
 
 const createHomeStack = createStackNavigator({
   [ScreenKey.Home]: {
@@ -395,7 +379,7 @@ const HomeStack = createBottomTabNavigator(
 );
 
 var AppNavigator;
-if (userToken == null) {
+if (loggedIn == false) {
   AppNavigator = createStackNavigator(
     {
       [ScreenKey.SplashScreen]: {

@@ -8,7 +8,7 @@ import {
   ScrollView,
 } from 'react-native';
 const InfoAuthor = (props) => {
-  var itemProps = props.navigation.state.params.item;
+  var itemProps = props.data;
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>

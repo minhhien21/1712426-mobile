@@ -7,11 +7,11 @@ const ListAuthorsItem = (props) => {
       props.OnPressListenItem();
     }}>
       <TouchableOpacity style={styles.button}>
-        <Image source={{uri:props.item.link}} style={styles.image} />
+        <Image source={{uri:props.item.avatar}} style={styles.image} />
       </TouchableOpacity>
       <View style={styles.viewText}>
         <Text style={styles.title}>{props.item.name}</Text>
-        <Text style={styles.darktext}>{props.item.courses}</Text>
+        <Text style={styles.darktext}>{`${props.item.numcourses}${' Courses'}`}</Text>
       </View>
     </TouchableOpacity>
   );

@@ -2,8 +2,8 @@ import React from 'react';
 import {Rating} from 'react-native-elements';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 const ListCoursesItem = (props) => {
-  const createdAt = String(props.item.createdAt).split('T');
-  const convertDate = String(createdAt[0]).split('-');
+  const updatedAt = String(props.item.updatedAt).split('T');
+  const convertDate = String(updatedAt[0]).split('-');
   const totalHours = parseFloat(props.item.totalHours);
   const hour = parseInt(totalHours);
   const convertMinute = 60 * (totalHours - hour);

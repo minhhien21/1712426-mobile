@@ -2,6 +2,9 @@ import React, {useState} from 'react';
 import {Rating} from 'react-native-elements';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 const RatingsItem = (props) => {
+  const createdAt = String(props.item.createdAt).split('T');
+  const convertDate = String(createdAt[0]).split('-');
+  const convertTime = String(createdAt[1]).split('.');
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', marginTop: 10, marginHorizontal: 10}}>
@@ -23,7 +26,9 @@ const RatingsItem = (props) => {
               style={{paddingLeft: 5}}
             />
           </View>
-          <Text style={styles.darktext}>{props.item.createdAt}</Text>
+          <Text style={styles.darktext}>
+            {`${convertDate[2]}-${convertDate[1]}-${convertDate[0]} ${convertTime[0]}`}
+          </Text>
           <Text style={styles.comment}>{props.item.content}</Text>
         </View>
       </View>

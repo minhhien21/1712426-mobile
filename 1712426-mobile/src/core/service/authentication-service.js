@@ -8,14 +8,14 @@ export const apiLogin = (username, password) => {
 };
 export const apiRegister = (username, email, phone, password) => {
   return axios.post(URLAPI + '/user/register', {
-      username: username,
-      email: email,
-      phone: phone,
-      password: password,
-    });
+    username: username,
+    email: email,
+    phone: phone,
+    password: password,
+  });
 };
 export const apiForgetPassword = (email) => {
-    return axios.post(URLAPI + '/user/forget-pass/send-email', {
-        email: email,
-      });
-  };
+  return axios.post(URLAPI + '/user/forget-pass/send-email', {
+    email: email,
+  });
+};

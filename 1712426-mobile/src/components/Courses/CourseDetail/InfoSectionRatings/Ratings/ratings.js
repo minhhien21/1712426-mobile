@@ -1,4 +1,4 @@
-import React, {useState, useContext, useCallback} from 'react';
+import React, {useState, useContext, useCallback,useEffect} from 'react';
 import {Rating} from 'react-native-elements';
 import {
   StyleSheet,
@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   RefreshControl,
+  ScrollView
 } from 'react-native';
 import {CourseContext} from '../../../../../provider/course-provider';
 import RatingsItem from '../RatingsItem/ratings-item';
@@ -20,20 +21,17 @@ const Ratings = (props) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const authContext = useContext(AuthenticationContext);
-  //authContext.state.token
-  //authContext.state.userInfo.id
-  const token =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxMDU0YTJiLTA3ODItNDc2OS04OWY5LTI5ZWE3YjMzMGI4OSIsImlhdCI6MTYwNzcxNzI0NCwiZXhwIjoxNjA3NzI0NDQ0fQ.ZQUdn3mrb_7QEX6oyUNuyvsBOKrNU77jnzNYo8AkO18';
   const courseContext = useContext(CourseContext);
   const listRatings =
     courseContext.state.DetailCourse.payload.ratings.ratingList;
   const courseId = courseContext.state.DetailCourse.payload.id;
+
   const onPressButtonRating = () => {
     if (comment.trim() == '') {
       Alert.alert('Bạn chưa viết bất kì bình luận nào');
     } else {
       const res = apiRatingCourse(
-        token,
+        authContext.state.token,
         courseId,
         pointRating,
         pointRating,
@@ -55,28 +53,24 @@ const Ratings = (props) => {
         });
     }
   };
-
   const wait = (timeout) => {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
     });
   };
-  const onRefresh = useCallback(() => {
+  const onRefresh = () => {
     setRefreshing(true);
-    courseContext.state.isRequestedDetail = false;
-    useEffect(() => {
-      if (!courseContext.state.isRequestedDetail) {
-        courseContext.requestDetailCourse(
-          courseId,
-          'c1054a2b-0782-4769-89f9-29ea7b330b89',
-        );
-      }
-    }, [courseContext.state.isRequestedDetail]);
-    wait(1000).then(() => setRefreshing(false));
-  }, []);
+    courseContext.requestDetailCourse(courseId, authContext.state.userInfo.id);
+    setComment('');
+    setPointRating(3);
+    wait(500).then(() => setRefreshing(false));
+  };
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container} 
+    refreshControl={
+      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+    }>
       <View style={{flexDirection: 'row', marginTop: 20, marginHorizontal: 10, alignItems:'center'}}>
         <Text style={styles.text} multiline={true}>
           Rating:
@@ -109,13 +103,10 @@ const Ratings = (props) => {
       </TouchableOpacity>
 
       <FlatList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
         data={listRatings}
         renderItem={({item}) => <RatingsItem item={item} />}
       />
-    </View>
+    </ScrollView>
   );
 };
 const styles = StyleSheet.create({

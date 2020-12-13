@@ -1,5 +1,5 @@
-import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
+import React, {useContext, useEffect} from 'react';
+import {StyleSheet} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import {ScreenKey} from '../../../../globals/constants';
@@ -9,15 +9,6 @@ import { CourseContext } from '../../../../provider/course-provider';
 import { AuthenticationContext } from '../../../../provider/authentication-provider';
 
 const InfoSectionRatings = (props) => {
-  const authContext = useContext(AuthenticationContext);
-  //authContext.state.userInfo.id;
-  const courseContext = useContext(CourseContext);
-  courseContext.state.isRequestedDetail = false;
-  useEffect(() => {
-    if (!courseContext.state.isRequestedDetail) {
-      courseContext.requestDetailCourse(props.navigation.state.params.item.id, "c1054a2b-0782-4769-89f9-29ea7b330b89");
-    }
-  }, [courseContext.state.isRequestedDetail]);
   const Tab = createMaterialTopTabNavigator();
   return (
     <NavigationContainer>

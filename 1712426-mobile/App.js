@@ -18,6 +18,10 @@ export default function App() {
 }
 {
   /* <AuthenticationProvider>
-      <AppNavigation />
+      <CourseProvider>
+        <InstructorProvider>
+          <AppNavigation />
+        </InstructorProvider>
+      </CourseProvider>
     </AuthenticationProvider> */
 }

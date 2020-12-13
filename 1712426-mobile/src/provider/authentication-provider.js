@@ -1,5 +1,5 @@
 import React, {useReducer} from 'react';
-import { login } from '../action/authentication-action'
+import { login, signout } from '../action/authentication-action'
 import { reducer } from '../reducer/authentication-reducer';
 
 const AuthenticationContext = React.createContext();
@@ -14,7 +14,7 @@ const AuthenticationProvider = ({children}) => {
     const [state, dispatch] = useReducer(reducer, initialState)
 
     return( 
-    <AuthenticationContext.Provider value={{state, login: login(dispatch)}}>
+    <AuthenticationContext.Provider value={{state, login: login(dispatch), signout: signout(dispatch)}}>
         {children}
     </AuthenticationContext.Provider>)
 };

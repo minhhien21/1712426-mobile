@@ -2,6 +2,7 @@ import {apiLogin} from '../core/service/authentication-service';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESSED = 'LOGIN_SUCCESSED';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
+export const SIGNOUT_SUCCESSED = 'SIGNOUT_SUCCESSED';
 const loginSuccess = (data) => ({
   type: LOGIN_SUCCESSED,
   data,
@@ -9,6 +10,9 @@ const loginSuccess = (data) => ({
 const loginFailed = (data) => ({
   type: LOGIN_FAILED,
   data,
+});
+const signoutSuccess = () => ({
+  type: SIGNOUT_SUCCESSED
 });
 export const login = (dispatch) => (username, password) => {
     const res = apiLogin(username, password);
@@ -22,5 +26,9 @@ export const login = (dispatch) => (username, password) => {
     .catch((error) => {
       dispatch(loginFailed(error.response.data));
     });
+};
+
+export const signout = (dispatch) => () => {
+  dispatch(signoutSuccess());
 };
 

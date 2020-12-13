@@ -1,19 +1,17 @@
 import React, {useState} from 'react';
-import {FlatList, StyleSheet, View} from 'react-native';
-import {ScreenKey} from '../../../globals/constants';
-import ListAuthorsItem from '../ListAuthorsItem/list-authors-item';
-
-const ListAuthors = (props) => {
+import {StyleSheet, View, Text, ScrollView, FlatList} from 'react-native';
+import ListCoursesItem from '../ListCoursesItem/list-courses-item';
+const AllCoursesAuthors = (props) => {
   return (
     <View style={styles.container}>
       <FlatList
         data={props.data}
         renderItem={({item}) => (
-          <ListAuthorsItem
+          <ListCoursesItem
             navigation={props.navigation}
             item={item}
             OnPressListenItem={() =>
-              props.navigation.push(ScreenKey.AuthorDetail, {id: item.id})
+              props.navigation.push(ScreenKey.CourseDetail, {item: item})
             }
           />
         )}
@@ -28,4 +26,4 @@ const styles = StyleSheet.create({
     flex: 1,
   },
 });
-export default ListAuthors;
+export default AllCoursesAuthors;

@@ -10,12 +10,12 @@ const TopAuthorsItem = (props) => {
         }}>
         <Image
           source={{
-            uri: props.item.link,
+            uri: props.item['user.avatar'],
           }}
           style={styles.image}
         />
       </TouchableOpacity>
-      <Text style={styles.text}>{props.item.name}</Text>
+      <Text style={styles.text}>{props.item['user.name']}</Text>
     </View>
   );
 };

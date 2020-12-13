@@ -26,3 +26,22 @@ export const apiChangePassword = (token, id, oldPass, newPass) => {
     },
   );
 };
+export const apiGetCourseLikeStatus = (token, courseId) => {
+  return axios.get(
+    URLAPI + '/user/get-course-like-status/{' + courseId + '}',
+    {
+      headers: {Authorization: `Bearer ${token}`},
+    },
+  );
+};
+export const apiLikeCourse = (token, courseId) => {
+  return axios.post(
+    URLAPI + '/user/like-course',
+    {
+      courseId:courseId
+    },
+    {
+      headers: {Authorization: `Bearer ${token}`},
+    },
+  );
+};

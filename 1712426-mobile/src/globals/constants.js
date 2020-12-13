@@ -26,4 +26,5 @@ export const ScreenKey ={
     NewReleases:"NewReleases",
     Section:"Section",
     Ratings:"Ratings",
+    AllCoursesAuthors:"AllCoursesAuthors",
 }

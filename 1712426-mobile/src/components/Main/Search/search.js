@@ -1,79 +1,101 @@
 import React, {useState} from 'react';
 import {
-  ScrollView,
-  SectionList,
   StyleSheet,
   View,
   TextInput,
+  TouchableOpacity,
+  Image,
   Text,
+  RefreshControl,
+  ScrollView
 } from 'react-native';
-
-import ListCourses from '../../Courses/ListCourses/list-courses';
-import ListPaths from '../../Paths/ListPaths/list-paths';
-import ListAuthors from '../../Authors/ListAuthors/list-authors';
+import {NavigationContainer} from '@react-navigation/native';
+import Result from './Result/result';
 const Search = (props) => {
+  const [refreshing, setRefreshing] = useState(false);
+  const [textSearch, setTextSearch] = useState('');
+  const [isSearching, setIsSearching] = useState(false);
+  const onPressSearch = () => {
+    setIsSearching(false);
+    setIsSearching(true);
+    //viewSearch();
+    //onRefresh();
+  };
+  const viewSearch = () => {
+    if (isSearching == true) {
+      return (
+        <Result {...props} keyword={textSearch}/>
+      );
+    }
+    else {
+      return <View></View>
+    }
+  };
+  const wait = (timeout) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, timeout);
+    });
+  };
+  const onRefresh = () => {
+    setRefreshing(true);
+    setIsSearching(true);
+    wait(1000).then(() => setRefreshing(false));
+  };
   return (
-    <ScrollView style={styles.container}>
+    <View style={styles.container}>
       <View style={{backgroundColor: '#181b20'}}>
-        <TextInput
-          style={styles.inputText}
-          placeholder="Search..."
-          placeholderTextColor="white"
-        />
+        <View
+          style={{
+            flexDirection: 'row',
+            marginTop: 20,
+            marginHorizontal: 10,
+            marginBottom: 10,
+          }}>
+          <TextInput
+            style={styles.inputTextSearch}
+            placeholder="Search..."
+            placeholderTextColor="white"
+            value={textSearch}
+            onChangeText={(textSearch) => setTextSearch(textSearch)}
+          />
+          <TouchableOpacity style={styles.button} onPress={onPressSearch}>
+            <Image
+              source={require('../../../../assets/searchIcon.png')}
+              style={styles.icon}
+            />
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.tabContainer}>
-        <View>
-          <Text>All</Text>
-        </View>
-        <View>
-          <Text>Courses</Text>
-        </View>
-        <View>
-          <Text>Paths</Text>
-        </View>
-        <View>
-          <Text>Authors</Text>
-        </View>
-      </View>
-      <Text style={styles.text}>Courses</Text>
-      <ListCourses {...props} />
-      <Text style={styles.text}>Paths</Text>
-      <ListPaths {...props} />
-      <Text style={styles.text}>Authors</Text>
-      <ListAuthors {...props} />
-    </ScrollView>
+      <ScrollView refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
+      {viewSearch()}
+      </ScrollView>
+      
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#0e0f13',
   },
-  inputText: {
-    borderWidth: 1,
+  inputTextSearch: {
+    borderWidth: 2,
     borderBottomColor: '#1f242a',
     borderColor: '#181b20',
     color: 'white',
-    margin: 10,
-    padding: 5,
-  },
-  tabContainer: {
-    backgroundColor: 'white',
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 10,
-    height: '20%',
-    alignItems: 'center',
-    marginTop: 10,
-    height: 40,
+    paddingTop: 10,
+    width: '85%',
   },
-  text: {
-    color: 'white',
-    fontSize: 20,
-    marginTop: 10,
-    marginLeft: 10,
-    marginBottom: 10,
+  button: {
+    width: '15%',
+    alignSelf: 'center',
+  },
+  icon: {
+    alignSelf: 'center',
   },
 });
 export default Search;

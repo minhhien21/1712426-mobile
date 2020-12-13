@@ -21,13 +21,13 @@ export const reducer = (prevState, action) => {
     case GET_DETAIL_INSTRUCTOR_SUCCESSED:
       return {
         ...prevState,
-        isRequestedDetailInstructor: true,
+        isRequestedSearch: true,
         DetailInstructor: action.data,
       };
     case GET_DETAIL_INSTRUCTOR_FAILED:
       return {
         ...prevState,
-        isRequestedDetailInstructor: false,
+        isRequestedSearch: false,
       };
     default:
       throw new Error();

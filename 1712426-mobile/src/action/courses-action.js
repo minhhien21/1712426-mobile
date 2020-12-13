@@ -5,6 +5,7 @@ import {
   apiCourseTopRate,
   apiCourseTopSell,
 } from '../core/service/course-service';
+import { apiSearchV2 } from '../core/service/search-service';
 export const REQUEST_TOP_SELL_LIST_COURSE_SUCCESSED ='REQUEST_TOP_SELL_LIST_COURSE_SUCCESSED';
 export const REQUEST_TOP_SELL_LIST_COURSE_FAILED ='REQUEST_TOP_SELL_LIST_COURSE_FAILED';
 export const REQUEST_TOP_NEW_LIST_COURSE_SUCCESSED ='REQUEST_TOP_NEW_LIST_COURSE_SUCCESSED';
@@ -15,6 +16,8 @@ export const REQUEST_FAVORITE_LIST_COURSE_SUCCESSED ='REQUEST_FAVORITE_LIST_COUR
 export const REQUEST_FAVORITE_LIST_COURSE_FAILED ='REQUEST_FAVORITE_LIST_COURSE_FAILED';
 export const REQUEST_DETAIL_COURSE_SUCCESSED ='REQUEST_DETAIL_COURSE_SUCCESSED';
 export const REQUEST_DETAIL_COURSE_FAILED = 'REQUEST_DETAIL_COURSE_FAILED';
+export const REQUEST_SEARCH_COURSE_SUCCESSED ='REQUEST_SEARCH_COURSE_SUCCESSED';
+export const REQUEST_SEARCH_COURSE_FAILED = 'REQUEST_SEARCH_COURSE_FAILED';
 
 const requestTopSellListCourseSuccess = (data) => ({
   type: REQUEST_TOP_SELL_LIST_COURSE_SUCCESSED,
@@ -56,8 +59,17 @@ const requestDetailCourseSuccess = (data) => ({
   type: REQUEST_DETAIL_COURSE_SUCCESSED,
   data,
 });
-const requestDetailListCourseFailed = (data) => ({
+const requestDetailCourseFailed = (data) => ({
   type: REQUEST_DETAIL_COURSE_FAILED,
+  data,
+});
+
+const requestSearchCourseSuccess = (data) => ({
+  type: REQUEST_SEARCH_COURSE_SUCCESSED,
+  data,
+});
+const requestSearchCourseFailed = (data) => ({
+  type: REQUEST_SEARCH_COURSE_FAILED,
   data,
 });
 
@@ -128,10 +140,25 @@ export const requestDetailCourse = (dispatch) => (id,userId) => {
       if (response.status === 200) {
         dispatch(requestDetailCourseSuccess(response.data));
       } else {
-        dispatch(requestDetailListCourseFailed(response.data));
+        dispatch(requestDetailCourseFailed(response.data));
       }
     })
     .catch((error) => {
-      dispatch(requestDetailListCourseFailed(error.response.data));
+      dispatch(requestDetailCourseFailed(error.response.data));
+    });
+};
+
+export const requestSearchCourse = (dispatch) => (keyword) => {
+  const res = apiSearchV2(keyword);
+  res
+    .then((response) => {
+      if (response.status === 200) {
+        dispatch(requestSearchCourseSuccess(response.data));
+      } else {
+        dispatch(requestSearchCourseFailed(response.data));
+      }
+    })
+    .catch((error) => {
+      dispatch(requestSearchCourseFailed(error.response.data));
     });
 };

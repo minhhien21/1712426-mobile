@@ -1,6 +1,13 @@
 import React, {useState, useCallback, useContext, useEffect} from 'react';
-import {RefreshControl, ScrollView, StyleSheet, View, ActivityIndicator} from 'react-native';
-import { CourseContext } from '../../../provider/course-provider';
+import {
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  View,
+  ActivityIndicator,
+} from 'react-native';
+import {CourseContext} from '../../../provider/course-provider';
+import Result from '../Search/Result/result';
 import SectionCourses from './SectionCourses/section-courses';
 const Home = (props) => {
   const [isLoading, setIsLoading] = useState(true);
@@ -32,31 +39,47 @@ const Home = (props) => {
   }, [courseContext.state.isRequestedFavorite]);
 
   const wait = (timeout) => {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(resolve, timeout);
     });
-  }
-  const onRefresh = useCallback(() => {
+  };
+  const onRefresh = () => {
     setRefreshing(true);
-    courseContext.state.isRequestedTopSell = false;
-    courseContext.state.isRequestedTopNew = false;
-    courseContext.state.isRequestedTopRate = false;
-    courseContext.state.isRequestedFavorite = false;
-    wait(2000).then(() => setRefreshing(false));
-  }, []);
+    courseContext.requestTopSellListCourse(20, 1);
+    courseContext.requestTopNewListCourse(20, 1);
+    courseContext.requestTopRateListCourse(20, 1);
+    courseContext.requestFavoriteListCourse(20, 1);
+    wait(1000).then(() => setRefreshing(false));
+  };
   //{isLoading && <ActivityIndicator size="large" color='#ff0000'/>}
 
   return (
-    <ScrollView style={styles.container} 
-    refreshControl={
-      <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-    }>
-
+    <ScrollView
+      style={styles.container}
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }>
       <View style={styles.view}>
-        <SectionCourses title="Top sell" {...props} data={courseContext.state.TopSellListCourse.payload}/>
-        <SectionCourses title="Top new" {...props} data={courseContext.state.TopNewListCourse.payload}/>
-        <SectionCourses title="Top rate" {...props} data={courseContext.state.TopRateListCourse.payload}/>
-        <SectionCourses title="Favorite" {...props} data={courseContext.state.FavoriteListCourse.payload}/>
+        <SectionCourses
+          title="Top sell"
+          {...props}
+          data={courseContext.state.TopSellListCourse.payload}
+        />
+        <SectionCourses
+          title="Top new"
+          {...props}
+          data={courseContext.state.TopNewListCourse.payload}
+        />
+        <SectionCourses
+          title="Top rate"
+          {...props}
+          data={courseContext.state.TopRateListCourse.payload}
+        />
+        <SectionCourses
+          title="Favorite"
+          {...props}
+          data={courseContext.state.FavoriteListCourse.payload}
+        />
       </View>
     </ScrollView>
   );
@@ -64,6 +87,7 @@ const Home = (props) => {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     backgroundColor: '#0e0f13',
   },
   view: {

@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
-import {StyleSheet, View, Text, ScrollView} from 'react-native';
-import {FlatList} from 'react-native-gesture-handler';
+import React from 'react';
+import {StyleSheet, View, FlatList} from 'react-native';
 import {ScreenKey} from '../../../globals/constants';
 import ListCoursesItem from '../ListCoursesItem/list-courses-item';
 const ListCourses = (props) => {
