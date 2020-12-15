@@ -16,8 +16,6 @@ export const REQUEST_FAVORITE_LIST_COURSE_SUCCESSED ='REQUEST_FAVORITE_LIST_COUR
 export const REQUEST_FAVORITE_LIST_COURSE_FAILED ='REQUEST_FAVORITE_LIST_COURSE_FAILED';
 export const REQUEST_DETAIL_COURSE_SUCCESSED ='REQUEST_DETAIL_COURSE_SUCCESSED';
 export const REQUEST_DETAIL_COURSE_FAILED = 'REQUEST_DETAIL_COURSE_FAILED';
-export const REQUEST_SEARCH_COURSE_SUCCESSED ='REQUEST_SEARCH_COURSE_SUCCESSED';
-export const REQUEST_SEARCH_COURSE_FAILED = 'REQUEST_SEARCH_COURSE_FAILED';
 
 const requestTopSellListCourseSuccess = (data) => ({
   type: REQUEST_TOP_SELL_LIST_COURSE_SUCCESSED,
@@ -64,14 +62,6 @@ const requestDetailCourseFailed = (data) => ({
   data,
 });
 
-const requestSearchCourseSuccess = (data) => ({
-  type: REQUEST_SEARCH_COURSE_SUCCESSED,
-  data,
-});
-const requestSearchCourseFailed = (data) => ({
-  type: REQUEST_SEARCH_COURSE_FAILED,
-  data,
-});
 
 export const requestTopSellListCourse = (dispatch) => (limit, page) => {
   const res = apiCourseTopSell(limit, page);
@@ -148,17 +138,3 @@ export const requestDetailCourse = (dispatch) => (id,userId) => {
     });
 };
 
-export const requestSearchCourse = (dispatch) => (keyword) => {
-  const res = apiSearchV2(keyword);
-  res
-    .then((response) => {
-      if (response.status === 200) {
-        dispatch(requestSearchCourseSuccess(response.data));
-      } else {
-        dispatch(requestSearchCourseFailed(response.data));
-      }
-    })
-    .catch((error) => {
-      dispatch(requestSearchCourseFailed(error.response.data));
-    });
-};

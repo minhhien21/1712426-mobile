@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -6,40 +6,98 @@ import {
   TouchableOpacity,
   Image,
   Text,
-  RefreshControl,
-  ScrollView
+  ScrollView,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
 import Result from './Result/result';
+import {CourseContext} from '../../../provider/course-provider';
+import NoResult from './Result/no-result';
+import {apiSearchV2} from '../../../core/service/search-service';
+import SearchHistory from './SearchHistory/search-history';
 const Search = (props) => {
-  const [refreshing, setRefreshing] = useState(false);
   const [textSearch, setTextSearch] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const onPressSearch = () => {
-    setIsSearching(false);
-    setIsSearching(true);
-    //viewSearch();
-    //onRefresh();
+  const [result, setResult] = useState(false);
+  const courseContext = useContext(CourseContext);
+
+  const [responseReq, setResponseReq] = useState({
+    courses: {
+      data: [],
+      totalInPage: 0,
+      total: 0,
+    },
+    instructors: {
+      data: [],
+      totalInPage: 0,
+      total: 0,
+    },
+  });
+
+  // const onPressSearch = async () => {
+  //   if (textSearch != '') {
+  //     const res = await courseContext.requestSearchCourse(textSearch);
+  //     if (
+  //       courseContext.state.ResultCourse.payload.courses.total == 0 &&
+  //       courseContext.state.ResultCourse.payload.instructors.total == 0
+  //     ) {
+  //       setResult(false);
+  //     } else {
+  //       setResult(true);
+  //     }
+  //     setIsSearching(true);
+  //   }
+  // };
+  // const viewSearch = () => {
+  //   if (textSearch == '') {
+  //     return <Text style={{color: 'red'}}>123123123</Text>;
+  //   } else {
+  //     if (
+  //       isSearching == true &&
+  //       courseContext.state.ResultCourse.payload.courses.total == 0 &&
+  //       courseContext.state.ResultCourse.payload.instructors.total == 0
+  //     ) {
+  //       return <NoResult textSearch={textSearch} />;
+  //     } else if (isSearching == true) {
+  //       return <Result {...props} />;
+  //     } else {
+  //       return <View />;
+  //     }
+  //   }
+  // };
+
+  const onPressSearch = async () => {
+    if (textSearch != '') {
+      const res = apiSearchV2(textSearch);
+      res
+        .then((response) => {
+          setResponseReq(response.data.payload);
+        })
+        .catch((error) => {
+          Alert.alert(error.response.data.message);
+          throw error;
+        });
+      setIsSearching(true);
+    }
   };
   const viewSearch = () => {
-    if (isSearching == true) {
-      return (
-        <Result {...props} keyword={textSearch}/>
-      );
-    }
-    else {
-      return <View></View>
+    if (textSearch == '') {
+      return <SearchHistory/>;
+    } else {
+      if (
+        isSearching == true &&
+        responseReq.courses.total == 0 &&
+        responseReq.instructors.total == 0
+      ) {
+        return <NoResult textSearch={textSearch} />;
+      } else if (isSearching == true) {
+        return <Result {...props} dataSearch={responseReq} />;
+      } else {
+        return <View />;
+      }
     }
   };
-  const wait = (timeout) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, timeout);
-    });
-  };
-  const onRefresh = () => {
-    setRefreshing(true);
-    setIsSearching(true);
-    wait(1000).then(() => setRefreshing(false));
+  const onChangeTextFunc = (textSearch) => {
+    setTextSearch(textSearch);
+    setIsSearching(false);
   };
   return (
     <View style={styles.container}>
@@ -56,7 +114,7 @@ const Search = (props) => {
             placeholder="Search..."
             placeholderTextColor="white"
             value={textSearch}
-            onChangeText={(textSearch) => setTextSearch(textSearch)}
+            onChangeText={(textSearch) => onChangeTextFunc(textSearch)}
           />
           <TouchableOpacity style={styles.button} onPress={onPressSearch}>
             <Image
@@ -66,12 +124,7 @@ const Search = (props) => {
           </TouchableOpacity>
         </View>
       </View>
-      <ScrollView refreshControl={
-        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-      }>
       {viewSearch()}
-      </ScrollView>
-      
     </View>
   );
 };

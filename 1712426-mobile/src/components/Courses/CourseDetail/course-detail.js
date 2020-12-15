@@ -3,6 +3,7 @@ import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import { apiGetFreeCourses } from '../../../core/service/payment-service';
 import { AuthenticationContext } from '../../../provider/authentication-provider';
 import { CourseContext } from '../../../provider/course-provider';
+import { InstructorContext } from '../../../provider/instructor-provider';
 import InfoCourse from './InfoCourse/info-course';
 import InfoSectionRatings from './InfoSectionRatings/info-section-ratings';
 import VideoPlayer from './VideoPlayer/video-player';
@@ -23,16 +24,27 @@ const CourseDetail = (props) => {
       });
   }
   const courseContext = useContext(CourseContext);
+  courseContext.state.isRequestedDetail = false;
   useEffect(() => {
     if (!courseContext.state.isRequestedDetail) {
       courseContext.requestDetailCourse(props.navigation.state.params.item.id, authContext.state.userInfo.id);
     }
   }, [courseContext.state.isRequestedDetail]);
+
+  // them o day
+  // const instructorContext = useContext(InstructorContext);
+  // instructorContext.state.isRequestedDetailInstructor = false;
+  // useEffect(() => {
+  //   if (!instructorContext.state.isRequestedDetailInstructor) {
+  //     instructorContext.requestDetailInstructor(props.navigation.state.params.item.instructorId);
+  //   }
+  // }, [instructorContext.state.isRequestedDetailInstructor]);
+
   return (
     <ScrollView>
-      <VideoPlayer />
       <InfoCourse {...props} />
       <InfoSectionRatings {...props}/>
+      <VideoPlayer promoVidUrl={props.navigation.state.params.item.promoVidUrl}/>
     </ScrollView>
   );
 };

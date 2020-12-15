@@ -1,10 +1,48 @@
 import React, {useState} from 'react';
-import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 const LessonItem = (props) => {
+  const hour = parseInt(props.item.hours);
+  const convertMinute = 60 * (props.item.hours - hour);
+  const minute = parseInt(convertMinute);
+  const convertSecond = 60 * (convertMinute - minute);
+  const second = parseInt(convertSecond);
+  const viewToTalTime = () => {
+    if (hour == 0) {
+      if (minute < 10 && second < 10) {
+        return <Text style={styles.darktext}>{`0${minute}:0${second}`}</Text>;
+      } else if (minute < 10) {
+        return <Text style={styles.darktext}>{`0${minute}:${second}`}</Text>;
+      } else if (second < 10) {
+        return <Text style={styles.darktext}>{`${minute}:0${second}`}</Text>;
+      } else {
+        return <Text style={styles.darktext}>{`${minute}:${second}`}</Text>;
+      }
+    } else if (hour < 10 && hour != 0) {
+      if (minute < 10 && second < 10) {
+        return <Text style={styles.darktext}>{`0${hour}:0${minute}:0${second}`}</Text>;
+      } else if (minute < 10) {
+        return <Text style={styles.darktext}>{`0${hour}:0${minute}:${second}`}</Text>;
+      } else if (second < 10) {
+        return <Text style={styles.darktext}>{`0${hour}:${minute}:0${second}`}</Text>;
+      } else {
+        return <Text style={styles.darktext}>{`0${hour}:${minute}:${second}`}</Text>;
+      }
+    } else {
+      if (minute < 10 && second < 10) {
+        return <Text style={styles.darktext}>{`${hour}:0${minute}:0${second}`}</Text>;
+      } else if (minute < 10) {
+        return <Text style={styles.darktext}>{`${hour}:0${minute}:${second}`}</Text>;
+      } else if (second < 10) {
+        return <Text style={styles.darktext}>{`${hour}:${minute}:0${second}`}</Text>;
+      } else {
+        return <Text style={styles.darktext}>{`${hour}:${minute}:${second}`}</Text>;
+      }
+    }
+  };
   return (
     <TouchableOpacity style={styles.item}>
       <Text style={styles.text}>{props.item.name}</Text>
-      <Text style={styles.darktext}>{props.item.time}</Text>
+      {viewToTalTime()}
     </TouchableOpacity>
   );
 };
@@ -12,10 +50,11 @@ const LessonItem = (props) => {
 const styles = StyleSheet.create({
   item: {
     flexDirection: 'row',
-    justifyContent: "space-between"
+    justifyContent: 'space-between',
+    marginTop: 5
   },
   text: {
-    color:'white',
+    color: 'white',
   },
   darktext: {
     color: 'darkgray',

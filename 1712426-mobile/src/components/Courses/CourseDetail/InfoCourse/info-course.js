@@ -17,8 +17,22 @@ import {
 import {AuthenticationContext} from '../../../../provider/authentication-provider';
 import {CourseContext} from '../../../../provider/course-provider';
 const InfoCourse = (props) => {
+  
+  
   const courseContext = useContext(CourseContext);
   const data = courseContext.state.DetailCourse.payload;
+  
+  const instructorContext = useContext(InstructorContext);
+  // instructorContext.state.isRequestedDetailInstructor = false;
+  // useEffect(() => {
+  //   if (!instructorContext.state.isRequestedDetailInstructor) {
+  //     instructorContext.requestDetailInstructor(data.instructorId);
+  //   }
+  // }, [instructorContext.state.isRequestedDetailInstructor]);
+  instructorContext.state.isRequestedDetailInstructor = false;
+  instructorContext.requestDetailInstructor(data.instructorId);
+
+  const dataInstructor = instructorContext.state.DetailInstructor.payload;
 
   const [colorLike, setColorLike] = useState('white');
   const [statusLike, setStatusLike] = useState('Like');
@@ -48,14 +62,7 @@ const InfoCourse = (props) => {
   const presentationPoint = parseInt(data.presentationPoint);
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
 
-  const instructorContext = useContext(InstructorContext);
-  instructorContext.state.isRequestedDetailInstructor = false;
-  useEffect(() => {
-    if (!instructorContext.state.isRequestedDetailInstructor) {
-      instructorContext.requestDetailInstructor(data.instructorId);
-    }
-  }, [instructorContext.state.isRequestedDetailInstructor]);
-  const dataInstructor = instructorContext.state.DetailInstructor.payload;
+  
 
   const OnPressAuthorDetail = () => {
     props.navigation.push(ScreenKey.AuthorDetail, {id: data['instructorId']});
@@ -77,6 +84,19 @@ const InfoCourse = (props) => {
         Alert.alert(error.response.data.message);
         throw error;
       });
+  };
+
+  const viewRequirement = () => {
+    if (data.requirement === null) {
+      return <Text style={styles.itemContent}>Null</Text>;
+    } else {
+      return(
+      <View>
+        {data.requirement.map((item) => (
+          <Text style={styles.itemContent}>{`${'+ '}${item}`}</Text>
+        ))}
+      </View>);
+    }
   };
 
   return (
@@ -159,13 +179,9 @@ const InfoCourse = (props) => {
         <Text style={[styles.content, {marginTop: 25}]}>
           - subtitle: {data.subtitle}
         </Text>
-        <Text style={styles.content}>
-          - description: {data.description}
-        </Text>
+        <Text style={styles.content}>- description: {data.description}</Text>
         <Text style={styles.content}>- requirement:</Text>
-        {data.requirement.map((item) => (
-          <Text style={styles.itemContent}>{`${'+ '}${item}`}</Text>
-        ))}
+        {viewRequirement()}
         <Text style={styles.content}>- learnWhat:</Text>
         {data.learnWhat.map((item) => (
           <Text style={styles.itemContent}>{`${'+ '}${item}`}</Text>

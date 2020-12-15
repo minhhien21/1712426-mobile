@@ -64,22 +64,6 @@ const initialState = {
       coursesLikeCategory: [],
     },
   },
-  isRequestedSearch: false,
-  ResultCourse:{
-    message: null,
-    payload: {
-        courses: {
-            data: [],
-            totalInPage: 0,
-            total: 0
-        },
-        instructors: {
-            data: [],
-            totalInPage: 10,
-            total: 10
-        }
-    }
-  }
 };
 
 const CourseProvider = ({children}) => {
@@ -94,7 +78,6 @@ const CourseProvider = ({children}) => {
         requestTopRateListCourse: requestTopRateListCourse(dispatch),
         requestFavoriteListCourse: requestFavoriteListCourse(dispatch),
         requestDetailCourse: requestDetailCourse(dispatch),
-        requestSearchCourse: requestSearchCourse(dispatch)
       }}>
       {children}
     </CourseContext.Provider>

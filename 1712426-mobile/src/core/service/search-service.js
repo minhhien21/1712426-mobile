@@ -5,3 +5,11 @@ export const apiSearchV2 = (keyword) => {
     keyword: keyword,
   });
 };
+export const apiGetSearchHistory = (token) => {
+  return axios.post(
+    URLAPI + '/course/search-history',
+    {
+      headers: {Authorization: `Bearer ${token}`},
+    },
+  );
+};

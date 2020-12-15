@@ -58,14 +58,6 @@ export const reducer = (prevState, action) => {
       };
     case REQUEST_DETAIL_COURSE_FAILED:
       return {...prevState, isRequestedDetail: false};
-    case REQUEST_SEARCH_COURSE_SUCCESSED:
-      return {
-        ...prevState,
-        isRequestedSearch: true,
-        ResultCourse: action.data,
-      };
-    case REQUEST_SEARCH_COURSE_FAILED:
-      return {...prevState, isRequestedSearch: false};
     default:
       throw new Error();
   }
