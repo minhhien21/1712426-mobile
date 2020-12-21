@@ -1,12 +1,12 @@
-import React, {useContext,useEffect} from 'react';
+import React from 'react';
 import {StyleSheet, View} from 'react-native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
 import {NavigationContainer} from '@react-navigation/native';
 import ListCourses from '../../../Courses/ListCourses/list-courses';
 import ListAuthors from '../../../Authors/ListAuthors/list-authors';
-import { CourseContext } from '../../../../provider/course-provider';
+import AllCoursesAuthors from './all-courses-authors';
+
 const Result = (props) => {
-  const courseContext = useContext(CourseContext);
   const Tab = createMaterialTopTabNavigator();
   return (
     <NavigationContainer>
@@ -25,11 +25,15 @@ const Result = (props) => {
             flexDirection: 'column',
           },
         }}>
+          <Tab.Screen
+          name="ALL"
+          children={()=><AllCoursesAuthors {...props}/>}
+        />
         <Tab.Screen
-          name="Courses"
+          name="COURSES"
           children={()=><ListCourses data={props.dataSearch.courses.data} {...props}/>}
         />
-        <Tab.Screen name="Authors" children={()=> <ListAuthors data={props.dataSearch.instructors.data} {...props}/>} />
+        <Tab.Screen name="AUTHORS" children={()=> <ListAuthors data={props.dataSearch.instructors.data} {...props}/>} />
       </Tab.Navigator>
     </NavigationContainer>
   );

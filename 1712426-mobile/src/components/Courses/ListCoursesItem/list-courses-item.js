@@ -13,6 +13,13 @@ const ListCoursesItem = (props) => {
   const contentPoint = parseInt(props.item.contentPoint);
   const presentationPoint = parseInt(props.item.presentationPoint);
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
+  let titleName = "";
+  if(String(props.item.title).length < 37){
+    titleName = props.item.title;
+  }else{
+    titleName = String(props.item.title).substring(0,34);
+    titleName += "...";
+  }
   return (
     <TouchableOpacity
       style={styles.item}
@@ -21,8 +28,8 @@ const ListCoursesItem = (props) => {
       }}>
       <Image source={{uri: props.item.imageUrl}} style={styles.image} />
       <View style={styles.viewText}>
-        <Text style={styles.title}>{props.item.title}</Text>
-        <Text style={styles.title}>{props.item['instructor.user.name']}</Text>
+        <Text style={styles.title}>{titleName}</Text>
+        <Text style={styles.title}>{props.item['instructor.user.name'] || props.item.name}</Text>
         <Text style={styles.darktext}>{props.item.price}</Text>
 
         <Text style={[styles.darktext]}>

@@ -5,20 +5,21 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  Text,
-  ScrollView,
 } from 'react-native';
 import Result from './Result/result';
 import {CourseContext} from '../../../provider/course-provider';
 import NoResult from './Result/no-result';
-import {apiSearchV2} from '../../../core/service/search-service';
+import {
+  apiDeleteSearchHistory,
+  apiSearchV2,
+} from '../../../core/service/search-service';
 import SearchHistory from './SearchHistory/search-history';
+import {AuthenticationContext} from '../../../provider/authentication-provider';
 const Search = (props) => {
   const [textSearch, setTextSearch] = useState('');
   const [isSearching, setIsSearching] = useState(false);
-  const [result, setResult] = useState(false);
-  const courseContext = useContext(CourseContext);
-
+  const authContext = useContext(AuthenticationContext);
+  const token = authContext.state.token;
   const [responseReq, setResponseReq] = useState({
     courses: {
       data: [],
@@ -31,42 +32,22 @@ const Search = (props) => {
       total: 0,
     },
   });
-
-  // const onPressSearch = async () => {
-  //   if (textSearch != '') {
-  //     const res = await courseContext.requestSearchCourse(textSearch);
-  //     if (
-  //       courseContext.state.ResultCourse.payload.courses.total == 0 &&
-  //       courseContext.state.ResultCourse.payload.instructors.total == 0
-  //     ) {
-  //       setResult(false);
-  //     } else {
-  //       setResult(true);
-  //     }
-  //     setIsSearching(true);
-  //   }
-  // };
-  // const viewSearch = () => {
-  //   if (textSearch == '') {
-  //     return <Text style={{color: 'red'}}>123123123</Text>;
-  //   } else {
-  //     if (
-  //       isSearching == true &&
-  //       courseContext.state.ResultCourse.payload.courses.total == 0 &&
-  //       courseContext.state.ResultCourse.payload.instructors.total == 0
-  //     ) {
-  //       return <NoResult textSearch={textSearch} />;
-  //     } else if (isSearching == true) {
-  //       return <Result {...props} />;
-  //     } else {
-  //       return <View />;
-  //     }
-  //   }
-  // };
-
+  const onPressSearchHistory = (keyword) => {
+    const res = apiSearchV2(token, keyword);
+    res
+      .then((response) => {
+        setResponseReq(response.data.payload);
+      })
+      .catch((error) => {
+        Alert.alert(error.response.data.message);
+        throw error;
+      });
+    setIsSearching(true);
+    setTextSearch(keyword);
+  };
   const onPressSearch = async () => {
     if (textSearch != '') {
-      const res = apiSearchV2(textSearch);
+      const res = apiSearchV2(token, textSearch);
       res
         .then((response) => {
           setResponseReq(response.data.payload);
@@ -78,9 +59,15 @@ const Search = (props) => {
       setIsSearching(true);
     }
   };
+  console.log('search.js', isSearching);
   const viewSearch = () => {
     if (textSearch == '') {
-      return <SearchHistory/>;
+      return (
+        <SearchHistory
+          OnPressListenItem={(keyword) => onPressSearchHistory(keyword)}
+          {...props}
+        />
+      );
     } else {
       if (
         isSearching == true &&

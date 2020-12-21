@@ -27,7 +27,7 @@ const SectionCourses = (props) => {
     </View>
   );
 };
-{
+
   /* <FlatList data={courses} horizontal={true}
       renderItem={({item}) => (
         <SectionCoursesItem
@@ -38,7 +38,7 @@ const SectionCourses = (props) => {
           }
         />
       )}/> */
-}
+
 const styles = StyleSheet.create({
   container: {
     flex: 1,
