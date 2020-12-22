@@ -45,3 +45,19 @@ export const apiLikeCourse = (token, courseId) => {
     },
   );
 };
+export const apiGetUserFavoriteCourses = (token) => {
+  return axios.get(
+    URLAPI + '/user/get-favorite-courses',
+    {
+      headers: {Authorization: `Bearer ${token}`},
+    },
+  );
+};
+export const apiGetUserProcessCourses = (token) => {
+  return axios.get(
+    URLAPI + '/user/get-process-courses',
+    {
+      headers: {Authorization: `Bearer ${token}`},
+    },
+  );
+};

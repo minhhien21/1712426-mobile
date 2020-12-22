@@ -3,14 +3,16 @@ import {
   REQUEST_DETAIL_COURSE_SUCCESSED,
   REQUEST_FAVORITE_LIST_COURSE_FAILED,
   REQUEST_FAVORITE_LIST_COURSE_SUCCESSED,
-  REQUEST_SEARCH_COURSE_FAILED,
-  REQUEST_SEARCH_COURSE_SUCCESSED,
   REQUEST_TOP_NEW_LIST_COURSE_FAILED,
   REQUEST_TOP_NEW_LIST_COURSE_SUCCESSED,
   REQUEST_TOP_RATE_LIST_COURSE_FAILED,
   REQUEST_TOP_RATE_LIST_COURSE_SUCCESSED,
   REQUEST_TOP_SELL_LIST_COURSE_FAILED,
   REQUEST_TOP_SELL_LIST_COURSE_SUCCESSED,
+  REQUEST_USER_FAVORITE_COURSE_FAILED,
+  REQUEST_USER_FAVORITE_COURSE_SUCCESSED,
+  REQUEST_USER_PROCESS_COURSE_FAILED,
+  REQUEST_USER_PROCESS_COURSE_SUCCESSED,
 } from '../action/courses-action';
 
 export const reducer = (prevState, action) => {
@@ -58,6 +60,22 @@ export const reducer = (prevState, action) => {
       };
     case REQUEST_DETAIL_COURSE_FAILED:
       return {...prevState, isRequestedDetail: false};
+    case REQUEST_USER_FAVORITE_COURSE_SUCCESSED:
+      return {
+        ...prevState,
+        isRequestedUserFavoriteCourse: true,
+        UserFavoriteCourse: action.data,
+      };
+    case REQUEST_USER_FAVORITE_COURSE_FAILED:
+      return {...prevState, isRequestedUserFavoriteCourse: false};
+    case REQUEST_USER_PROCESS_COURSE_SUCCESSED:
+      return {
+        ...prevState,
+        isRequestedUserProcessCourse: true,
+        UserProcessCourse: action.data,
+      };
+    case REQUEST_USER_PROCESS_COURSE_FAILED:
+      return {...prevState, isRequestedUserProcessCourse: false};
     default:
       throw new Error();
   }

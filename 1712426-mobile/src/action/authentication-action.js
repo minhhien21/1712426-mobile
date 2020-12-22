@@ -1,4 +1,4 @@
-import {apiLogin} from '../core/service/authentication-service';
+import {apiLogin, apiLoginGoogle} from '../core/service/authentication-service';
 export const LOGIN_REQUEST = 'LOGIN_REQUEST';
 export const LOGIN_SUCCESSED = 'LOGIN_SUCCESSED';
 export const LOGIN_FAILED = 'LOGIN_FAILED';
@@ -27,7 +27,19 @@ export const login = (dispatch) => (username, password) => {
       dispatch(loginFailed(error.response.data));
     });
 };
-
+export const loginGoogle = (dispatch) => () => {
+  const res = apiLoginGoogle();
+  res.then((response) => {
+    if (response.status === 200) {
+      dispatch(loginSuccess(response.data));
+    } else {
+      dispatch(loginFailed(response.data));
+    }
+  })
+  .catch((error) => {
+    dispatch(loginFailed(error.response.data));
+  });
+};
 export const signout = (dispatch) => () => {
   dispatch(signoutSuccess());
 };

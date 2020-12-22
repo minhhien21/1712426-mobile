@@ -26,7 +26,7 @@ const SplashScreen = (props) => {
           source={require('../../../../assets/iconapp.png')}
           style={styles.image}
         />
-        <Text style={styles.text}>Pluralsight</Text>
+        <Text style={styles.text}>IT EDU</Text>
         <Text style={styles.textLoading}>Loading.... {loading}%</Text>
       </View>
     </View>

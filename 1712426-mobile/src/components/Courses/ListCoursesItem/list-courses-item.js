@@ -29,7 +29,7 @@ const ListCoursesItem = (props) => {
       <Image source={{uri: props.item.imageUrl}} style={styles.image} />
       <View style={styles.viewText}>
         <Text style={styles.title}>{titleName}</Text>
-        <Text style={styles.title}>{props.item['instructor.user.name'] || props.item.name}</Text>
+        <Text style={styles.title}>{props.item['instructor.user.name'] || props.item.instructorName|| props.item.name}</Text>
         <Text style={styles.darktext}>{props.item.price}</Text>
 
         <Text style={[styles.darktext]}>

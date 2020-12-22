@@ -2,13 +2,13 @@ import React, {useReducer} from 'react';
 import {
   requestDetailCourse,
   requestFavoriteListCourse,
-  requestSearchCourse,
   requestTopNewListCourse,
   requestTopRateListCourse,
   requestTopSellListCourse,
+  requestUserFavoriteCourse,
+  requestUserProcessCourse,
 } from '../action/courses-action';
 import {reducer} from '../reducer/course-reducer';
-
 const CourseContext = React.createContext();
 const initialState = {
   isRequestedTopSell: false,
@@ -58,12 +58,27 @@ const initialState = {
       instructorId: null,
       typeUploadVideoLesson: 1,
       section: [],
-      ratings: null,
+      ratings: {
+        ratingList:[],
+        stars:[],
+      },
       averagePoint: 4.3,
       instructor: null,
       coursesLikeCategory: [],
     },
   },
+  isRequestedUserFavoriteCourse: false,
+  UserFavoriteCourse: {
+    message: null,
+    payload: [],
+  },
+  isRequestedUserProcessCourse: false,
+  UserProcessCourse: {
+    message: null,
+    payload: [],
+  },
+  isRequestUrlVideo: false,
+  currentUrlVideo: null,
 };
 
 const CourseProvider = ({children}) => {
@@ -78,6 +93,8 @@ const CourseProvider = ({children}) => {
         requestTopRateListCourse: requestTopRateListCourse(dispatch),
         requestFavoriteListCourse: requestFavoriteListCourse(dispatch),
         requestDetailCourse: requestDetailCourse(dispatch),
+        requestUserFavoriteCourse: requestUserFavoriteCourse(dispatch),
+        requestUserProcessCourse: requestUserProcessCourse(dispatch),
       }}>
       {children}
     </CourseContext.Provider>

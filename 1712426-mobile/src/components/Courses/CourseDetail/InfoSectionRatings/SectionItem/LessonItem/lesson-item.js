@@ -1,5 +1,6 @@
-import React, {useState} from 'react';
+import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { CourseContext } from '../../../../../../provider/course-provider';
 const LessonItem = (props) => {
   const hour = parseInt(props.item.hours);
   const convertMinute = 60 * (props.item.hours - hour);
@@ -39,8 +40,12 @@ const LessonItem = (props) => {
       }
     }
   };
+  const courseContext = useContext(CourseContext);
+  const onPressChangeVideo = () => {
+    courseContext.state.currentUrlVideo = props.item.videoUrl;
+  }
   return (
-    <TouchableOpacity style={styles.item}>
+    <TouchableOpacity style={styles.item} onPress={onPressChangeVideo}>
       <Text style={styles.text}>{props.item.name}</Text>
       {viewToTalTime()}
     </TouchableOpacity>

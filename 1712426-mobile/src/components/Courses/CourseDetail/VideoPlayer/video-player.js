@@ -1,35 +1,89 @@
-import React, {useContext} from 'react';
+import React, {useRef, useContext, useState} from 'react';
 import Video from 'react-native-video';
 import {StyleSheet, View} from 'react-native';
-import { CourseContext } from '../../../../provider/course-provider';
+import {CourseContext} from '../../../../provider/course-provider';
+import YoutubePlayer from 'react-native-youtube-iframe';
 const VideoPlayer = (props) => {
-  //const courseContext = useContext(CourseContext);
-  //const promoVidUrl = courseContext.state.DetailCourse.payload.promoVidUrl;
-  const promoVidUrl  = props.promoVidUrl;
-  console.log("video-player.js",promoVidUrl);
-  return (
-      <Video
-        source={{uri: promoVidUrl}}
-        style={styles.backgroundVideo}
-        muted={true}
-        repeat={true}
-        resizeMode={'cover'}
-        rate={1.0}
-        ignoreSilentSwitch={'obey'}
-        volume={100}
-        muted = {false}
-        onChangeState={event => console.log('event', event)}
-        onReady={()=> console.log('ready')}
-        onError={e=> console.log('error',e)}
-        playbackRate={1}
-      />
+  const courseContext = useContext(CourseContext);
+  // useEffect(() => {
+  //   if(!courseContext.state.isRequestUrlVideo){
       
-  );
+  //   }
+  // }, [isRequestUrlVideo])
+  const urlVideo = courseContext.state.currentUrlVideo;
+  const playerRef = useRef(null);
+  const [playing, setPlaying] = useState(true);
+  const viewVideo = () => {
+    if (urlVideo != null) {
+      if (String(urlVideo).indexOf('https://www.youtube.com') == 0) {
+        const videoYoutubeId = String(urlVideo).split('?v=');
+        return (
+          <YoutubePlayer
+            ref={playerRef}
+            height={200}
+            videoId={videoYoutubeId[videoYoutubeId.length - 1]}
+            play={playing}
+            onChangeState={(event) => console.log('onChangeState', event)}
+            onReady={() => console.log('onReady')}
+            onError={(e) => console.log('onError', escape)}
+            onPlaybackQualityChange={(q) =>
+              console.log('onPlaybackQualityChange', q)
+            }
+            volume={50}
+            playbackRate={1}
+          />
+        );
+      } else if (
+        String(urlVideo).indexOf('.mov') ==
+        String(urlVideo).length - 4
+      ) {
+        return (
+          <Video
+            source={{uri: urlVideo}}
+            style={styles.backgroundVideo}
+            muted={true}
+            repeat={true}
+            resizeMode={'cover'}
+            rate={1.0}
+            ignoreSilentSwitch={'obey'}
+            volume={100}
+            muted={false}
+            onChangeState={(event) => console.log('event', event)}
+            onReady={() => console.log('ready')}
+            onError={(e) => console.log('error', e)}
+            playbackRate={1}
+          />
+        );
+      } else if (
+        String(urlVideo).indexOf('.mp4') ==
+        String(urlVideo).length - 4
+      ) {
+        return (
+          <Video
+            source={{uri: urlVideo}}
+            style={styles.backgroundVideo}
+            muted={true}
+            repeat={true}
+            resizeMode={'cover'}
+            rate={1.0}
+            ignoreSilentSwitch={'obey'}
+            volume={100}
+            muted={false}
+            onChangeState={(event) => console.log('event', event)}
+            onReady={() => console.log('ready')}
+            onError={(e) => console.log('error', e)}
+            playbackRate={1}
+          />
+        );
+      }
+    }
+  };
+  return <View>{viewVideo()}</View>;
 };
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#1f242a',
-    flex: 1
+    flex: 1,
   },
   backgroundVideo: {
     height: 200,

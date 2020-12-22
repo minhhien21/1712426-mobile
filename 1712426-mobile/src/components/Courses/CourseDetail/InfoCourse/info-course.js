@@ -7,6 +7,7 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
+  Share
 } from 'react-native';
 import {ScreenKey} from '../../../../globals/constants';
 import {InstructorContext} from '../../../../provider/instructor-provider';
@@ -62,12 +63,13 @@ const InfoCourse = (props) => {
   const presentationPoint = parseInt(data.presentationPoint);
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
 
-  
+
 
   const OnPressAuthorDetail = () => {
     props.navigation.push(ScreenKey.AuthorDetail, {id: data['instructorId']});
   };
 
+  // like or unlike course
   const onPressLikeUnLike = () => {
     const callApi = apiLikeCourse(authContext.state.token, data.id);
     callApi
@@ -85,7 +87,26 @@ const InfoCourse = (props) => {
         throw error;
       });
   };
-
+  // share
+  const onShare = async () => {
+    try {
+      const result = await Share.share({
+        message:
+          data.title,
+      });
+      if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+          // shared with activity type of result.activityType
+        } else {
+          // shared
+        }
+      } else if (result.action === Share.dismissedAction) {
+        // dismissed
+      }
+    } catch (error) {
+      alert(error.message);
+    }
+  };
   const viewRequirement = () => {
     if (data.requirement === null) {
       return <Text style={styles.itemContent}>Null</Text>;
@@ -153,17 +174,7 @@ const InfoCourse = (props) => {
               <Text style={styles.textIcon}>{statusLike}</Text>
             </View>
           </TouchableOpacity>
-          <TouchableOpacity>
-            <View>
-              <View style={styles.viewImage}>
-                <Image
-                  source={require('../../../../../assets/channel.png')}
-                  style={styles.icon}
-                />
-              </View>
-              <Text style={styles.textIcon}>Add to Channel</Text>
-            </View>
-          </TouchableOpacity>
+
           <TouchableOpacity>
             <View>
               <View style={styles.viewImage}>
@@ -173,6 +184,17 @@ const InfoCourse = (props) => {
                 />
               </View>
               <Text style={styles.textIcon}>Download</Text>
+            </View>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onShare}>
+            <View>
+              <View style={styles.viewImage}>
+                <Image
+                  source={require('../../../../../assets/share.png')}
+                  style={styles.icon}
+                />
+              </View>
+              <Text style={styles.textIcon}>Share</Text>
             </View>
           </TouchableOpacity>
         </View>

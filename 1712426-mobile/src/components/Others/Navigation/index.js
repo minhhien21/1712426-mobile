@@ -37,7 +37,7 @@ const getStatusLogin = () => {
   return authContext.state.isAuthenticated;
 }
 //const loggedIn = getStatusLogin();
-const loggedIn = true;
+const loggedIn = false;
 
 const createHomeStack = createStackNavigator({
   [ScreenKey.Home]: {

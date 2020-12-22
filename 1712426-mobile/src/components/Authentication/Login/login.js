@@ -1,24 +1,103 @@
-import React, {useState, useEffect, useContext, useReducer} from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, Alert, Image} from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, {useState, useEffect, useContext} from 'react';
+import {
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  Alert,
+  Image,
+  ScrollView,
+} from 'react-native';
+// import {
+//   GoogleSignin,
+//   GoogleSigninButton,
+//   statusCodes,
+// } from '@react-native-community/google-signin';
+// import auth from '@react-native-firebase/auth';
 import {TextInput} from 'react-native-paper';
-import { ScreenKey } from '../../../globals/constants';
-import { AuthenticationContext } from '../../../provider/authentication-provider';
+import {ScreenKey} from '../../../globals/constants';
+import {AuthenticationContext} from '../../../provider/authentication-provider';
 const Login = (props) => {
   const [status, setStatus] = useState(false);
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
+
+  // const [isLoggedIn, setIsLoggedIn] = useState(false);
+  // const [userInfoGG, setUserInfoGG] = useState(null)
+  // const [error, setError] = useState(null)
+  // useEffect(()=>{
+  //   GoogleSignin.configure({
+  //     scopes: ['email'],
+  //     webClientId: '829321239942-qp1113fguvb6q73ulv4eo4f7145v18kv.apps.googleusercontent.com',
+  //     offlineAccess: true,
+  //   })
+  // },[]);
+  //const signInWithGoogle = async () => {
+  //   try {
+  //     await GoogleSignin.hasPlayServices();
+  //     const {accessToken, idToken} = await GoogleSignin.signIn();
+  //     setloggedIn(true);
+  //     setError(null);
+  //     const credential = auth.GoogleAuthProvider.credential(
+  //       idToken,
+  //       accessToken,
+  //     );
+  //     await auth().signInWithCredential(credential);
+  //   } catch (error) {
+  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+  //       // when user cancels sign in process,
+  //       Alert.alert('Process Cancelled')
+  //     } else if (error.code === statusCodes.IN_PROGRESS) {
+  //       // when in progress already
+  //       Alert.alert('Process in progress')
+  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+  //       // when play services not available
+  //       Alert.alert('Play services are not available')
+  //     } else {
+  //       // some other error
+  //       Alert.alert('1Something else went wrong... ', error.toString());
+  //       console.log("login.js2",error.code)
+  //       setError(error)
+  //     }
+  //   }
+  //}
+  // const getCurrentUserInfo = async () => {
+  //   try {
+  //     const userInfo = await GoogleSignin.signInSilently()
+  //     setUserInfoGG(userInfo)
+  //   } catch (error) {
+  //     if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+  //       // when user hasn't signed in yet
+  //       Alert.alert('Please Sign in')
+  //       setIsLoggedIn(false)
+  //     } else {
+  //       Alert.alert('get user info Something else went wrong... ', error.toString())
+  //       setIsLoggedIn(false)
+  //     }
+  //   }
+  // };
+  //  const signOut = async () => {
+  //   try {
+  //     await GoogleSignin.revokeAccess()
+  //     await GoogleSignin.signOut()
+  //     setIsLoggedIn(false)
+  //   } catch (error) {
+  //     Alert.alert('signout Something else went wrong... ', error.toString())
+  //   }
+  // }
+  
+
   const authContext = useContext(AuthenticationContext);
   useEffect(() => {
-    if(authContext.state.isAuthenticated){
+    if (authContext.state.isAuthenticated) {
       props.navigation.navigate(ScreenKey.HomeScreen);
     }
-  },[authContext.state.isAuthenticated]);
+  }, [authContext.state.isAuthenticated]);
   useEffect(() => {
-    if(authContext.state.errorMessage != null){
+    if (authContext.state.errorMessage != null) {
       Alert.alert(authContext.state.errorMessage);
     }
-  },[authContext.state.errorMessage]);
+  }, [authContext.state.errorMessage]);
   const hasErrorEmail = () => {
     return userName.trim() == '';
   };
@@ -29,20 +108,20 @@ const Login = (props) => {
     if (hasErrorEmail() || hasErrorPassword()) {
       Alert.alert('Vui lòng điền đầy đủ thông tin');
     } else {
-      authContext.login(userName,password);
+      authContext.login(userName, password);
       setStatus(true);
     }
   };
-
+  
   return (
     <ScrollView style={styles.container}>
       <View style={styles.view}>
-          <Image
-            source={require('../../../../assets/iconapp.png')}
-            style={styles.image}
-          />
-          <Text style={styles.textAppName}>Pluralsight</Text>
-        </View>
+        <Image
+          source={require('../../../../assets/iconapp.png')}
+          style={styles.image}
+        />
+        <Text style={styles.textAppName}>IT EDU</Text>
+      </View>
       <View style={styles.container1}>
         <TextInput
           label="Email"
@@ -80,7 +159,19 @@ const Login = (props) => {
             SIGN IN
           </Text>
         </TouchableOpacity>
-        <Text style={styles.text} onPress={() => props.navigation.navigate(ScreenKey.ForgetPassword)}>
+        <Text
+          style={{
+            fontSize: 18,
+            marginTop: 10,
+            color: '#09577b',
+            textAlign: 'center',
+          }}>
+          OR
+        </Text>
+        
+        <Text
+          style={styles.text}
+          onPress={() => props.navigation.navigate(ScreenKey.ForgetPassword)}>
           FORGOT PASSWORD?
         </Text>
         <Text
@@ -88,14 +179,21 @@ const Login = (props) => {
           onPress={() => console.log('1st')}>
           USE SINGLE SIGN-ON (SSO)
         </Text>
-        <Text style={styles.text} onPress={()=> props.navigation.navigate(ScreenKey.Register)}>
+        <Text
+          style={styles.text}
+          onPress={() => props.navigation.navigate(ScreenKey.Register)}>
           SIGN UP FREE
         </Text>
       </View>
     </ScrollView>
   );
 };
-
+/* <GoogleSigninButton
+          style={styles.buttonGoogle}
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={signInWithGoogle}
+        /> */
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -121,6 +219,12 @@ const styles = StyleSheet.create({
     backgroundColor: '#2b2c30',
     borderRadius: 10,
   },
+  buttonGoogle: {
+    marginTop: 10,
+    alignSelf: 'center',
+    width: 192, 
+    height: 48
+  },
   buttontext: {
     fontSize: 18,
     margin: 10,
@@ -142,7 +246,7 @@ const styles = StyleSheet.create({
   textAppName: {
     fontSize: 25,
     fontWeight: 'bold',
-    color: 'white'
+    color: 'white',
   },
   image: {
     width: 100,
