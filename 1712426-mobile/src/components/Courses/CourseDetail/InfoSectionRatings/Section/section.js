@@ -5,17 +5,13 @@ import SectionItem from '../SectionItem/section-item';
 const Section = (props) => {
   const courseContext = useContext(CourseContext);
   const sections = courseContext.state.DetailCourse.payload.section;
-
-  const renderListItems = (lessons) => {
-    return lessons.map((item) => <SectionItem item={item} />);
-  };
   return (
     <FlatList
       style={styles.container}
       data={sections}
       renderItem={({item}) => (
         <SectionItem
-          item={item}
+          itemList={item}
         />
       )}
     />

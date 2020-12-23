@@ -59,7 +59,6 @@ const Search = (props) => {
       setIsSearching(true);
     }
   };
-  console.log('search.js', isSearching);
   const viewSearch = () => {
     if (textSearch == '') {
       return (

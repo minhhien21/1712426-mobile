@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {TouchableOpacity, Image, View} from 'react-native';
-import {createAppContainer, NavigationContainer} from 'react-navigation';
+import {createAppContainer, NavigationContainer, StackActions} from 'react-navigation';
 import {createMaterialTopTabNavigator} from 'react-navigation-tabs';
 import {createStackNavigator} from 'react-navigation-stack';
 import {createBottomTabNavigator} from 'react-navigation-tabs';
@@ -37,7 +37,7 @@ const getStatusLogin = () => {
   return authContext.state.isAuthenticated;
 }
 //const loggedIn = getStatusLogin();
-const loggedIn = false;
+const loggedIn = true;
 
 const createHomeStack = createStackNavigator({
   [ScreenKey.Home]: {
@@ -327,6 +327,7 @@ const HomeStack = createBottomTabNavigator(
           <Icon name="home" color={tintColor} size={25} />
         ),
       },
+      
     },
     [ScreenKey.DownloadStack]: {
       screen: createHomeStack,
@@ -374,6 +375,7 @@ const HomeStack = createBottomTabNavigator(
         tabBarSelectedButtonColor: 'white',
         flexDirection: 'column',
       },
+      
     },
   },
 );
@@ -507,5 +509,4 @@ if (loggedIn == false) {
 
 //const CustomTabNavigator = createAppContainer(TabNavigator);
 const AppNavigation = createAppContainer(AppNavigator);
-//const AppNavigation = createAppContainer(HomeStack);
 export default AppNavigation;

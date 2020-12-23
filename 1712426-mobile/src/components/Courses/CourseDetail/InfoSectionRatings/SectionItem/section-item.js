@@ -4,15 +4,14 @@ import {
   View,
   Text,
   ScrollView,
+  FlatList
 } from 'react-native';
 import LessonItem from './LessonItem/lesson-item';
 const SectionItem = (props) => {
-  const lessons = props.item.lesson;
-  const renderListItems = (lessons) => {
-    return lessons.map((item) => <LessonItem item={item} />);
-  };
-  const hour = parseInt(props.item.sumHours);
-  const convertMinute = 60 * (props.item.sumHours - hour);
+  const lessons = props.itemList.lesson;
+  
+  const hour = parseInt(props.itemList.sumHours);
+  const convertMinute = 60 * (props.itemList.sumHours - hour);
   const minute = parseInt(convertMinute);
   const convertSecond = 60 * (convertMinute - minute);
   const second = parseInt(convertSecond);
@@ -53,13 +52,20 @@ const SectionItem = (props) => {
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row'}}>
-        <Text style={styles.viewText}>{props.item.numberOrder}</Text>
+        <Text style={styles.viewText}>{props.itemList.numberOrder}</Text>
         <View style={{marginLeft: 15}}>
-          <Text style={styles.viewText}>{props.item.name}</Text>
+          <Text style={styles.viewText}>{props.itemList.name}</Text>
           {viewToTalTime()}
         </View>
       </View>
-      <ScrollView>{renderListItems(lessons)}</ScrollView>
+      <FlatList
+      data={lessons}
+      renderItem={({item}) => (
+        <LessonItem
+          itemList={item}
+        />
+      )}
+    />
     </View>
   );
 };

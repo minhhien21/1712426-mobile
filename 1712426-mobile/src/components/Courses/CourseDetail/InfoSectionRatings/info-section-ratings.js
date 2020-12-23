@@ -5,10 +5,9 @@ import {NavigationContainer} from '@react-navigation/native';
 import {ScreenKey} from '../../../../globals/constants';
 import Section from './Section/section';
 import Ratings from './Ratings/ratings';
-import { CourseContext } from '../../../../provider/course-provider';
-import { AuthenticationContext } from '../../../../provider/authentication-provider';
 
 const InfoSectionRatings = (props) => {
+  
   const Tab = createMaterialTopTabNavigator();
   return (
     <NavigationContainer>
@@ -28,8 +27,8 @@ const InfoSectionRatings = (props) => {
                   }
             }}
         >
-        <Tab.Screen name={ScreenKey.Section} component={Section} {...props}/>
-        <Tab.Screen name={ScreenKey.Ratings} component={Ratings} {...props}/>
+        <Tab.Screen name={ScreenKey.Section} component={Section}/>
+        <Tab.Screen name={ScreenKey.Ratings} component={Ratings}/>
       </Tab.Navigator>
     </NavigationContainer>
   );

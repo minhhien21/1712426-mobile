@@ -1,14 +1,22 @@
-import React, {useState} from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import React, {useState,useContext, useEffect} from 'react';
+import {ScrollView, StyleSheet, View, Alert} from 'react-native';
 import ImageButton from '../../Common/image-button';
-import SectionCourses from '../Home/SectionCourses/section-courses';
 import PopularSkills from './PopularSkills/popular-skills';
 import SectionImageButton from './SectionImageButton/section-image-button';
 import Paths from './Paths/paths';
 import TopAuthors from './TopAuthors/top-authors';
 import {ScreenKey} from '../../../globals/constants';
+import { CategoryContext } from '../../../provider/category-provider';
+import { apiGetListCourseWithCategoryId } from '../../../core/service/category-service';
 
 const Browse = (props) => {
+  const categoryContext = useContext(CategoryContext);
+  // get all category
+  useEffect(() => {
+    if (!categoryContext.state.isRequestedGetAllCategory) {
+      categoryContext.requestGetAllCategory();
+    }
+  }, [categoryContext.state.isRequestedGetAllCategory]);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.view}>
@@ -30,7 +38,7 @@ const Browse = (props) => {
           />
         </View>
         <SectionImageButton />
-        <PopularSkills {...props} />
+        <PopularSkills {...props} data={categoryContext.state.ListCategory.payload}/>
         <Paths
           title="Paths"
           {...props}

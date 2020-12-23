@@ -21,7 +21,7 @@ export const REQUEST_USER_FAVORITE_COURSE_SUCCESSED ='REQUEST_USER_FAVORITE_COUR
 export const REQUEST_USER_FAVORITE_COURSE_FAILED ='REQUEST_USER_FAVORITE_COURSE_FAILED';
 export const REQUEST_USER_PROCESS_COURSE_SUCCESSED ='REQUEST_USER_PROCESS_COURSE_SUCCESSED';
 export const REQUEST_USER_PROCESS_COURSE_FAILED ='REQUEST_USER_PROCESS_COURSE_FAILED';
-
+export const GET_CURRENT_URL_REQUEST = 'GET_CURRENT_URL_REQUEST';
 // top sell course
 const requestTopSellListCourseSuccess = (data) => ({
   type: REQUEST_TOP_SELL_LIST_COURSE_SUCCESSED,
@@ -85,7 +85,11 @@ const requestUserProcessCourseFailed = (data) => ({
   type: REQUEST_USER_PROCESS_COURSE_FAILED,
   data,
 });
-
+// user current URL Video
+const requestGetCurrentURLVideo = (data) => ({
+  type: GET_CURRENT_URL_REQUEST,
+  data
+});
 
 // top sell course
 export const requestTopSellListCourse = (dispatch) => (limit, page) => {
@@ -192,3 +196,7 @@ export const requestUserProcessCourse = (dispatch) => (token) => {
       dispatch(requestUserProcessCourseFailed(error.response.data));
     });
 };
+// get current URL video
+export const GetCurrentURLVideo = (dispatch) => (URLVideo) => {
+  dispatch(requestGetCurrentURLVideo(URLVideo));
+}

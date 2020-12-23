@@ -1,5 +1,6 @@
 import React, {useReducer} from 'react';
 import {
+  GetCurrentURLVideo,
   requestDetailCourse,
   requestFavoriteListCourse,
   requestTopNewListCourse,
@@ -95,6 +96,7 @@ const CourseProvider = ({children}) => {
         requestDetailCourse: requestDetailCourse(dispatch),
         requestUserFavoriteCourse: requestUserFavoriteCourse(dispatch),
         requestUserProcessCourse: requestUserProcessCourse(dispatch),
+        GetCurrentURLVideo: GetCurrentURLVideo(dispatch),
       }}>
       {children}
     </CourseContext.Provider>

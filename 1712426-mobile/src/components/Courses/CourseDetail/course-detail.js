@@ -1,4 +1,4 @@
-import React, {useStaten, useContext, useEffect} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {StyleSheet, View, Text, ScrollView} from 'react-native';
 import {apiGetFreeCourses} from '../../../core/service/payment-service';
 import {AuthenticationContext} from '../../../provider/authentication-provider';
@@ -32,26 +32,44 @@ const CourseDetail = (props) => {
       );
     }
   }, [courseContext.state.isRequestedDetail]);
-  courseContext.state.currentUrlVideo = courseContext.state.DetailCourse.payload.promoVidUrl;
+  
   // them o day
+  const instructorContext = useContext(InstructorContext);
+  instructorContext.state.isRequestedDetailInstructor = false;
+  useEffect(() => {
+    if (!instructorContext.state.isRequestedDetailInstructor) {
+      instructorContext.requestDetailInstructor(props.navigation.state.params.item.instructorId);
+    }
+  }, [instructorContext.state.isRequestedDetailInstructor]);
+
   // const instructorContext = useContext(InstructorContext);
   // instructorContext.state.isRequestedDetailInstructor = false;
   // useEffect(() => {
-  //   if (!instructorContext.state.isRequestedDetailInstructor) {
-  //     instructorContext.requestDetailInstructor(props.navigation.state.params.item.instructorId);
+  //   if (!instructorContext.state.isRequestedDetailInstructor
+  //      && courseContext.state.isRequestedDetail) {
+  //     instructorContext.requestDetailInstructor(courseContext.state.DetailCourse.payload.instructorId);
   //   }
   // }, [instructorContext.state.isRequestedDetailInstructor]);
-
+  courseContext.state.isRequestUrlVideo = false;
+  useEffect(() => {
+    if (!courseContext.state.isRequestUrlVideo) {
+        courseContext.GetCurrentURLVideo(courseContext.state.DetailCourse.payload.promoVidUrl);
+    }
+  }, [courseContext.state.isRequestUrlVideo]);
   return (
-    <View>
-      <VideoPlayer/>
+    <View style={styles.container}>
+      <VideoPlayer />
       <ScrollView>
-        <InfoCourse {...props} />
-        <InfoSectionRatings {...props} />
+        <InfoCourse {...props}/>
+        <InfoSectionRatings />
       </ScrollView>
     </View>
   );
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  container:{
+    flex : 1
+  }
+});
 export default CourseDetail;

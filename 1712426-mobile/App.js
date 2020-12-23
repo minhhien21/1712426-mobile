@@ -4,15 +4,17 @@ import AppNavigation from './src/components/Others/Navigation';
 import {AuthenticationProvider} from './src/provider/authentication-provider';
 import {InstructorProvider} from './src/provider/instructor-provider';
 import {CourseProvider} from './src/provider/course-provider';
-import VideoPlayer from './src/components/Courses/CourseDetail/VideoPlayer/video-player';
+import {CategoryProvider} from './src/provider/category-provider';
 
 export default function App() {
   return (
     <AuthenticationProvider>
       <CourseProvider>
-        <InstructorProvider>
-          <AppNavigation />
-        </InstructorProvider>
+        <CategoryProvider>
+          <InstructorProvider>
+            <AppNavigation />
+          </InstructorProvider>
+        </CategoryProvider>
       </CourseProvider>
     </AuthenticationProvider>
   );

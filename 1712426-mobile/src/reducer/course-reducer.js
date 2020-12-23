@@ -1,4 +1,5 @@
 import {
+  GET_CURRENT_URL_REQUEST,
   REQUEST_DETAIL_COURSE_FAILED,
   REQUEST_DETAIL_COURSE_SUCCESSED,
   REQUEST_FAVORITE_LIST_COURSE_FAILED,
@@ -76,6 +77,10 @@ export const reducer = (prevState, action) => {
       };
     case REQUEST_USER_PROCESS_COURSE_FAILED:
       return {...prevState, isRequestedUserProcessCourse: false};
+    case GET_CURRENT_URL_REQUEST:
+      return {...prevState,
+        isRequestUrlVideo:true,
+        currentUrlVideo: action.data}
     default:
       throw new Error();
   }

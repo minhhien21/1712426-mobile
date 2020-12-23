@@ -19,20 +19,10 @@ import {AuthenticationContext} from '../../../../provider/authentication-provide
 import {CourseContext} from '../../../../provider/course-provider';
 const InfoCourse = (props) => {
   
-  
   const courseContext = useContext(CourseContext);
   const data = courseContext.state.DetailCourse.payload;
   
   const instructorContext = useContext(InstructorContext);
-  // instructorContext.state.isRequestedDetailInstructor = false;
-  // useEffect(() => {
-  //   if (!instructorContext.state.isRequestedDetailInstructor) {
-  //     instructorContext.requestDetailInstructor(data.instructorId);
-  //   }
-  // }, [instructorContext.state.isRequestedDetailInstructor]);
-  instructorContext.state.isRequestedDetailInstructor = false;
-  instructorContext.requestDetailInstructor(data.instructorId);
-
   const dataInstructor = instructorContext.state.DetailInstructor.payload;
 
   const [colorLike, setColorLike] = useState('white');
@@ -120,6 +110,7 @@ const InfoCourse = (props) => {
     }
   };
 
+  console.log("info-course.js",props.navigation.state.params.item.name);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
@@ -135,7 +126,7 @@ const InfoCourse = (props) => {
                 }}
                 style={styles.image}
               />
-              <Text style={styles.textImage}>{dataInstructor.name}</Text>
+              <Text style={styles.textImage}>{dataInstructor.name || props.navigation.state.params.item.name}</Text>
             </View>
           </TouchableOpacity>
         </View>
@@ -234,7 +225,6 @@ const InfoCourse = (props) => {
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#1f242a',
-    marginTop: 200,
   },
   item: {
     marginHorizontal: 15,

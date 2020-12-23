@@ -1,16 +1,11 @@
-import React, {useRef, useContext, useState} from 'react';
+import React, {useRef, useContext, useState, useEffect} from 'react';
 import Video from 'react-native-video';
 import {StyleSheet, View} from 'react-native';
 import {CourseContext} from '../../../../provider/course-provider';
 import YoutubePlayer from 'react-native-youtube-iframe';
 const VideoPlayer = (props) => {
   const courseContext = useContext(CourseContext);
-  // useEffect(() => {
-  //   if(!courseContext.state.isRequestUrlVideo){
-      
-  //   }
-  // }, [isRequestUrlVideo])
-  const urlVideo = courseContext.state.currentUrlVideo;
+  var urlVideo = courseContext.state.currentUrlVideo;
   const playerRef = useRef(null);
   const [playing, setPlaying] = useState(true);
   const viewVideo = () => {
@@ -76,14 +71,15 @@ const VideoPlayer = (props) => {
           />
         );
       }
+    }else{
+      return (<View style={{height: 200}}/>)
     }
   };
-  return <View>{viewVideo()}</View>;
+  return <View style={styles.container}>{viewVideo()}</View>;
 };
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#1f242a',
-    flex: 1,
   },
   backgroundVideo: {
     height: 200,

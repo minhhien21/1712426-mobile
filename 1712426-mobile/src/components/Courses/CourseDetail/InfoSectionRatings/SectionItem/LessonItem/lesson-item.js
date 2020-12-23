@@ -2,8 +2,8 @@ import React, {useContext} from 'react';
 import {StyleSheet, Text, TouchableOpacity} from 'react-native';
 import { CourseContext } from '../../../../../../provider/course-provider';
 const LessonItem = (props) => {
-  const hour = parseInt(props.item.hours);
-  const convertMinute = 60 * (props.item.hours - hour);
+  const hour = parseInt(props.itemList.hours);
+  const convertMinute = 60 * (props.itemList.hours - hour);
   const minute = parseInt(convertMinute);
   const convertSecond = 60 * (convertMinute - minute);
   const second = parseInt(convertSecond);
@@ -41,12 +41,12 @@ const LessonItem = (props) => {
     }
   };
   const courseContext = useContext(CourseContext);
-  const onPressChangeVideo = () => {
-    courseContext.state.currentUrlVideo = props.item.videoUrl;
+  const onPressChangeUrlVideo = () => {
+    courseContext.GetCurrentURLVideo(props.itemList.videoUrl);
   }
   return (
-    <TouchableOpacity style={styles.item} onPress={onPressChangeVideo}>
-      <Text style={styles.text}>{props.item.name}</Text>
+    <TouchableOpacity style={styles.item} onPress={onPressChangeUrlVideo}>
+      <Text style={styles.text}>{props.itemList.name}</Text>
       {viewToTalTime()}
     </TouchableOpacity>
   );
