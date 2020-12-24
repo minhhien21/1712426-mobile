@@ -19,6 +19,7 @@ import PathDetail from '../../Paths/PathDetail/path-detail';
 import Icon from 'react-native-vector-icons/Ionicons';
 import ListOfListPaths from '../../Paths/ListofListPaths/list-of-list-paths';
 import AllListPaths from '../../Paths/AllListPaths/all-list-paths';
+import PopularSkillsDetail from '../../Main/Browse/PopularSkillsDetail/popular-skills-detail';
 import AccountManagement from '../../Account Management/account-management';
 import SplashScreen from '../SplashScreen/splash-screen';
 import Settings from '../../Account Management/Settings/settings';
@@ -36,7 +37,7 @@ const getStatusLogin = () => {
   return authContext.state.isAuthenticated;
 }
 //const loggedIn = getStatusLogin();
-const loggedIn = false;
+const loggedIn = true;
 
 const createHomeStack = createStackNavigator({
   [ScreenKey.Home]: {
@@ -260,6 +261,12 @@ const createBrowseStack = createStackNavigator({
   },
   [ScreenKey.AllListPaths]: {
     screen: AllListPaths,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.PopularSkillsDetail]: {
+    screen: PopularSkillsDetail,
     navigationOptions: {
       headerShown: false,
     },

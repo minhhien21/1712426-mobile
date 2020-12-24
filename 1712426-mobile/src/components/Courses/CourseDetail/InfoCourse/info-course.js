@@ -22,6 +22,9 @@ const InfoCourse = (props) => {
   const courseContext = useContext(CourseContext);
   const data = courseContext.state.DetailCourse.payload;
   
+  const instructorContext = useContext(InstructorContext);
+  const dataInstructor = instructorContext.state.DetailInstructor.payload;
+
   const [colorLike, setColorLike] = useState('white');
   const [statusLike, setStatusLike] = useState('Like');
   const authContext = useContext(AuthenticationContext);
@@ -53,7 +56,7 @@ const InfoCourse = (props) => {
 
 
   const OnPressAuthorDetail = () => {
-    props.navigation.push(ScreenKey.AuthorDetail, {id: data.instructorId});
+    props.navigation.push(ScreenKey.AuthorDetail, {id: data['instructorId']});
   };
 
   // like or unlike course
@@ -107,6 +110,7 @@ const InfoCourse = (props) => {
     }
   };
 
+  console.log("info-course.js",props.navigation.state.params.item.name);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
@@ -118,11 +122,11 @@ const InfoCourse = (props) => {
             <View style={styles.imageButton}>
               <Image
                 source={{
-                  uri: null,
+                  uri: dataInstructor.avatar,
                 }}
                 style={styles.image}
               />
-              <Text style={styles.textImage}>{props.navigation.state.params.item["instructor.user.name"] || props.navigation.state.params.item.name}</Text>
+              <Text style={styles.textImage}>{dataInstructor.name || props.navigation.state.params.item.name}</Text>
             </View>
           </TouchableOpacity>
         </View>
