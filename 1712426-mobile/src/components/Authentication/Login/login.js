@@ -8,12 +8,6 @@ import {
   Image,
   ScrollView,
 } from 'react-native';
-// import {
-//   GoogleSignin,
-//   GoogleSigninButton,
-//   statusCodes,
-// } from '@react-native-community/google-signin';
-// import auth from '@react-native-firebase/auth';
 import {TextInput} from 'react-native-paper';
 import {ScreenKey} from '../../../globals/constants';
 import {AuthenticationContext} from '../../../provider/authentication-provider';
@@ -123,8 +117,8 @@ const Login = (props) => {
         <Text style={styles.textAppName}>IT EDU</Text>
       </View>
       <View style={styles.container1}>
-        <TextInput
-          label="Email"
+      <TextInput
+          label="username"
           value={userName}
           onChangeText={(userName) => setUserName(userName)}
           style={[styles.textinput, styles.inputUs]}
@@ -139,11 +133,10 @@ const Login = (props) => {
           }}
         />
         <TextInput
-          label="Password"
+          label="password"
           value={password}
           onChangeText={(password) => setPassword(password)}
           style={styles.textinput}
-          secureTextEntry={true}
           theme={{
             colors: {
               placeholder: 'white',
