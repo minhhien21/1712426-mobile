@@ -9,9 +9,18 @@ const ListCoursesItem = (props) => {
   const convertMinute = 60 * (totalHours - hour);
   const minute = parseInt(convertMinute);
 
-  const formalityPoint = parseInt(props.item.formalityPoint);
-  const contentPoint = parseInt(props.item.contentPoint);
-  const presentationPoint = parseInt(props.item.presentationPoint);
+  let formalityPoint = 0;
+  let contentPoint = 0;
+  let presentationPoint = 0;
+  if(props.item.formalityPoint != null){
+    formalityPoint = parseFloat(props.item.formalityPoint);
+  }
+  if(props.item.contentPoint != null){
+    contentPoint = parseFloat(props.item.contentPoint);
+  }
+  if(props.item.presentationPoint != null){
+    presentationPoint = parseFloat(props.item.presentationPoint);
+  }
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
   let titleName = "";
   if(String(props.item.title).length < 37){

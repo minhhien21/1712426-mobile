@@ -3,11 +3,11 @@ import {
   StyleSheet,
   View,
   Text,
-  ScrollView,
+  FlatList,
   TouchableOpacity,
 } from 'react-native';
 import {ScreenKey} from '../../../../globals/constants';
-import FlatListCourses from '../../../Common/flatlist-courses';
+import SectionCoursesItem from '../SectionCoursesItem/section-courses-item';
 const SectionCourses = (props) => {
   const onPressListCourses = () => {
     props.navigation.push(ScreenKey.ViewListCourses, {
@@ -23,7 +23,16 @@ const SectionCourses = (props) => {
           <Text style={styles.text}>See all{'>'}</Text>
         </TouchableOpacity>
       </View>
-      <FlatListCourses data={props.data} {...props} />
+      <FlatList data={props.data} horizontal={true}
+      renderItem={({item}) => (
+        <SectionCoursesItem
+          navigation={props.navigation}
+          item={item}
+          OnPressListenItem={() =>
+            props.navigation.push(ScreenKey.CourseDetail, {item: item})
+          }
+        />
+      )}/>
     </View>
   );
 };

@@ -118,7 +118,7 @@ const Login = (props) => {
       </View>
       <View style={styles.container1}>
       <TextInput
-          label="username"
+          label="Username"
           value={userName}
           onChangeText={(userName) => setUserName(userName)}
           style={[styles.textinput, styles.inputUs]}
@@ -133,10 +133,11 @@ const Login = (props) => {
           }}
         />
         <TextInput
-          label="password"
+          label="Password"
           value={password}
           onChangeText={(password) => setPassword(password)}
           style={styles.textinput}
+          secureTextEntry={true}
           theme={{
             colors: {
               placeholder: 'white',
@@ -152,15 +153,7 @@ const Login = (props) => {
             SIGN IN
           </Text>
         </TouchableOpacity>
-        <Text
-          style={{
-            fontSize: 18,
-            marginTop: 10,
-            color: '#09577b',
-            textAlign: 'center',
-          }}>
-          OR
-        </Text>
+
         
         <Text
           style={styles.text}

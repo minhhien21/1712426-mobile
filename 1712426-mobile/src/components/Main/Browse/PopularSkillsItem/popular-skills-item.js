@@ -10,15 +10,6 @@ const PopularSkillsItem = (props) => {
       count: 0,
     },
   })
-  // const res = apiGetListCourseWithCategoryId(props.item.id);
-  //     res.then((response) => {
-  //         setListCourse(response.data)
-  //       })
-  //       .catch((error) => {
-  //         Alert.alert(error.response.data.message)
-  //         throw error;
-  //       });
-  console.log("popular-skills.js", props.item.id)
   const OnPressListenItem = () => {
     const res = apiGetListCourseWithCategoryId(props.item.id);
       res.then((response) => {
@@ -28,11 +19,6 @@ const PopularSkillsItem = (props) => {
           Alert.alert(error.response.data.message)
           throw error;
         });
-
-        
-    // categoryContext.state.isRequestedGetListCourseCategory = false;
-    // categoryContext.requestGetListCourseCategory(item.id);
-    // console.log("popular-skills.js", listCourse.payload)
     props.navigation.push(ScreenKey.ViewListCourses, 
       {item: listCourse.payload.rows,
       title: props.item.name})

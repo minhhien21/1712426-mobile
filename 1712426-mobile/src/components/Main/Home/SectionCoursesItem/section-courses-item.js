@@ -9,16 +9,25 @@ const SectionCoursesItem = (props) => {
   const convertMinute = 60 * (totalHours - hour);
   const minute = parseInt(convertMinute);
 
-  const formalityPoint = parseInt(props.item.formalityPoint);
-  const contentPoint = parseInt(props.item.contentPoint);
-  const presentationPoint = parseInt(props.item.presentationPoint);
+  let formalityPoint = 0;
+  let contentPoint = 0;
+  let presentationPoint = 0;
+  if(props.item.formalityPoint != null){
+    formalityPoint = parseFloat(props.item.formalityPoint);
+  }
+  if(props.item.contentPoint != null){
+    contentPoint = parseFloat(props.item.contentPoint);
+  }
+  if(props.item.presentationPoint != null){
+    presentationPoint = parseFloat(props.item.presentationPoint);
+  }
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
-  let titleName = "";
-  if(String(props.item.title).length < 29){
+  let titleName = '';
+  if (String(props.item.title).length < 29) {
     titleName = props.item.title;
-  }else{
-    titleName = String(props.item.title).substring(0,26);
-    titleName += "...";
+  } else {
+    titleName = String(props.item.title).substring(0, 26);
+    titleName += '...';
   }
   return (
     <TouchableOpacity
@@ -37,19 +46,21 @@ const SectionCoursesItem = (props) => {
         <Text style={styles.title}>{props.item['instructor.user.name']}</Text>
         <Text style={styles.darktext}>{props.item.price}</Text>
         <Text style={styles.darktext}>
-          {`${convertDate[2]}-${convertDate[1]}-${convertDate[0]} . ${hour}${'h '}${minute}${'m'}`}</Text>
-        <View style={{flexDirection:'row'}}> 
-        <Rating
-          type='custom'
-          ratingBackgroundColor='darkgray'
-          tintColor='#1f242a'
-          imageSize={22}
-          startingValue={averagePoint}
-          style={{paddingLeft: 5}}
-        />
-        <Text style={styles.darktext}>({props.item.ratedNumber})</Text>
+          {`${convertDate[2]}-${convertDate[1]}-${
+            convertDate[0]
+          } . ${hour}${'h '}${minute}${'m'}`}
+        </Text>
+        <View style={{flexDirection: 'row'}}>
+          <Rating
+            type="custom"
+            ratingBackgroundColor="darkgray"
+            tintColor="#1f242a"
+            imageSize={22}
+            startingValue={averagePoint}
+            style={{paddingLeft: 5}}
+          />
+          <Text style={styles.darktext}>({props.item.ratedNumber})</Text>
         </View>
-        
       </View>
     </TouchableOpacity>
   );

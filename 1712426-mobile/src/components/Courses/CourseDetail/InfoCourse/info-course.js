@@ -48,9 +48,18 @@ const InfoCourse = (props) => {
   const convertMinute = 60 * (totalHours - hour);
   const minute = parseInt(convertMinute);
 
-  const formalityPoint = parseInt(data.formalityPoint);
-  const contentPoint = parseInt(data.contentPoint);
-  const presentationPoint = parseInt(data.presentationPoint);
+  let formalityPoint = 0;
+  let contentPoint = 0;
+  let presentationPoint = 0;
+  if(data.formalityPoint != null){
+    formalityPoint = parseFloat(data.formalityPoint);
+  }
+  if(data.contentPoint != null){
+    contentPoint = parseFloat(data.contentPoint);
+  }
+  if(data.presentationPoint != null){
+    presentationPoint = parseFloat(data.presentationPoint);
+  }
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
 
 

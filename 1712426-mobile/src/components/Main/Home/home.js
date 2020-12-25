@@ -7,7 +7,6 @@ import {
   ActivityIndicator,
   Alert,
 } from 'react-native';
-import { apiGetUserProcessCourses } from '../../../core/service/user-service';
 import { AuthenticationContext } from '../../../provider/authentication-provider';
 import {CourseContext} from '../../../provider/course-provider';
 import SectionCourses from './SectionCourses/section-courses';
@@ -15,14 +14,16 @@ import SectionCoursesFP from './SectionCoursesFP/section-courses-fp';
 const Home = (props) => {
   const [isLoading, setIsLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
+  const courseContext = useContext(CourseContext);
   const authContext = useContext(AuthenticationContext);
   const token = authContext.state.token;
+
   //const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImMxMDU0YTJiLTA3ODItNDc2OS04OWY5LTI5ZWE3YjMzMGI4OSIsImlhdCI6MTYwODYyMTc4NywiZXhwIjoxNjA4NjI4OTg3fQ.6kKLTg4QHxKaibYMj6Wl3ay2h4u4SCNcHW3BjzF01K0";
-  const courseContext = useContext(CourseContext);
+
   // top sell course
   useEffect(() => {
     if (!courseContext.state.isRequestedTopSell) {
-      courseContext.requestTopSellListCourse(20, 1);
+      courseContext.requestTopSellListCourse(10, 1);
     }
   }, [courseContext.state.isRequestedTopSell]);
   // top new course

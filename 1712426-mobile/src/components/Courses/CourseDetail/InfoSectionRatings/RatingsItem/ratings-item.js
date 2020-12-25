@@ -5,6 +5,10 @@ const RatingsItem = (props) => {
   const createdAt = String(props.item.createdAt).split('T');
   const convertDate = String(createdAt[0]).split('-');
   const convertTime = String(createdAt[1]).split('.');
+  let averagePoint = 0;
+  if(props.item.averagePoint != null){
+    averagePoint = props.item.averagePoint;
+  }
   return (
     <View style={styles.container}>
       <View style={{flexDirection: 'row', marginTop: 10, marginHorizontal: 10}}>
@@ -22,7 +26,7 @@ const RatingsItem = (props) => {
               ratingBackgroundColor="darkgray"
               tintColor="#0e0f13"
               imageSize={20}
-              startingValue={props.item.averagePoint}
+              startingValue={averagePoint}
               style={{paddingLeft: 5}}
             />
           </View>

@@ -70,6 +70,8 @@ const VideoPlayer = (props) => {
             playbackRate={1}
           />
         );
+      }else{
+        return (<View style={{height: 200}}/>)
       }
     }else{
       return (<View style={{height: 200}}/>)
