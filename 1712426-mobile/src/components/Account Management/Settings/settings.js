@@ -59,7 +59,7 @@ const Settings = (props) => {
         onPress={() => {
           //props.navigation.popToTop();
           //props.navigation.dispatch(resetAction);
-          props.navigation.push(ScreenKey.Login);
+          props.navigation.navigate(ScreenKey.Login);
         }}>
         <Text style={styles.textButton}>SIGN OUT</Text>
       </TouchableOpacity>

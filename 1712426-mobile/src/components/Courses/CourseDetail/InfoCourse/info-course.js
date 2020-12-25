@@ -18,7 +18,6 @@ import {
 import {AuthenticationContext} from '../../../../provider/authentication-provider';
 import {CourseContext} from '../../../../provider/course-provider';
 const InfoCourse = (props) => {
-  
   const courseContext = useContext(CourseContext);
   const data = courseContext.state.DetailCourse.payload;
   
@@ -28,7 +27,7 @@ const InfoCourse = (props) => {
   const [colorLike, setColorLike] = useState('white');
   const [statusLike, setStatusLike] = useState('Like');
   const authContext = useContext(AuthenticationContext);
-  const res = apiGetCourseLikeStatus(authContext.state.token, data.id);
+  const res = apiGetCourseLikeStatus(authContext.state.token, props.navigation.state.params.item.id);
   res
     .then((response) => {
       if (response.data.likeStatus == true) {
@@ -70,7 +69,7 @@ const InfoCourse = (props) => {
 
   // like or unlike course
   const onPressLikeUnLike = () => {
-    const callApi = apiLikeCourse(authContext.state.token, data.id);
+    const callApi = apiLikeCourse(authContext.state.token, props.navigation.state.params.item.id);
     callApi
       .then((response) => {
         if (response.data.likeStatus == true) {
@@ -119,7 +118,6 @@ const InfoCourse = (props) => {
     }
   };
 
-  console.log("info-course.js",props.navigation.state.params.item.name);
   return (
     <ScrollView style={styles.container}>
       <View style={styles.item}>
@@ -131,11 +129,11 @@ const InfoCourse = (props) => {
             <View style={styles.imageButton}>
               <Image
                 source={{
-                  uri: dataInstructor.avatar,
+                  uri: null,
                 }}
                 style={styles.image}
               />
-              <Text style={styles.textImage}>{dataInstructor.name || props.navigation.state.params.item.name}</Text>
+              <Text style={styles.textImage}>{props.navigation.state.params.item.name || dataInstructor.name }</Text>
             </View>
           </TouchableOpacity>
         </View>

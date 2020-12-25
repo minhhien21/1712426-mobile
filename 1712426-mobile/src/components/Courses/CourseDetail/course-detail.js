@@ -53,7 +53,7 @@ const CourseDetail = (props) => {
   courseContext.state.isRequestUrlVideo = false;
   useEffect(() => {
     if (!courseContext.state.isRequestUrlVideo) {
-        courseContext.GetCurrentURLVideo(courseContext.state.DetailCourse.payload.promoVidUrl);
+        courseContext.GetCurrentURLVideo(props.navigation.state.params.item.promoVidUrl);
     }
   }, [courseContext.state.isRequestUrlVideo]);
   return (

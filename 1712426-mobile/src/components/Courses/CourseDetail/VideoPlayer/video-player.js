@@ -86,12 +86,6 @@ const styles = StyleSheet.create({
   backgroundVideo: {
     height: 200,
     width: '100%',
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    alignItems: 'stretch',
-    bottom: 0,
-    right: 0,
   },
 });
 export default VideoPlayer;

@@ -31,7 +31,6 @@ const ChangePassword = (props) => {
       );
       res
         .then((response) => {
-          console.log("change-password.js",response.data);
           Alert.alert(
             response.data.message,
             '',
@@ -47,7 +46,6 @@ const ChangePassword = (props) => {
           );
         })
         .catch((error) => {
-          console.log("change-password.js1",error.response.data);
           Alert.alert(error.response.data.message);
           throw error;
         });
