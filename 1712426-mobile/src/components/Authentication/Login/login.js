@@ -11,6 +11,11 @@ import {
 import {TextInput} from 'react-native-paper';
 import {ScreenKey} from '../../../globals/constants';
 import {AuthenticationContext} from '../../../provider/authentication-provider';
+import {
+  GoogleSigninButton,
+  GoogleSignin,
+  statusCodes
+} from '@react-native-community/google-signin'
 const Login = (props) => {
   const [status, setStatus] = useState(false);
   const [userName, setUserName] = useState('');
@@ -79,9 +84,72 @@ const Login = (props) => {
   //     Alert.alert('signout Something else went wrong... ', error.toString())
   //   }
   // }
-  
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userInfo, setUserInfo] = useState(null);
+  const [error, setError] = useState(null);
 
   const authContext = useContext(AuthenticationContext);
+  const configureGoogleSign = () => {
+    GoogleSignin.configure({
+      webClientId: "434741299095-2gm96f8tr30gg58vkv950ueh4689fqh8.apps.googleusercontent.com",
+      offlineAccess: true
+    })
+  };
+  useEffect(() => {
+    configureGoogleSign()
+  }, []);
+  const signInWithGoogle = async() => {
+    try {
+      await GoogleSignin.hasPlayServices();
+      const userInfo = await GoogleSignin.signIn();
+      setUserInfo(userInfo);
+      setError(null);
+      setIsLoggedIn(true);
+      await authContext.loginGoogle(userInfo.user.email, userInfo.user.id);
+      console.log("authContext.state.isAuthenticated:", authContext.state.isAuthenticated);
+      console.log("email:", userInfo.user.email);
+      console.log("id:", userInfo.user.id);
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        // when user cancels sign in process,
+      } else if (error.code === statusCodes.IN_PROGRESS) {
+        // when in progress already
+      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        // when play services not available
+      } else {
+        // some other error
+        Alert.alert('Something else went wrong... ', error.toString())
+        console.log(error.code)
+        setError(error)
+      }
+    }
+  };
+  const getCurrentUserInfo = async () => {
+    try {
+      const userInfo = await GoogleSignin.signInSilently()
+      setUserInfo(userInfo)
+    } catch (error) {
+      if (error.code === statusCodes.SIGN_IN_REQUIRED) {
+        // when user hasn't signed in yet
+        Alert.alert('Please Sign in')
+        setIsLoggedIn(false)
+      } else {
+        Alert.alert('Something else went wrong... ', error.toString())
+        setIsLoggedIn(false)
+      }
+    }
+  };
+  const signOut = async() => {
+    try {
+      await GoogleSignin.revokeAccess()
+      await GoogleSignin.signOut()
+      setIsLoggedIn(false)
+    } catch (error) {
+      Alert.alert('Something else went wrong... ', error.toString())
+    }
+  }
+  
+  
   useEffect(() => {
     if (authContext.state.isAuthenticated) {
       props.navigation.navigate(ScreenKey.HomeScreen);
@@ -121,7 +189,7 @@ const Login = (props) => {
           label="Username"
           value={userName}
           onChangeText={(userName) => setUserName(userName)}
-          style={[styles.textinput, styles.inputUs]}
+          style={[styles.textInput, styles.inputUs]}
           theme={{
             colors: {
               placeholder: 'white',
@@ -136,7 +204,7 @@ const Login = (props) => {
           label="Password"
           value={password}
           onChangeText={(password) => setPassword(password)}
-          style={styles.textinput}
+          style={styles.textInput}
           secureTextEntry={true}
           theme={{
             colors: {
@@ -149,12 +217,25 @@ const Login = (props) => {
           }}
         />
         <TouchableOpacity style={styles.button}>
-          <Text style={styles.buttontext} onPress={onPressButtonLogin}>
+          <Text style={styles.buttonText} onPress={onPressButtonLogin}>
             SIGN IN
           </Text>
         </TouchableOpacity>
-
-        
+        <Text
+          style={{
+            fontSize: 18,
+            marginTop: 10,
+            color: '#09577b',
+            textAlign: 'center',
+          }}>
+          OR
+        </Text>
+        <GoogleSigninButton
+          style={styles.buttonGoogle}
+          size={GoogleSigninButton.Size.Wide}
+          color={GoogleSigninButton.Color.Dark}
+          onPress={() => signInWithGoogle()}
+        />
         <Text
           style={styles.text}
           onPress={() => props.navigation.navigate(ScreenKey.ForgetPassword)}>
@@ -192,7 +273,7 @@ const styles = StyleSheet.create({
   inputUs: {
     marginTop: 40,
   },
-  textinput: {
+  textInput: {
     height: 60,
     width: '98%',
     borderBottomColor: '#676a6f',
@@ -211,7 +292,7 @@ const styles = StyleSheet.create({
     width: 192, 
     height: 48
   },
-  buttontext: {
+  buttonText: {
     fontSize: 18,
     margin: 10,
     textAlign: 'center',

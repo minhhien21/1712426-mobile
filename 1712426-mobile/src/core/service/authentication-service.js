@@ -6,13 +6,12 @@ export const apiLogin = (username, password) => {
     password: password,
   });
 };
-export const apiLoginGoogle = () => {
-  const user = {email: null, id: null};
+export const apiLoginGoogle = (email, id) => {
   return axios.post(URLAPI + '/user/login-google-mobile', {
     user: {
-      email: user.email,
-      id: user.id
-  }
+      email: email,
+      id: id,
+    },
   });
 };
 export const apiRegister = (username, email, phone, password) => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext} from 'react';
 import {
   StyleSheet,
   View,
@@ -9,12 +9,39 @@ import {
 } from 'react-native';
 import {ScreenKey} from '../../../globals/constants';
 import {NavigationActions} from 'react-navigation';
+import { AuthenticationContext } from '../../../provider/authentication-provider';
+import {
+  GoogleSigninButton,
+  GoogleSignin,
+  statusCodes
+} from '@react-native-community/google-signin'
 const Settings = (props) => {
+  const authContext = useContext(AuthenticationContext);
     // const resetAction = NavigationActions.reset({
     //     index: 0,
     //     actions: [
     //       NavigationActions.navigate({ routeName: ScreenKey.Login})
     //     ] })
+    const configureGoogleSign = () => {
+      GoogleSignin.configure({
+        webClientId: "434741299095-2gm96f8tr30gg58vkv950ueh4689fqh8.apps.googleusercontent.com",
+        offlineAccess: true
+      })
+    };
+    const signOut = async() => {
+      try {
+        await GoogleSignin.revokeAccess()
+        await GoogleSignin.signOut()
+        setIsLoggedIn(false)
+      } catch (error) {
+        Alert.alert('Something else went wrong... ', error.toString())
+      }
+    }
+    const OnPressSignOut = () => {
+      authContext.signout();
+      signOut();
+      props.navigation.navigate(ScreenKey.Login);
+    }
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container1}>
@@ -56,11 +83,7 @@ const Settings = (props) => {
       </View>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {
-          //props.navigation.popToTop();
-          //props.navigation.dispatch(resetAction);
-          props.navigation.navigate(ScreenKey.Login);
-        }}>
+        onPress={OnPressSignOut}>
         <Text style={styles.textButton}>SIGN OUT</Text>
       </TouchableOpacity>
     </ScrollView>

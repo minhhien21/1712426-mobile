@@ -27,8 +27,8 @@ export const login = (dispatch) => (username, password) => {
       dispatch(loginFailed(error.response.data));
     });
 };
-export const loginGoogle = (dispatch) => () => {
-  const res = apiLoginGoogle();
+export const loginGoogle = (dispatch) => (email, id) => {
+  const res = apiLoginGoogle(email, id);
   res.then((response) => {
     if (response.status === 200) {
       dispatch(loginSuccess(response.data));

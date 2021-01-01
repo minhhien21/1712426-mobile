@@ -417,7 +417,7 @@ if (loggedIn == false) {
       },
     },
     {
-      initialRouteName: ScreenKey.SplashScreen,
+      initialRouteName: ScreenKey.Login,
     },
   );
 } else {
