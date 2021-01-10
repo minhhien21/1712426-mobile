@@ -49,12 +49,9 @@ const VideoPlayer = (props) => {
             playbackRate={1}
           />
         );
-      } else if (
-        String(urlVideo).indexOf('.mp4') ==
-        String(urlVideo).length - 4
-      ) {
+      }else{
         return (
-          <Video
+        <Video
             source={{uri: urlVideo}}
             style={styles.backgroundVideo}
             muted={true}
@@ -70,8 +67,6 @@ const VideoPlayer = (props) => {
             playbackRate={1}
           />
         );
-      }else{
-        return (<View style={{height: 200}}/>)
       }
     }else{
       return (<View style={{height: 200}}/>)

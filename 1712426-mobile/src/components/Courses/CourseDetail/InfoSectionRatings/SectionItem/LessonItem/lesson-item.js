@@ -1,6 +1,8 @@
 import React, {useContext} from 'react';
-import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, Alert} from 'react-native';
+import { apiLessonDetail } from '../../../../../../core/service/lesson-service';
 import { CourseContext } from '../../../../../../provider/course-provider';
+import { AuthenticationContext } from '../../../../../../provider/authentication-provider';
 const LessonItem = (props) => {
   const hour = parseInt(props.itemList.hours);
   const convertMinute = 60 * (props.itemList.hours - hour);
@@ -40,9 +42,19 @@ const LessonItem = (props) => {
       }
     }
   };
+  const authContext = useContext(AuthenticationContext);
+  const token = authContext.state.token;
   const courseContext = useContext(CourseContext);
   const onPressChangeUrlVideo = () => {
-    courseContext.GetCurrentURLVideo(props.itemList.videoUrl);
+    const res = apiLessonDetail(token, props.itemList.courseId, props.itemList.id);
+      res.then((response) => {
+        courseContext.GetCurrentURLVideo(response.data.payload.videoUrl);
+        })
+        .catch((error) => {
+          Alert.alert(error.response.data.message)
+          throw error;
+        });
+    //courseContext.GetCurrentURLVideo(props.itemList.videoUrl);
   }
   return (
     <TouchableOpacity style={styles.item} onPress={onPressChangeUrlVideo}>

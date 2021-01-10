@@ -25,7 +25,7 @@ export const apiCourseFavirote = (userId) => {
 };
 export const apiCourseDetail = (id, userId) => {
   return axios.get(
-    URLAPI + '/course/get-course-detail/{' + id + '}/{' + userId + '}',
+    URLAPI + '/course/get-course-detail/' + id + '/' + userId + '',
   );
 };
 export const apiRatingCourse = (token,courseId,formalityPoint,contentPoint,presentationPoint,content) => {
