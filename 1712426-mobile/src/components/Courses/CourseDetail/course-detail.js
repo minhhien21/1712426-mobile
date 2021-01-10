@@ -4,6 +4,7 @@ import {apiGetFreeCourses} from '../../../core/service/payment-service';
 import {AuthenticationContext} from '../../../provider/authentication-provider';
 import {CourseContext} from '../../../provider/course-provider';
 import {InstructorContext} from '../../../provider/instructor-provider';
+import SectionCourses from '../../Main/Home/SectionCourses/section-courses';
 import InfoCourse from './InfoCourse/info-course';
 import InfoSectionRatings from './InfoSectionRatings/info-section-ratings';
 import VideoPlayer from './VideoPlayer/video-player';
@@ -33,7 +34,6 @@ const CourseDetail = (props) => {
     }
   }, [courseContext.state.isRequestedDetail]);
   
-  // them o day
   const instructorContext = useContext(InstructorContext);
   instructorContext.state.isRequestedDetailInstructor = false;
   useEffect(() => {
@@ -61,6 +61,7 @@ const CourseDetail = (props) => {
       <VideoPlayer />
       <ScrollView>
         <InfoCourse {...props}/>
+        <SectionCourses title="Courses Like Category" data={courseContext.state.DetailCourse.payload.coursesLikeCategory} {...props}/>
         <InfoSectionRatings />
       </ScrollView>
     </View>

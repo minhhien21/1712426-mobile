@@ -51,6 +51,7 @@ const SectionCourses = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#0e0f13',
   },
   view: {
     flex: 1,
