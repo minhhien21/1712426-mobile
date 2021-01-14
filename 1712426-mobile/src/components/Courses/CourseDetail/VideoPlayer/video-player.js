@@ -10,13 +10,18 @@ const VideoPlayer = (props) => {
   const [playing, setPlaying] = useState(true);
   const viewVideo = () => {
     if (urlVideo != null) {
-      if (String(urlVideo).indexOf('https://www.youtube.com') == 0) {
+      if (String(urlVideo).indexOf('youtube.com') != -1) {
         const videoYoutubeId = String(urlVideo).split('?v=');
+        const videoYoutubeId2 = String(urlVideo).split("/");
+        let videoUrl = videoYoutubeId;
+        if(videoYoutubeId.length == 1){
+          videoUrl = videoYoutubeId2;
+        }
         return (
           <YoutubePlayer
             ref={playerRef}
             height={200}
-            videoId={videoYoutubeId[videoYoutubeId.length - 1]}
+            videoId={videoUrl[videoUrl.length - 1]}
             play={playing}
             onChangeState={(event) => console.log('onChangeState', event)}
             onReady={() => console.log('onReady')}

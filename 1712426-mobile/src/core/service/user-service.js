@@ -1,5 +1,13 @@
 import axios from 'axios';
 import {URLAPI} from '../../globals/urlApi';
+export const apiGetUserMe = (token) => {
+  return axios.get(
+    URLAPI + '/user/me',
+    {
+      headers: {Authorization: `Bearer ${token}`},
+    },
+  );
+};
 export const apiUpdateProfile = (token, name, avatar, phone) => {
   return axios.put(
     URLAPI + '/user/update-profile',

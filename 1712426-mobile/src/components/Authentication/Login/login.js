@@ -1,4 +1,4 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect, useContext, useLayoutEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -7,6 +7,7 @@ import {
   Alert,
   Image,
   ScrollView,
+  AsyncStorage,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {ScreenKey} from '../../../globals/constants';
@@ -14,91 +15,59 @@ import {AuthenticationContext} from '../../../provider/authentication-provider';
 import {
   GoogleSigninButton,
   GoogleSignin,
-  statusCodes
-} from '@react-native-community/google-signin'
+  statusCodes,
+} from '@react-native-community/google-signin';
+import {apiGetUserMe} from '../../../core/service/user-service';
 const Login = (props) => {
-  const [status, setStatus] = useState(false);
+  const authContext = useContext(AuthenticationContext);
+  useLayoutEffect(async() => {
+    const tokenLocal = await AsyncStorage.getItem('token');
+    console.log("tokenLocal:",tokenLocal);
+    if (tokenLocal !== null) {
+      const res = apiGetUserMe(tokenLocal);
+      res
+        .then((response) => {
+          authContext.state.isAuthenticated = true;
+          authContext.state.userInfo = response.data.payload;
+          authContext.state.token = tokenLocal;
+          props.navigation.navigate(ScreenKey.HomeScreen);
+        })
+        .catch((error) => {
+          console.log("error:",error.response.data.message);
+          throw error;
+        });
+    }
+  }, []);
+  // const tokenLocal = AsyncStorage.getItem('token');
+  // if(tokenLocal !== null){
+  // const res = apiGetUserMe(tokenLocal);
+  //     res.then((response) => {
+  //       authContext.state.isAuthenticated = true;
+  //       authContext.state.userInfo = response.data.payload;
+  //       authContext.state.token = tokenLocal;
+  //       })
+  //       .catch((error) => {
+  //         Alert.alert(error.response.data.message)
+  //         throw error;
+  //       });
+  //     }
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
-  // const [isLoggedIn, setIsLoggedIn] = useState(false);
-  // const [userInfoGG, setUserInfoGG] = useState(null)
-  // const [error, setError] = useState(null)
-  // useEffect(()=>{
-  //   GoogleSignin.configure({
-  //     scopes: ['email'],
-  //     webClientId: '829321239942-qp1113fguvb6q73ulv4eo4f7145v18kv.apps.googleusercontent.com',
-  //     offlineAccess: true,
-  //   })
-  // },[]);
-  //const signInWithGoogle = async () => {
-  //   try {
-  //     await GoogleSignin.hasPlayServices();
-  //     const {accessToken, idToken} = await GoogleSignin.signIn();
-  //     setloggedIn(true);
-  //     setError(null);
-  //     const credential = auth.GoogleAuthProvider.credential(
-  //       idToken,
-  //       accessToken,
-  //     );
-  //     await auth().signInWithCredential(credential);
-  //   } catch (error) {
-  //     if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-  //       // when user cancels sign in process,
-  //       Alert.alert('Process Cancelled')
-  //     } else if (error.code === statusCodes.IN_PROGRESS) {
-  //       // when in progress already
-  //       Alert.alert('Process in progress')
-  //     } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-  //       // when play services not available
-  //       Alert.alert('Play services are not available')
-  //     } else {
-  //       // some other error
-  //       Alert.alert('1Something else went wrong... ', error.toString());
-  //       console.log("login.js2",error.code)
-  //       setError(error)
-  //     }
-  //   }
-  //}
-  // const getCurrentUserInfo = async () => {
-  //   try {
-  //     const userInfo = await GoogleSignin.signInSilently()
-  //     setUserInfoGG(userInfo)
-  //   } catch (error) {
-  //     if (error.code === statusCodes.SIGN_IN_REQUIRED) {
-  //       // when user hasn't signed in yet
-  //       Alert.alert('Please Sign in')
-  //       setIsLoggedIn(false)
-  //     } else {
-  //       Alert.alert('get user info Something else went wrong... ', error.toString())
-  //       setIsLoggedIn(false)
-  //     }
-  //   }
-  // };
-  //  const signOut = async () => {
-  //   try {
-  //     await GoogleSignin.revokeAccess()
-  //     await GoogleSignin.signOut()
-  //     setIsLoggedIn(false)
-  //   } catch (error) {
-  //     Alert.alert('signout Something else went wrong... ', error.toString())
-  //   }
-  // }
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState(null);
   const [error, setError] = useState(null);
 
-  const authContext = useContext(AuthenticationContext);
   const configureGoogleSign = () => {
     GoogleSignin.configure({
-      webClientId: "434741299095-2gm96f8tr30gg58vkv950ueh4689fqh8.apps.googleusercontent.com",
-      offlineAccess: true
-    })
+      webClientId:
+        '434741299095-2gm96f8tr30gg58vkv950ueh4689fqh8.apps.googleusercontent.com',
+      offlineAccess: true,
+    });
   };
   useEffect(() => {
-    configureGoogleSign()
+    configureGoogleSign();
   }, []);
-  const signInWithGoogle = async() => {
+  const signInWithGoogle = async () => {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
@@ -106,9 +75,7 @@ const Login = (props) => {
       setError(null);
       setIsLoggedIn(true);
       await authContext.loginGoogle(userInfo.user.email, userInfo.user.id);
-      console.log("authContext.state.isAuthenticated:", authContext.state.isAuthenticated);
-      console.log("email:", userInfo.user.email);
-      console.log("id:", userInfo.user.id);
+      await setDataToken();
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // when user cancels sign in process,
@@ -118,40 +85,46 @@ const Login = (props) => {
         // when play services not available
       } else {
         // some other error
-        Alert.alert('Something else went wrong... ', error.toString())
-        console.log(error.code)
-        setError(error)
+        Alert.alert('Something else went wrong... ', error.toString());
+        console.log(error.code);
+        setError(error);
       }
     }
   };
   const getCurrentUserInfo = async () => {
     try {
-      const userInfo = await GoogleSignin.signInSilently()
-      setUserInfo(userInfo)
+      const userInfo = await GoogleSignin.signInSilently();
+      setUserInfo(userInfo);
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_REQUIRED) {
         // when user hasn't signed in yet
-        Alert.alert('Please Sign in')
-        setIsLoggedIn(false)
+        Alert.alert('Please Sign in');
+        setIsLoggedIn(false);
       } else {
-        Alert.alert('Something else went wrong... ', error.toString())
-        setIsLoggedIn(false)
+        Alert.alert('Something else went wrong... ', error.toString());
+        setIsLoggedIn(false);
       }
     }
   };
-  const signOut = async() => {
+  const signOut = async () => {
     try {
-      await GoogleSignin.revokeAccess()
-      await GoogleSignin.signOut()
-      setIsLoggedIn(false)
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+      setIsLoggedIn(false);
     } catch (error) {
-      Alert.alert('Something else went wrong... ', error.toString())
+      Alert.alert('Something else went wrong... ', error.toString());
     }
-  }
-  
-  
+  };
+  const setDataToken = async () => {
+    try {
+      await AsyncStorage.setItem('token', authContext.state.token);
+    } catch (error) {
+      console.log('error:', error);
+    }
+  };
   useEffect(() => {
     if (authContext.state.isAuthenticated) {
+      setDataToken();
       props.navigation.navigate(ScreenKey.HomeScreen);
     }
   }, [authContext.state.isAuthenticated]);
@@ -166,15 +139,15 @@ const Login = (props) => {
   const hasErrorPassword = () => {
     return password.trim() == '';
   };
-  const onPressButtonLogin = () => {
+  const onPressButtonLogin = async () => {
     if (hasErrorEmail() || hasErrorPassword()) {
       Alert.alert('Vui lòng điền đầy đủ thông tin');
     } else {
       authContext.login(userName, password);
-      setStatus(true);
+      //await setDataToken();
     }
   };
-  
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.view}>
@@ -185,7 +158,7 @@ const Login = (props) => {
         <Text style={styles.textAppName}>IT EDU</Text>
       </View>
       <View style={styles.container1}>
-      <TextInput
+        <TextInput
           label="Username"
           value={userName}
           onChangeText={(userName) => setUserName(userName)}
@@ -289,8 +262,8 @@ const styles = StyleSheet.create({
   buttonGoogle: {
     marginTop: 10,
     alignSelf: 'center',
-    width: 192, 
-    height: 48
+    width: 192,
+    height: 48,
   },
   buttonText: {
     fontSize: 18,

@@ -27,22 +27,115 @@ import UpdateInformation from '../../Account Management/UpdateInformation/update
 import ChangePassword from '../../Account Management/ChangePassword/change-password';
 import ForgetPassword from '../../Authentication/ForgetPassword/forget-password';
 import ViewListCourses from '../../Courses/ViewListCourse/view-list-course';
-import { AuthenticationContext } from '../../../provider/authentication-provider';
+import Download from '../../Main/Download/download';
 
-
-
-const getStatusLogin = () => {
-  const authContext = useContext(AuthenticationContext);
-  return authContext.state.isAuthenticated;
-}
-//const loggedIn = getStatusLogin();
-const loggedIn = false;
 
 const createHomeStack = createStackNavigator({
   [ScreenKey.Home]: {
     screen: Home,
     navigationOptions: ({navigation}) => ({
       title: 'Home',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+      headerLeft: null,
+      headerRight: () => (
+        <View style={{flexDirection: 'row'}}>
+          <TouchableOpacity
+            onPress={() => navigation.push(ScreenKey.AccountManagement)}>
+            <Image
+              source={require('../../../../assets/person.png')}
+              style={{height: 30, width: 30, marginRight: 15}}
+            />
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={{alignSelf: 'center'}}
+            onPress={() => navigation.push(ScreenKey.Settings)}>
+            <Image
+              source={require('../../../../assets/more.png')}
+              style={{height: 25, width: 25, marginRight: 5}}
+            />
+          </TouchableOpacity>
+        </View>
+      ),
+    }),
+  },
+
+  [ScreenKey.AccountManagement]: {
+    screen: AccountManagement,
+    navigationOptions: {
+      title: 'Profile',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.Settings]: {
+    screen: Settings,
+    navigationOptions: {
+      title: 'Settings',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.UpdateInformation]: {
+    screen: UpdateInformation,
+    navigationOptions: {
+      title: 'Update Information',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.ChangePassword]: {
+    screen: ChangePassword,
+    navigationOptions: {
+      title: 'Change Password',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+  [ScreenKey.CourseDetail]: {
+    screen: CourseDetail,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.ListCourses]: {
+    screen: ListCourses,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.ViewListCourses]: {
+    screen: ViewListCourses,
+    navigationOptions: {
+      headerShown: false,
+    },
+  },
+  [ScreenKey.AuthorDetail]: {
+    screen: AuthorDetail,
+    navigationOptions: {
+      title: 'Author',
+      headerStyle: {
+        backgroundColor: '#181b20',
+      },
+      headerTintColor: 'white',
+    },
+  },
+});
+const createDownloadStack = createStackNavigator({
+  [ScreenKey.Download]: {
+    screen: Download,
+    navigationOptions: ({navigation}) => ({
+      title: 'Download',
       headerStyle: {
         backgroundColor: '#181b20',
       },
@@ -308,6 +401,19 @@ const createSearchStack = createStackNavigator({
 
 const HomeStack = createBottomTabNavigator(
   {
+    [ScreenKey.DownloadStack]: {
+      screen: createDownloadStack,
+      navigationOptions: {
+        title: 'Download',
+        headerStyle: {
+          backgroundColor: '#181b20',
+        },
+        headerTintColor: 'white',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name="arrow-down-circle" color={tintColor} size={25} />
+        ),
+      },
+    },
     [ScreenKey.HomeStack]: {
       screen: createHomeStack,
       navigationOptions: {
@@ -320,17 +426,8 @@ const HomeStack = createBottomTabNavigator(
           <Icon name="home" color={tintColor} size={25} />
         ),
       },
-      
     },
-    [ScreenKey.DownloadStack]: {
-      screen: createHomeStack,
-      navigationOptions: {
-        title: 'Download',
-        tabBarIcon: ({tintColor}) => (
-          <Icon name="arrow-down-circle" color={tintColor} size={25} />
-        ),
-      },
-    },
+    
     [ScreenKey.BrowseStack]: {
       screen: createBrowseStack,
       navigationOptions: {
@@ -373,133 +470,50 @@ const HomeStack = createBottomTabNavigator(
   },
 );
 
-var AppNavigator;
-if (loggedIn == false) {
-  AppNavigator = createStackNavigator(
-    {
-      [ScreenKey.SplashScreen]: {
-        screen: SplashScreen,
-        navigationOptions: {
-          headerShown: false,
-        },
-      },
-      [ScreenKey.Login]: {
-        screen: Login,
-        navigationOptions: {
-          headerShown: false,
-        },
-      },
-      [ScreenKey.Register]: {
-        screen: Register,
-        navigationOptions: {
-          title: 'Register',
-          headerStyle: {
-            backgroundColor: '#181b20',
-          },
-          headerTintColor: 'white',
-        },
-      },
-      [ScreenKey.ForgetPassword]: {
-        screen: ForgetPassword,
-        navigationOptions: {
-          title: 'Forget Password',
-          headerStyle: {
-            backgroundColor: '#181b20',
-          },
-          headerTintColor: 'white',
-        },
-      },
-      [ScreenKey.HomeScreen]: {
-        screen: HomeStack,
-        navigationOptions: {
-          headerShown: false,
-        },
+AppNavigator = createStackNavigator(
+  {
+    [ScreenKey.SplashScreen]: {
+      screen: SplashScreen,
+      navigationOptions: {
+        headerShown: false,
       },
     },
-    {
-      initialRouteName: ScreenKey.Login,
-    },
-  );
-} else {
-  AppNavigator = createStackNavigator(
-    {
-      [ScreenKey.SplashScreen]: {
-        screen: SplashScreen,
-        navigationOptions: {
-          headerShown: false,
-        },
-      },
-      [ScreenKey.Login]: {
-        screen: Login,
-        navigationOptions: {
-          headerShown: false,
-        },
-      },
-      [ScreenKey.Register]: {
-        screen: Register,
-        navigationOptions: {
-          title: 'Register',
-          headerStyle: {
-            backgroundColor: '#181b20',
-          },
-          headerTintColor: 'white',
-        },
-      },
-      [ScreenKey.ForgetPassword]: {
-        screen: ForgetPassword,
-        navigationOptions: {
-          title: 'Forget Password',
-          headerStyle: {
-            backgroundColor: '#181b20',
-          },
-          headerTintColor: 'white',
-        },
-      },
-      [ScreenKey.HomeScreen]: {
-        screen: HomeStack,
-        navigationOptions: {
-          headerShown: false,
-        },
+    [ScreenKey.Login]: {
+      screen: Login,
+      navigationOptions: {
+        headerShown: false,
       },
     },
-    {
-      initialRouteName: ScreenKey.HomeScreen,
+    [ScreenKey.Register]: {
+      screen: Register,
+      navigationOptions: {
+        title: 'Register',
+        headerStyle: {
+          backgroundColor: '#181b20',
+        },
+        headerTintColor: 'white',
+      },
     },
-  );
-}
-
-// const AppNavigator = createStackNavigator(
-//   {
-//     [ScreenKey.SplashScreen]: {
-//       screen: SplashScreen,
-//       navigationOptions: {
-//         headerShown: false,
-//       },
-//     },
-//     [ScreenKey.Login]: {
-//       screen: Login,
-//       navigationOptions: {
-//         headerShown: false,
-//       },
-//     },
-//     [ScreenKey.Register]: {
-//       screen: Register,
-//       navigationOptions: {
-//         headerShown: false,
-//       },
-//     },
-//     [ScreenKey.HomeScreen]: {
-//       screen: HomeStack,
-//       navigationOptions: {
-//         headerShown: false,
-//       },
-//     },
-//   },
-//   {
-//     initialRouteName: ScreenKey.Login,
-//   },
-// );
-
-//const CustomTabNavigator = createAppContainer(TabNavigator);
+    [ScreenKey.ForgetPassword]: {
+      screen: ForgetPassword,
+      navigationOptions: {
+        title: 'Forget Password',
+        headerStyle: {
+          backgroundColor: '#181b20',
+        },
+        headerTintColor: 'white',
+      },
+    },
+    [ScreenKey.HomeScreen]: {
+      screen: HomeStack,
+      navigationOptions: {
+        headerShown: false,
+      },
+    },
+  },
+  {
+    initialRouteName: ScreenKey.Login,
+  },
+);
 const AppNavigation = createAppContainer(AppNavigator);
 export default AppNavigation;

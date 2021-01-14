@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useState, useEffect, useLayoutEffect} from 'react';
 import {Rating} from 'react-native-elements';
 import {
   StyleSheet,
@@ -7,7 +7,9 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Share
+  Share,
+  Alert,
+  AsyncStorage,
 } from 'react-native';
 import {ScreenKey} from '../../../../globals/constants';
 import {InstructorContext} from '../../../../provider/instructor-provider';
@@ -17,7 +19,13 @@ import {
 } from '../../../../core/service/user-service';
 import {AuthenticationContext} from '../../../../provider/authentication-provider';
 import {CourseContext} from '../../../../provider/course-provider';
+import RNFetchBlob from 'rn-fetch-blob';
 const InfoCourse = (props) => {
+  // const [listDownload, setListDownload] = useState([]);
+  // useLayoutEffect(async() => {
+  //   const listCourseDL = await AsyncStorage.getItem('listCourseDownload');
+  //   setListDownload(JSON.parse(listCourseDL));
+  // },[])
   const courseContext = useContext(CourseContext);
   const data = courseContext.state.DetailCourse.payload;
   
@@ -26,6 +34,8 @@ const InfoCourse = (props) => {
 
   const [colorLike, setColorLike] = useState('white');
   const [statusLike, setStatusLike] = useState('Like');
+  const [downloadProgress, setDownloadProgress] = useState('Download');
+  
   const authContext = useContext(AuthenticationContext);
   const res = apiGetCourseLikeStatus(authContext.state.token, props.navigation.state.params.item.id);
   res
@@ -36,7 +46,7 @@ const InfoCourse = (props) => {
       }
     })
     .catch((error) => {
-      Alert.alert(error.response.data.message);
+      console.log("error:", error.response.data.message);
       throw error;
     });
 
@@ -60,8 +70,6 @@ const InfoCourse = (props) => {
     presentationPoint = parseFloat(data.presentationPoint);
   }
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
-
-
 
   const OnPressAuthorDetail = () => {
     props.navigation.push(ScreenKey.AuthorDetail, {id: data['instructorId']});
@@ -87,6 +95,7 @@ const InfoCourse = (props) => {
   };
   // share
   const onShare = async () => {
+    //await AsyncStorage.setItem("listCourseDownload",JSON.stringify([]));
     try {
       const result = await Share.share({
         message:
@@ -105,6 +114,37 @@ const InfoCourse = (props) => {
       alert(error.message);
     }
   };
+  //download
+  // const handleDownload = async () => {
+  //   await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
+  //   // let dirs = RNFetchBlob.fs.dirs;
+  //   // await RNFetchBlob.config({
+  //   //   path: dirs.DocumentDir + '/IdCourse=' + data.id,
+  //   //   fileCache: true,
+  //   // })
+  //   // .fetch('GET', `http://api.dev.letstudy.org/course/get-course-detail/${data.id}/${authContext.state.userInfo.id}`)
+  //   // .progress({count: 10}, (received, total)=> {
+  //   //   const downloadTime = Math.floor(received/total*100);
+  //   //   setDownloadProgress(downloadTime);
+  //   // })
+  //   // .then(async response => {
+  //   //   console.log('The file saved to ', response.path());
+  //   //   console.log('download success');
+  //   //   setListDownload(listDownload.push({id:data.id}));
+  //   //   console.log("listDownload:",listDownload);
+  //   //   await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
+  //   // })
+  //   // .catch(error => {
+  //   //   Alert.alert(
+  //   //     'Download course  ',
+  //   //     'Failed to download' + error,
+  //   //     [
+  //   //       { text: 'OK'}
+  //   //     ],
+  //   //     { cancelable: false }
+  //   //   );
+  //   // })
+  // }
   const viewRequirement = () => {
     if (data.requirement === null) {
       return <Text style={styles.itemContent}>Null</Text>;
@@ -173,7 +213,7 @@ const InfoCourse = (props) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onShare}>
             <View>
               <View style={styles.viewImage}>
                 <Image
@@ -181,7 +221,7 @@ const InfoCourse = (props) => {
                   style={styles.icon}
                 />
               </View>
-              <Text style={styles.textIcon}>Download</Text>
+              <Text style={styles.textIcon}>{downloadProgress}</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={onShare}>
