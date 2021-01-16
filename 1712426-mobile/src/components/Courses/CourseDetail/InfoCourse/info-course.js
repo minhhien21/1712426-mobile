@@ -60,7 +60,6 @@ const InfoCourse = (props) => {
     })
     .catch((error) => {
       console.log("error:", error.response.data.message);
-      throw error;
     });
 
   const createdAt = String(data.createdAt).split('T');
@@ -103,7 +102,6 @@ const InfoCourse = (props) => {
       })
       .catch((error) => {
         Alert.alert(error.response.data.message);
-        throw error;
       });
   };
   // share

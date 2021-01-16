@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, View, FlatList} from 'react-native';
+import { ScreenKey } from '../../../../globals/constants';
 import ListCourseDownloadItem from '../ListCourseDownloadItem/list-course-download-item'
 const ListCourseDownload = (props) => {
-    //console.log("list-course-download.js:", props.data);
   return (
     <View style={styles.container}>
       <FlatList

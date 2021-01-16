@@ -56,7 +56,7 @@ export const signout = (dispatch) => () => {
 export const getToken = (dispatch) => () => {
   getTokenAsyncStorage()
   .then((res) => {
-    //console.log("res token:", res);
+    console.log("res token:", res);
     dispatch(getTokenSuccess(res))
   })
   .catch((error) => {

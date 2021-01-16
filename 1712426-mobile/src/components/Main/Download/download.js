@@ -1,4 +1,4 @@
-import React, {useState, useContext, useEffect, useLayoutEffect} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {
   StyleSheet,
   View,
@@ -23,36 +23,35 @@ const Download = (props) => {
   const [listDownload, setListDownload] = useState([]);
   const [dataCourse, setDataCourse] = useState([]);
   const [count, setCount] = useState(0);
-  AsyncStorage.getItem('listCourseDownload')
+  const [checkGetList, setCheckGetList] = useState(false);
+  useEffect(() => {
+    AsyncStorage.getItem('listCourseDownload')
     .then((value) => {
-      if(value == null){
-      }else{
+      if (value == null) {
+      } else {
         setListDownload(JSON.parse(value));
-        
+         setCheckGetList(true);
       }
     })
     .catch((error) => {
-      console.log("error:",error);
+      console.log('error:', error);
     });
-  console.log('listDownload', listDownload.length);
+    
+  }, [checkGetList])
   listDownload.forEach((element) => {
-    console.log('element.id', element.id)
-    if(count <= listDownload.length - 1){
-    AsyncStorage.getItem(`detailCourse=${element.id}`)
-    .then(async(value) => {
-      const detailCourseJson = await JSON.parse(value);
-      // await setDataCourse(prevItems => [...prevItems, {
-      //   course: detailCourseJson
-      // }])
-      await setDataCourse([...dataCourse, {course: detailCourseJson}]);
-      await setCount(count + 1);
-    })
-    .catch((error) => {
-      console.log("error:",error);
-    });
-    console.log('dataCourse', dataCourse.length);
-  }
+    if (count <= listDownload.length - 1) {
+      AsyncStorage.getItem(`detailCourse=${element.id}`)
+        .then((value) => {
+          const detailCourseJson = JSON.parse(value);
+           setDataCourse([...dataCourse, detailCourseJson]);
+        })
+        .catch((error) => {
+          console.log('error:', error);
+        });
+        setCount(count + 1);
+    }
   });
+  
   const wait = (timeout) => {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
@@ -79,14 +78,6 @@ const Download = (props) => {
     </View>
   );
 };
-{
-  /* <ScrollView
-refreshControl={
-  <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-}>
-<ListCourseDownload {...props} data={dataCourse} />
-</ScrollView> */
-}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -52,7 +52,6 @@ const LessonItem = (props) => {
         })
         .catch((error) => {
           Alert.alert(error.response.data.message)
-          throw error;
         });
     //courseContext.GetCurrentURLVideo(props.itemList.videoUrl);
   }

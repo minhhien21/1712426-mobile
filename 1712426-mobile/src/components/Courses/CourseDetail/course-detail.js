@@ -20,7 +20,6 @@ const CourseDetail = (props) => {
       .then((response) => {})
       .catch((error) => {
         Alert.alert(error.response.data.message);
-        throw error;
       });
   }
   const courseContext = useContext(CourseContext);
