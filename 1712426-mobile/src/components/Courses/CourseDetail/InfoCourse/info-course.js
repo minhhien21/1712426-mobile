@@ -9,7 +9,6 @@ import {
   ScrollView,
   Share,
   Alert,
-  AsyncStorage,
 } from 'react-native';
 import {ScreenKey} from '../../../../globals/constants';
 import {InstructorContext} from '../../../../provider/instructor-provider';
@@ -20,12 +19,26 @@ import {
 import {AuthenticationContext} from '../../../../provider/authentication-provider';
 import {CourseContext} from '../../../../provider/course-provider';
 import RNFetchBlob from 'rn-fetch-blob';
+import AsyncStorage from '@react-native-community/async-storage';
 const InfoCourse = (props) => {
-  // const [listDownload, setListDownload] = useState([]);
-  // useLayoutEffect(async() => {
-  //   const listCourseDL = await AsyncStorage.getItem('listCourseDownload');
-  //   setListDownload(JSON.parse(listCourseDL));
-  // },[])
+  const [listDownload, setListDownload] = useState([]);
+  // AsyncStorage.getItem('listCourseDownload')
+  //   .then((value) => {
+  //     if(value == null){
+  //     }else{
+  //       setListDownload(JSON.parse(value));
+  //     }
+  //   })
+  //   .then((res) => {
+  //   });
+    useLayoutEffect(async() => {
+    const listCourseDL = await AsyncStorage.getItem('listCourseDownload');
+    if(listCourseDL == null){
+    }else{
+      setListDownload(JSON.parse(value));
+    }
+    setListDownload(JSON.parse(listCourseDL));
+  },[])
   const courseContext = useContext(CourseContext);
   const data = courseContext.state.DetailCourse.payload;
   
@@ -96,6 +109,7 @@ const InfoCourse = (props) => {
   // share
   const onShare = async () => {
     //await AsyncStorage.setItem("listCourseDownload",JSON.stringify([]));
+    
     try {
       const result = await Share.share({
         message:
@@ -115,36 +129,44 @@ const InfoCourse = (props) => {
     }
   };
   //download
-  // const handleDownload = async () => {
-  //   await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
-  //   // let dirs = RNFetchBlob.fs.dirs;
-  //   // await RNFetchBlob.config({
-  //   //   path: dirs.DocumentDir + '/IdCourse=' + data.id,
-  //   //   fileCache: true,
-  //   // })
-  //   // .fetch('GET', `http://api.dev.letstudy.org/course/get-course-detail/${data.id}/${authContext.state.userInfo.id}`)
-  //   // .progress({count: 10}, (received, total)=> {
-  //   //   const downloadTime = Math.floor(received/total*100);
-  //   //   setDownloadProgress(downloadTime);
-  //   // })
-  //   // .then(async response => {
-  //   //   console.log('The file saved to ', response.path());
-  //   //   console.log('download success');
-  //   //   setListDownload(listDownload.push({id:data.id}));
-  //   //   console.log("listDownload:",listDownload);
-  //   //   await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
-  //   // })
-  //   // .catch(error => {
-  //   //   Alert.alert(
-  //   //     'Download course  ',
-  //   //     'Failed to download' + error,
-  //   //     [
-  //   //       { text: 'OK'}
-  //   //     ],
-  //   //     { cancelable: false }
-  //   //   );
-  //   // })
-  // }
+  const handleDownload = async () => {
+    // setListDownload(prevItems => [...prevItems, {
+    //   id: data.id
+    // }])
+    setListDownload(listDownload.push({id:data.id}));
+    await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
+    console.log("listDownload:",listDownload);
+    await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
+
+    //await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
+    // let dirs = RNFetchBlob.fs.dirs;
+    // await RNFetchBlob.config({
+    //   path: dirs.DocumentDir + '/IdCourse=' + data.id,
+    //   fileCache: true,
+    // })
+    // .fetch('GET', `http://api.dev.letstudy.org/course/get-course-detail/${data.id}/${authContext.state.userInfo.id}`)
+    // .progress({count: 10}, (received, total)=> {
+    //   const downloadTime = Math.floor(received/total*100);
+    //   setDownloadProgress(downloadTime);
+    // })
+    // .then(async response => {
+    //   console.log('The file saved to ', response.path());
+    //   console.log('download success');
+    //   setListDownload(listDownload.push({id:data.id}));
+    //   console.log("listDownload:",listDownload);
+    //   await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
+    // })
+    // .catch(error => {
+    //   Alert.alert(
+    //     'Download course  ',
+    //     'Failed to download' + error,
+    //     [
+    //       { text: 'OK'}
+    //     ],
+    //     { cancelable: false }
+    //   );
+    // })
+  }
   const viewRequirement = () => {
     if (data.requirement === null) {
       return <Text style={styles.itemContent}>Null</Text>;
@@ -213,7 +235,7 @@ const InfoCourse = (props) => {
             </View>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={onShare}>
+          <TouchableOpacity onPress={handleDownload}>
             <View>
               <View style={styles.viewImage}>
                 <Image

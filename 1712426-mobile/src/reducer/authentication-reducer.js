@@ -1,4 +1,4 @@
-import { LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESSED, SIGNOUT_SUCCESSED } from "../action/authentication-action";
+import { GET_TOKEN_FAILED, GET_TOKEN_SUCCESSED, LOGIN_FAILED, LOGIN_REQUEST, LOGIN_SUCCESSED, SIGNOUT_SUCCESSED } from "../action/authentication-action";
 export const reducer = (prevState, action) => {
     switch(action.type){
         case LOGIN_REQUEST:
@@ -8,6 +8,10 @@ export const reducer = (prevState, action) => {
         case LOGIN_FAILED:
             return {...prevState, isAuthenticated: false, errorMessage:action.data.message}
         case SIGNOUT_SUCCESSED:
+            return {...prevState, isAuthenticated: false}
+        case GET_TOKEN_SUCCESSED:
+            return {...prevState, isAuthenticated: false, token:action.data}
+        case GET_TOKEN_FAILED:
             return {...prevState, isAuthenticated: false}
         default:
             throw new Error();

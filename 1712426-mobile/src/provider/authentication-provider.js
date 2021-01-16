@@ -1,5 +1,5 @@
 import React, {useReducer} from 'react';
-import {login, loginGoogle, signout} from '../action/authentication-action';
+import {getToken, login, loginGoogle, signout} from '../action/authentication-action';
 import {reducer} from '../reducer/authentication-reducer';
 
 const AuthenticationContext = React.createContext();
@@ -20,6 +20,7 @@ const AuthenticationProvider = ({children}) => {
         login: login(dispatch),
         signout: signout(dispatch),
         loginGoogle: loginGoogle(dispatch),
+        getToken: getToken(dispatch),
       }}>
       {children}
     </AuthenticationContext.Provider>

@@ -2,7 +2,6 @@ import React, {useState, useContext, useEffect, useLayoutEffect} from 'react';
 import {
   StyleSheet,
   View,
-  AsyncStorage,
   RefreshControl,
   TouchableOpacity,
   Text,
@@ -11,6 +10,7 @@ import {ScrollView} from 'react-native-gesture-handler';
 import ListCourses from '../../Courses/ListCourses/list-courses';
 import RNFetchBlob from 'rn-fetch-blob';
 import ListCourseDownload from './ListCourseDownload/list-course-download';
+import AsyncStorage from '@react-native-community/async-storage';
 const Download = (props) => {
   // RNFetchBlob.fs.readFile("/data/user/0/com.pluralsightapp/files/IdCourse1=", 'utf8')
   // .then(data => {
@@ -22,36 +22,37 @@ const Download = (props) => {
   const [refreshing, setRefreshing] = useState(false);
   const [listDownload, setListDownload] = useState([]);
   const [dataCourse, setDataCourse] = useState([]);
-  // useLayoutEffect(async () => {
-  //   const listCourseDL = await AsyncStorage.getItem('listCourseDownload');
-  //   setListDownload(JSON.parse(listCourseDL));
-  // }, []);
-  console.log('listDownload', listDownload);
-  // listDownload.forEach(async (element) => {
-  //   // RNFetchBlob.fs
-  //   //   .readFile('/data/user/0/com.pluralsightapp/files/IdCourse=' + element.id, 'utf8')
-  //   //   .then((data) => {
-  //   //     console.log('data:', data);
-  //   //     const JsonData = JSON.parse(data);
-  //   //     console.log('data.payload:', JsonData.payload);
-  //   //     const newDataCourse = dataCourse.push({course:JsonData.payload});
-  //   //     setDataCourse(newDataCourse);
-  //   //   })
-  //   //   .catch(error => {
-  //   //      console.log("error:",error);
-  //   //     });
-
-  //   // console.log("element.id:",element.id);
-  //   // const data = await AsyncStorage.getItem('detailCourse=' + element.id);
-  //   // console.log('data:', data);
-  //   // setDataCourse(dataCourse.push(data));
-  //   const detailCourse = await AsyncStorage.getItem(`detailCourse=${element.id}`);
-  //   const detailCourseJson = await JSON.parse(detailCourse);
-  //   const newDataCourse = dataCourse.push(detailCourseJson);
-  //   setDataCourse(dataCourse.push({course:detailCourseJson}));
-  //   console.log('dataCourse', dataCourse);
-  // });
-  console.log('dataCourse1', dataCourse);
+  const [count, setCount] = useState(0);
+  AsyncStorage.getItem('listCourseDownload')
+    .then((value) => {
+      if(value == null){
+      }else{
+        setListDownload(JSON.parse(value));
+        
+      }
+    })
+    .catch((error) => {
+      console.log("error:",error);
+    });
+  console.log('listDownload', listDownload.length);
+  listDownload.forEach((element) => {
+    console.log('element.id', element.id)
+    if(count <= listDownload.length - 1){
+    AsyncStorage.getItem(`detailCourse=${element.id}`)
+    .then(async(value) => {
+      const detailCourseJson = await JSON.parse(value);
+      // await setDataCourse(prevItems => [...prevItems, {
+      //   course: detailCourseJson
+      // }])
+      await setDataCourse([...dataCourse, {course: detailCourseJson}]);
+      await setCount(count + 1);
+    })
+    .catch((error) => {
+      console.log("error:",error);
+    });
+    console.log('dataCourse', dataCourse.length);
+  }
+  });
   const wait = (timeout) => {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
@@ -69,16 +70,23 @@ const Download = (props) => {
           <Text style={styles.textButton}>REMOVE ALL</Text>
         </TouchableOpacity>
       </View>
-
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+        }>
+        <ListCourseDownload {...props} data={dataCourse} />
+      </ScrollView>
     </View>
   );
 };
-{/* <ScrollView
+{
+  /* <ScrollView
 refreshControl={
   <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 }>
 <ListCourseDownload {...props} data={dataCourse} />
-</ScrollView> */}
+</ScrollView> */
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,

@@ -20,37 +20,41 @@ import {
 import {apiGetUserMe} from '../../../core/service/user-service';
 const Login = (props) => {
   const authContext = useContext(AuthenticationContext);
-  useLayoutEffect(async() => {
-    const tokenLocal = await AsyncStorage.getItem('token');
-    console.log("tokenLocal:",tokenLocal);
-    if (tokenLocal !== null) {
-      const res = apiGetUserMe(tokenLocal);
-      res
-        .then((response) => {
-          authContext.state.isAuthenticated = true;
-          authContext.state.userInfo = response.data.payload;
-          authContext.state.token = tokenLocal;
-          props.navigation.navigate(ScreenKey.HomeScreen);
-        })
-        .catch((error) => {
-          console.log("error:",error.response.data.message);
-          throw error;
-        });
-    }
-  }, []);
-  // const tokenLocal = AsyncStorage.getItem('token');
-  // if(tokenLocal !== null){
-  // const res = apiGetUserMe(tokenLocal);
-  //     res.then((response) => {
-  //       authContext.state.isAuthenticated = true;
-  //       authContext.state.userInfo = response.data.payload;
-  //       authContext.state.token = tokenLocal;
+  // useLayoutEffect(async() => {
+  //   const tokenLocal = await AsyncStorage.getItem('token');
+  //   console.log("tokenLocal:",tokenLocal);
+  //   if (tokenLocal !== null) {
+  //     const res = apiGetUserMe(tokenLocal);
+  //     res
+  //       .then((response) => {
+  //         authContext.state.isAuthenticated = true;
+  //         authContext.state.userInfo = response.data.payload;
+  //         authContext.state.token = tokenLocal;
+  //         props.navigation.navigate(ScreenKey.HomeScreen);
   //       })
   //       .catch((error) => {
-  //         Alert.alert(error.response.data.message)
+  //         console.log("error:",error.response.data.message);
   //         throw error;
   //       });
-  //     }
+  //   }
+  // }, []);
+//
+  authContext.getToken();
+  const tokenLocal = authContext.state.token;
+  if(tokenLocal !== null){
+  const res = apiGetUserMe(tokenLocal);
+      res.then((response) => {
+        authContext.state.isAuthenticated = true;
+        authContext.state.userInfo = response.data.payload;
+        authContext.state.token = tokenLocal;
+        props.navigation.navigate(ScreenKey.HomeScreen);
+        })
+        .catch((error) => {
+          console.log(error.response.data.message)
+          throw error;
+        });
+      }
+  //
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
 
@@ -263,7 +267,7 @@ const styles = StyleSheet.create({
     marginTop: 10,
     alignSelf: 'center',
     width: 192,
-    height: 48,
+    height: 58,
   },
   buttonText: {
     fontSize: 18,
