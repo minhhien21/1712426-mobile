@@ -8,7 +8,7 @@ export const reducer = (prevState, action) => {
         case LOGIN_FAILED:
             return {...prevState, isAuthenticated: false, errorMessage:action.data.message}
         case SIGNOUT_SUCCESSED:
-            return {...prevState, isAuthenticated: false}
+            return {...prevState, isAuthenticated: false, token: null, userInfo: null, errorMessage: null}
         default:
             throw new Error();
         }

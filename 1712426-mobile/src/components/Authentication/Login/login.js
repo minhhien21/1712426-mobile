@@ -7,7 +7,6 @@ import {
   Alert,
   Image,
   ScrollView,
-  AsyncStorage,
 } from 'react-native';
 import {TextInput} from 'react-native-paper';
 import {ScreenKey} from '../../../globals/constants';
@@ -18,6 +17,7 @@ import {
   statusCodes,
 } from '@react-native-community/google-signin';
 import {apiGetUserMe} from '../../../core/service/user-service';
+import AsyncStorage from '@react-native-community/async-storage';
 const Login = (props) => {
   const authContext = useContext(AuthenticationContext);
   AsyncStorage.getItem('token')

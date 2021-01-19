@@ -20,44 +20,39 @@ import {AuthenticationContext} from '../../../../provider/authentication-provide
 import {CourseContext} from '../../../../provider/course-provider';
 import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-community/async-storage';
+import {apiLessonDetail} from '../../../../core/service/lesson-service';
 const InfoCourse = (props) => {
   const [listDownload, setListDownload] = useState([]);
   const [checkGetList, setCheckGetList] = useState(false);
   useEffect(() => {
     AsyncStorage.getItem('listCourseDownload')
-    .then((value) => {
-      if (value == null) {
-      } else {
-        setListDownload(JSON.parse(value));
-        setCheckGetList(true);
-      }
-    })
-    .catch((error) => {
-      console.log('error:', error);
-    });
-    
-  }, [checkGetList])
-  // AsyncStorage.getItem('listCourseDownload')
-  //   .then((value) => {
-  //     if(value == null){
-  //     }else{
-  //       setListDownload(JSON.parse(value));
-  //     }
-  //   })
-  //   .then((res) => {
-  //   });
+      .then((value) => {
+        if (value == null) {
+        } else {
+          setListDownload(JSON.parse(value));
+          setCheckGetList(true);
+        }
+      })
+      .catch((error) => {
+        console.log('error:', error);
+      });
+  }, [checkGetList]);
 
   const courseContext = useContext(CourseContext);
   const data = courseContext.state.DetailCourse.payload;
+  const listSection = data.section;
   const instructorContext = useContext(InstructorContext);
   const dataInstructor = instructorContext.state.DetailInstructor.payload;
 
   const [colorLike, setColorLike] = useState('white');
   const [statusLike, setStatusLike] = useState('Like');
   const [downloadProgress, setDownloadProgress] = useState('Download');
-  
+  const [statusDownload, setStatusDownload] = useState(false);
   const authContext = useContext(AuthenticationContext);
-  const res = apiGetCourseLikeStatus(authContext.state.token, props.navigation.state.params.item.id);
+  const res = apiGetCourseLikeStatus(
+    authContext.state.token,
+    props.navigation.state.params.item.id,
+  );
   res
     .then((response) => {
       if (response.data.likeStatus == true) {
@@ -66,7 +61,7 @@ const InfoCourse = (props) => {
       }
     })
     .catch((error) => {
-      console.log("error:", error.response.data.message);
+      console.log('error:', error.response.data.message);
       throw error;
     });
 
@@ -80,13 +75,13 @@ const InfoCourse = (props) => {
   let formalityPoint = 0;
   let contentPoint = 0;
   let presentationPoint = 0;
-  if(data.formalityPoint != null){
+  if (data.formalityPoint != null) {
     formalityPoint = parseFloat(data.formalityPoint);
   }
-  if(data.contentPoint != null){
+  if (data.contentPoint != null) {
     contentPoint = parseFloat(data.contentPoint);
   }
-  if(data.presentationPoint != null){
+  if (data.presentationPoint != null) {
     presentationPoint = parseFloat(data.presentationPoint);
   }
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
@@ -97,7 +92,10 @@ const InfoCourse = (props) => {
 
   // like or unlike course
   const onPressLikeUnLike = () => {
-    const callApi = apiLikeCourse(authContext.state.token, props.navigation.state.params.item.id);
+    const callApi = apiLikeCourse(
+      authContext.state.token,
+      props.navigation.state.params.item.id,
+    );
     callApi
       .then((response) => {
         if (response.data.likeStatus == true) {
@@ -116,11 +114,10 @@ const InfoCourse = (props) => {
   // share
   const onShare = async () => {
     //await AsyncStorage.setItem("listCourseDownload",JSON.stringify([]));
-    
+
     try {
       const result = await Share.share({
-        message:
-          data.title,
+        message: data.title,
       });
       if (result.action === Share.sharedAction) {
         if (result.activityType) {
@@ -137,13 +134,93 @@ const InfoCourse = (props) => {
   };
   //download
   const handleDownload = async () => {
-    //setListDownload([...listDownload, data]);
-    setListDownload(listDownload.push({course: data}));
-    await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
-    console.log("download");
-    //console.log("listDownload:",listDownload);
-    //await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
+    if (String(data.promoVidUrl).indexOf('youtube.com') == -1) {
+      if (String(data.promoVidUrl).indexOf('.mp4') != -1) {
+        let dirs = RNFetchBlob.fs.dirs;
+        await RNFetchBlob.config({
+          path: dirs.DocumentDir + '/IdCourse=' + data.id + '/PromoVidUrl',
+          fileCache: true,
+          appendExt: 'mp4',
+        })
+          .fetch(
+            'GET',
+            data.promoVidUrl,
+          )
+          .then(async (response) => {
+            console.log('The file saved to ', response.path());
+            console.log('download success');
+          })
+          .catch((error) => {
+            console.log("download:", error);
+            setStatusDownload(true);
+          });
+      }
+    }
+    console.log('download');
+    listSection.map((itemSection) => {
+      const listLesson = itemSection.lesson;
+      listLesson.map(async (lesson) => {
+        const res = apiLessonDetail(
+          authContext.state.token,
+          data.id,
+          lesson.id,
+        );
+        res
+          .then(async(response) => {
+            const videoUrl = response.data.payload.videoUrl;
+            if (String(videoUrl).indexOf('youtube.com') == -1) {
+              if (String(videoUrl).indexOf('.mp4') != -1) {
+                let dirs = RNFetchBlob.fs.dirs;
+                await RNFetchBlob.config({
+                  path: dirs.DocumentDir + '/IdCourse=' + data.id + '/IdLesson=' + lesson.id,
+                  fileCache: true,
+                  appendExt: 'mp4',
+                })
+                  .fetch(
+                    'GET',
+                    videoUrl,
+                  )
+                  .then(async (response) => {
+                    console.log('The file saved to ', response.path());
+                    console.log('download success');
+                  })
+                  .catch((error) => {
+                    console.log("download:", error);
+                    setStatusDownload(true);
+                  });
+              }
+            }
+          })
+          .catch((error) => {
+            console.log("get lesson detail:", error);
+            setStatusDownload(true);
+            throw error;
+          });
+      });
+    });
 
+    if(statusDownload == true){
+      Alert.alert(
+        'Download failed',
+        '',
+        [
+          { text: 'OK'}
+        ],
+        { cancelable: false }
+      );
+    }else{
+      setListDownload(listDownload.push({course: data}));
+      await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
+      setDownloadProgress("Success");
+      Alert.alert(
+        'Download Success',
+        '',
+        [
+          { text: 'OK'}
+        ],
+        { cancelable: false }
+      );
+    }
     //await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
     // let dirs = RNFetchBlob.fs.dirs;
     // await RNFetchBlob.config({
@@ -172,17 +249,18 @@ const InfoCourse = (props) => {
     //     { cancelable: false }
     //   );
     // })
-  }
+  };
   const viewRequirement = () => {
     if (data.requirement === null) {
       return <Text style={styles.itemContent}>Null</Text>;
     } else {
-      return(
-      <View>
-        {data.requirement.map((item) => (
-          <Text style={styles.itemContent}>{`${'+ '}${item}`}</Text>
-        ))}
-      </View>);
+      return (
+        <View>
+          {data.requirement.map((item) => (
+            <Text style={styles.itemContent}>{`${'+ '}${item}`}</Text>
+          ))}
+        </View>
+      );
     }
   };
 
@@ -197,11 +275,11 @@ const InfoCourse = (props) => {
             <View style={styles.imageButton}>
               <Image
                 source={{
-                  uri: data.instructor["avatar"],
+                  uri: data.instructor['avatar'],
                 }}
                 style={styles.image}
               />
-              <Text style={styles.textImage}>{data.instructor["name"]}</Text>
+              <Text style={styles.textImage}>{data.instructor['name']}</Text>
             </View>
           </TouchableOpacity>
         </View>

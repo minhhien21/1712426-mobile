@@ -7,7 +7,6 @@ import {
 } from 'react-native';
 import RatingsItemDL from '../RatingsItemDL/ratings-item-dl';
 const RatingsDL = (props) => {
-  console.log("props.dataRatings:", props.dataRatings);
   return (
     <View style={styles.container} >
       <FlatList

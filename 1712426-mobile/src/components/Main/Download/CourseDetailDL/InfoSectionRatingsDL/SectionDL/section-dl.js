@@ -8,7 +8,7 @@ const SectionDL = (props) => {
       data={props.dataSection}
       renderItem={({item}) => (
         <SectionItemDL
-          itemList={item}
+          itemList={item} idCourse={props.idCourse}
         />
       )}
     />

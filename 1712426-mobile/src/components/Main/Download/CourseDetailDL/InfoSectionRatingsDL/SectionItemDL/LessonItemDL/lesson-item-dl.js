@@ -1,6 +1,8 @@
 import React, {useContext} from 'react';
-import {StyleSheet, Text, TouchableOpacity, Alert} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity} from 'react-native';
+import { CourseContext } from '../../../../../../../provider/course-provider';
 const LessonItemDL = (props) => {
+  const courseContext = useContext(CourseContext);
   const hour = parseInt(props.itemList.hours);
   const convertMinute = 60 * (props.itemList.hours - hour);
   const minute = parseInt(convertMinute);
@@ -40,14 +42,7 @@ const LessonItemDL = (props) => {
     }
   };
   const onPressChangeUrlVideo = () => {
-    // const res = apiLessonDetail(token, props.itemList.courseId, props.itemList.id);
-    //   res.then((response) => {
-    //     courseContext.GetCurrentURLVideo(response.data.payload.videoUrl);
-    //     })
-    //     .catch((error) => {
-    //       Alert.alert(error.response.data.message)
-    //     });
-    // //courseContext.GetCurrentURLVideo(props.itemList.videoUrl);
+    courseContext.GetCurrentLocalURLVideo('/data/user/0/com.pluralsightapp/files/IdCourse=' + props.idCourse + '/IdLesson=' + props.itemList.id);
   }
   return (
     <TouchableOpacity style={styles.item} onPress={onPressChangeUrlVideo}>

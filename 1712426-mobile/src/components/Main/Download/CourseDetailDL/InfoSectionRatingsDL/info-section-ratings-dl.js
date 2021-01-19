@@ -29,7 +29,7 @@ const InfoSectionRatingsDL = (props) => {
         >
         <Tab.Screen
           name={ScreenKey.Section}
-          children={()=><SectionDL dataSection={props.dataCourse.section} {...props}/>}
+          children={()=><SectionDL dataSection={props.dataCourse.section} {...props} idCourse={props.dataCourse.id}/>}
         />
         <Tab.Screen
           name={ScreenKey.Ratings}

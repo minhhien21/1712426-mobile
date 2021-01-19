@@ -1,5 +1,6 @@
 import React, {useReducer} from 'react';
 import {
+  GetCurrentLocalURLVideo,
   GetCurrentURLVideo,
   requestDetailCourse,
   requestFavoriteListCourse,
@@ -98,6 +99,8 @@ const initialState = {
   },
   isRequestUrlVideo: false,
   currentUrlVideo: null,
+  isRequestUrlLocalVideo: false,
+  currentLocalUrlVideo: null,
 };
 
 const CourseProvider = ({children}) => {
@@ -115,6 +118,7 @@ const CourseProvider = ({children}) => {
         requestUserFavoriteCourse: requestUserFavoriteCourse(dispatch),
         requestUserProcessCourse: requestUserProcessCourse(dispatch),
         GetCurrentURLVideo: GetCurrentURLVideo(dispatch),
+        GetCurrentLocalURLVideo: GetCurrentLocalURLVideo(dispatch),
       }}>
       {children}
     </CourseContext.Provider>

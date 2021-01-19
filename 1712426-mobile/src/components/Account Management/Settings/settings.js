@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {ScreenKey} from '../../../globals/constants';
 import {NavigationActions} from 'react-navigation';
@@ -14,7 +15,8 @@ import {
   GoogleSigninButton,
   GoogleSignin,
   statusCodes
-} from '@react-native-community/google-signin'
+} from '@react-native-community/google-signin';
+import AsyncStorage from '@react-native-community/async-storage';
 const Settings = (props) => {
   const authContext = useContext(AuthenticationContext);
     // const resetAction = NavigationActions.reset({
@@ -37,9 +39,15 @@ const Settings = (props) => {
         Alert.alert('Something else went wrong... ', error.toString())
       }
     }
-    const OnPressSignOut = () => {
+    const OnPressSignOut = async () => {
       authContext.signout();
-      signOut();
+      await AsyncStorage.setItem('token', "");
+      //signOut();
+      // try {
+      //   await AsyncStorage.setItem('token', null);
+      // } catch (error) {
+      //   console.log('error:', error);
+      // }
       props.navigation.navigate(ScreenKey.Login);
     }
   return (

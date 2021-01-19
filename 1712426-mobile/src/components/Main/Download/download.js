@@ -7,7 +7,6 @@ import {
   Text,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import ListCourses from '../../Courses/ListCourses/list-courses';
 import RNFetchBlob from 'rn-fetch-blob';
 import ListCourseDownload from './ListCourseDownload/list-course-download';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -35,19 +34,6 @@ const Download = (props) => {
         console.log('error:', error);
       });
   }, [checkGetList]);
-
-  // listDownload.map((element) => {
-  //   console.log("listDownload.length:",listDownload.length);
-  //   AsyncStorage.getItem(`detailCourse=${element.id}`)
-  //       .then((value) => {
-  //         const detailCourseJson = JSON.parse(value);
-  //         setDataCourse([...dataCourse, detailCourseJson]);
-  //       })
-  //       .catch((error) => {
-  //         console.log('error:', error);
-  //       });
-  //       console.log("dataCourse.length:",dataCourse.length);
-  // })
 
   const wait = (timeout) => {
     return new Promise((resolve) => {

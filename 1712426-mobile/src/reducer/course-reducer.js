@@ -1,4 +1,5 @@
 import {
+  GET_CURRENT_LOCAL_URL_REQUEST,
   GET_CURRENT_URL_REQUEST,
   REQUEST_DETAIL_COURSE_FAILED,
   REQUEST_DETAIL_COURSE_SUCCESSED,
@@ -81,6 +82,10 @@ export const reducer = (prevState, action) => {
       return {...prevState,
         isRequestUrlVideo:true,
         currentUrlVideo: action.data}
+    case GET_CURRENT_LOCAL_URL_REQUEST:
+      return {...prevState,
+        isRequestUrlLocalVideo:true,
+        currentLocalUrlVideo: action.data}
     default:
       throw new Error();
   }

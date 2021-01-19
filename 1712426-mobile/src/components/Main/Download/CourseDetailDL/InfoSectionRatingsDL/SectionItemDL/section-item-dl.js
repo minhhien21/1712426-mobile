@@ -64,6 +64,7 @@ const SectionItemDL = (props) => {
       renderItem={({item}) => (
         <LessonItemDL
           itemList={item}
+          idCourse={props.idCourse}
         />
       )}
     />
