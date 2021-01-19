@@ -14,6 +14,7 @@ export const ScreenKey ={
     ListCourses: "ListCourses",
     ViewListCourses:"ViewListCourses",
     CourseDetail:"CourseDetail",
+    CourseDetailDL:"CourseDetailDL",
     PathDetail:"PathDetail",
     AuthorDetail:"AuthorDetail",
     ListOfListPaths:"ListOfListPaths",

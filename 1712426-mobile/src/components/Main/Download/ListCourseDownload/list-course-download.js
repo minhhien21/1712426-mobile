@@ -12,7 +12,7 @@ const ListCourseDownload = (props) => {
             navigation={props.navigation}
             item={item}
             OnPressListenItem={() =>
-              props.navigation.push(ScreenKey.CourseDetail, {item: item})
+              props.navigation.push(ScreenKey.CourseDetailDL, {item: item})
             }
           />
         )}

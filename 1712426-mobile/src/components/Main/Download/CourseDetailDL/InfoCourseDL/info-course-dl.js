@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect, useLayoutEffect} from 'react';
+import React from 'react';
 import {Rating} from 'react-native-elements';
 import {
   StyleSheet,
@@ -8,68 +8,9 @@ import {
   TouchableOpacity,
   ScrollView,
   Share,
-  Alert,
 } from 'react-native';
-import {ScreenKey} from '../../../../globals/constants';
-import {InstructorContext} from '../../../../provider/instructor-provider';
-import {
-  apiGetCourseLikeStatus,
-  apiLikeCourse,
-} from '../../../../core/service/user-service';
-import {AuthenticationContext} from '../../../../provider/authentication-provider';
-import {CourseContext} from '../../../../provider/course-provider';
-import RNFetchBlob from 'rn-fetch-blob';
-import AsyncStorage from '@react-native-community/async-storage';
-const InfoCourse = (props) => {
-  const [listDownload, setListDownload] = useState([]);
-  const [checkGetList, setCheckGetList] = useState(false);
-  useEffect(() => {
-    AsyncStorage.getItem('listCourseDownload')
-    .then((value) => {
-      if (value == null) {
-      } else {
-        setListDownload(JSON.parse(value));
-        setCheckGetList(true);
-      }
-    })
-    .catch((error) => {
-      console.log('error:', error);
-    });
-    
-  }, [checkGetList])
-  // AsyncStorage.getItem('listCourseDownload')
-  //   .then((value) => {
-  //     if(value == null){
-  //     }else{
-  //       setListDownload(JSON.parse(value));
-  //     }
-  //   })
-  //   .then((res) => {
-  //   });
-
-  const courseContext = useContext(CourseContext);
-  const data = courseContext.state.DetailCourse.payload;
-  const instructorContext = useContext(InstructorContext);
-  const dataInstructor = instructorContext.state.DetailInstructor.payload;
-
-  const [colorLike, setColorLike] = useState('white');
-  const [statusLike, setStatusLike] = useState('Like');
-  const [downloadProgress, setDownloadProgress] = useState('Download');
-  
-  const authContext = useContext(AuthenticationContext);
-  const res = apiGetCourseLikeStatus(authContext.state.token, props.navigation.state.params.item.id);
-  res
-    .then((response) => {
-      if (response.data.likeStatus == true) {
-        setColorLike('red');
-        setStatusLike('UnLike');
-      }
-    })
-    .catch((error) => {
-      console.log("error:", error.response.data.message);
-      throw error;
-    });
-
+const InfoCourseDL = (props) => {
+  const data = props.dataCourse;
   const createdAt = String(data.createdAt).split('T');
   const convertDate = String(createdAt[0]).split('-');
   const totalHours = parseFloat(data.totalHours);
@@ -91,32 +32,11 @@ const InfoCourse = (props) => {
   }
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
 
-  const OnPressAuthorDetail = () => {
-    props.navigation.push(ScreenKey.AuthorDetail, {id: data['instructorId']});
-  };
-
+  const OnPressAuthorDetail = () => {};
   // like or unlike course
-  const onPressLikeUnLike = () => {
-    const callApi = apiLikeCourse(authContext.state.token, props.navigation.state.params.item.id);
-    callApi
-      .then((response) => {
-        if (response.data.likeStatus == true) {
-          setColorLike('red');
-          setStatusLike('UnLike');
-        } else {
-          setColorLike('white');
-          setStatusLike('Like');
-        }
-      })
-      .catch((error) => {
-        Alert.alert(error.response.data.message);
-        throw error;
-      });
-  };
+  const onPressLikeUnLike = () => {};
   // share
-  const onShare = async () => {
-    //await AsyncStorage.setItem("listCourseDownload",JSON.stringify([]));
-    
+  const onShare = async () => { 
     try {
       const result = await Share.share({
         message:
@@ -136,43 +56,7 @@ const InfoCourse = (props) => {
     }
   };
   //download
-  const handleDownload = async () => {
-    //setListDownload([...listDownload, data]);
-    setListDownload(listDownload.push({course: data}));
-    await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
-    console.log("download");
-    //console.log("listDownload:",listDownload);
-    //await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
-
-    //await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
-    // let dirs = RNFetchBlob.fs.dirs;
-    // await RNFetchBlob.config({
-    //   path: dirs.DocumentDir + '/IdCourse=' + data.id,
-    //   fileCache: true,
-    // })
-    // .fetch('GET', `http://api.dev.letstudy.org/course/get-course-detail/${data.id}/${authContext.state.userInfo.id}`)
-    // .progress({count: 10}, (received, total)=> {
-    //   const downloadTime = Math.floor(received/total*100);
-    //   setDownloadProgress(downloadTime);
-    // })
-    // .then(async response => {
-    //   console.log('The file saved to ', response.path());
-    //   console.log('download success');
-    //   setListDownload(listDownload.push({id:data.id}));
-    //   console.log("listDownload:",listDownload);
-    //   await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
-    // })
-    // .catch(error => {
-    //   Alert.alert(
-    //     'Download course  ',
-    //     'Failed to download' + error,
-    //     [
-    //       { text: 'OK'}
-    //     ],
-    //     { cancelable: false }
-    //   );
-    // })
-  }
+  const handleDownload = async () => {};
   const viewRequirement = () => {
     if (data.requirement === null) {
       return <Text style={styles.itemContent}>Null</Text>;
@@ -232,12 +116,11 @@ const InfoCourse = (props) => {
             <View>
               <View style={styles.viewImage}>
                 <Image
-                  source={require('../../../../../assets/like.png')}
+                  source={require('../../../../../../assets/like.png')}
                   style={styles.icon}
-                  tintColor={colorLike}
                 />
               </View>
-              <Text style={styles.textIcon}>{statusLike}</Text>
+              <Text style={styles.textIcon}>Like</Text>
             </View>
           </TouchableOpacity>
 
@@ -245,18 +128,18 @@ const InfoCourse = (props) => {
             <View>
               <View style={styles.viewImage}>
                 <Image
-                  source={require('../../../../../assets/download.png')}
+                  source={require('../../../../../../assets/download.png')}
                   style={styles.icon}
                 />
               </View>
-              <Text style={styles.textIcon}>{downloadProgress}</Text>
+              <Text style={styles.textIcon}>Download</Text>
             </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={onShare}>
             <View>
               <View style={styles.viewImage}>
                 <Image
-                  source={require('../../../../../assets/share.png')}
+                  source={require('../../../../../../assets/share.png')}
                   style={styles.icon}
                 />
               </View>
@@ -277,7 +160,7 @@ const InfoCourse = (props) => {
         <TouchableOpacity style={styles.button}>
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>
             <Image
-              source={require('../../../../../assets/check.png')}
+              source={require('../../../../../../assets/check.png')}
               style={styles.icon}
             />
             <Text style={styles.textButton}>Take a learning check</Text>
@@ -286,7 +169,7 @@ const InfoCourse = (props) => {
         <TouchableOpacity style={styles.button}>
           <View style={{flexDirection: 'row', alignSelf: 'center'}}>
             <Image
-              source={require('../../../../../assets/view-list.png')}
+              source={require('../../../../../../assets/view-list.png')}
               style={styles.icon}
             />
             <Text style={styles.textButton}>View related paths & courses</Text>
@@ -385,4 +268,4 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
 });
-export default InfoCourse;
+export default InfoCourseDL;

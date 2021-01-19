@@ -49,6 +49,7 @@ const Ratings = (props) => {
         })
         .catch((error) => {
           Alert.alert(error.response.data.message);
+          throw error;
         });
     }
   };

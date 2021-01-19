@@ -9,10 +9,6 @@ export const reducer = (prevState, action) => {
             return {...prevState, isAuthenticated: false, errorMessage:action.data.message}
         case SIGNOUT_SUCCESSED:
             return {...prevState, isAuthenticated: false}
-        case GET_TOKEN_SUCCESSED:
-            return {...prevState, isAuthenticated: false, token:action.data}
-        case GET_TOKEN_FAILED:
-            return {...prevState, isAuthenticated: false}
         default:
             throw new Error();
         }

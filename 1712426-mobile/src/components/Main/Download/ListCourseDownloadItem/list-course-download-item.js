@@ -2,9 +2,10 @@ import React from 'react';
 import {Rating} from 'react-native-elements';
 import {StyleSheet, View, Image, Text, TouchableOpacity} from 'react-native';
 const ListCourseDownloadItem = (props) => {
-  const updatedAt = String(props.item.updatedAt).split('T');
+  const dataItem = props.item.course;
+  const updatedAt = String(dataItem.updatedAt).split('T');
   const convertDate = String(updatedAt[0]).split('-');
-  const totalHours = parseFloat(props.item.totalHours);
+  const totalHours = parseFloat(dataItem.totalHours);
   const hour = parseInt(totalHours);
   const convertMinute = 60 * (totalHours - hour);
   const minute = parseInt(convertMinute);
@@ -12,21 +13,21 @@ const ListCourseDownloadItem = (props) => {
   let formalityPoint = 0;
   let contentPoint = 0;
   let presentationPoint = 0;
-  if(props.item.formalityPoint != null){
-    formalityPoint = parseFloat(props.item.formalityPoint);
+  if(dataItem.formalityPoint != null){
+    formalityPoint = parseFloat(dataItem.formalityPoint);
   }
-  if(props.item.contentPoint != null){
-    contentPoint = parseFloat(props.item.contentPoint);
+  if(dataItem.contentPoint != null){
+    contentPoint = parseFloat(dataItem.contentPoint);
   }
-  if(props.item.presentationPoint != null){
-    presentationPoint = parseFloat(props.item.presentationPoint);
+  if(dataItem.presentationPoint != null){
+    presentationPoint = parseFloat(dataItem.presentationPoint);
   }
   const averagePoint = (formalityPoint + contentPoint + presentationPoint) / 3;
   let titleName = "";
-  if(String(props.item.title).length < 37){
-    titleName = props.item.title;
+  if(String(dataItem.title).length < 37){
+    titleName = dataItem.title;
   }else{
-    titleName = String(props.item.title).substring(0,34);
+    titleName = String(dataItem.title).substring(0,34);
     titleName += "...";
   }
   return (
@@ -35,11 +36,11 @@ const ListCourseDownloadItem = (props) => {
       onPress={() => {
         props.OnPressListenItem();
       }}>
-      <Image source={{uri: props.item.imageUrl}} style={styles.image} />
+      <Image source={{uri: dataItem.imageUrl}} style={styles.image} />
       <View style={styles.viewText}>
         <Text style={styles.title}>{titleName}</Text>
-        <Text style={styles.title}>{props.item['instructor.user.name'] || props.item.instructorName|| props.item.name}</Text>
-        <Text style={styles.darktext}>{props.item.price}</Text>
+        <Text style={styles.title}>{dataItem.instructor["name"]}</Text>
+        <Text style={styles.darktext}>{dataItem.price}</Text>
 
         <Text style={[styles.darktext]}>
           {`${convertDate[2]}-${convertDate[1]}-${convertDate[0]} . ${hour}${'h '}${minute}${'m'}`}</Text>
@@ -52,7 +53,7 @@ const ListCourseDownloadItem = (props) => {
             imageSize={22}
             startingValue={averagePoint}
           />
-          <Text style={styles.darktext}>({props.item.ratedNumber})</Text>
+          <Text style={styles.darktext}>({dataItem.ratedNumber})</Text>
         </View>
       </View>
     </TouchableOpacity>

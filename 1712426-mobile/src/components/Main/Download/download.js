@@ -21,37 +21,34 @@ const Download = (props) => {
   // })
   const [refreshing, setRefreshing] = useState(false);
   const [listDownload, setListDownload] = useState([]);
-  const [dataCourse, setDataCourse] = useState([]);
-  const [count, setCount] = useState(0);
   const [checkGetList, setCheckGetList] = useState(false);
   useEffect(() => {
     AsyncStorage.getItem('listCourseDownload')
-    .then((value) => {
-      if (value == null) {
-      } else {
-        setListDownload(JSON.parse(value));
-         setCheckGetList(true);
-      }
-    })
-    .catch((error) => {
-      console.log('error:', error);
-    });
-    
-  }, [checkGetList])
-  listDownload.forEach((element) => {
-    if (count <= listDownload.length - 1) {
-      AsyncStorage.getItem(`detailCourse=${element.id}`)
-        .then((value) => {
-          const detailCourseJson = JSON.parse(value);
-           setDataCourse([...dataCourse, detailCourseJson]);
-        })
-        .catch((error) => {
-          console.log('error:', error);
-        });
-        setCount(count + 1);
-    }
-  });
-  
+      .then((value) => {
+        if (value == null) {
+        } else {
+          setListDownload(JSON.parse(value));
+          setCheckGetList(true);
+        }
+      })
+      .catch((error) => {
+        console.log('error:', error);
+      });
+  }, [checkGetList]);
+
+  // listDownload.map((element) => {
+  //   console.log("listDownload.length:",listDownload.length);
+  //   AsyncStorage.getItem(`detailCourse=${element.id}`)
+  //       .then((value) => {
+  //         const detailCourseJson = JSON.parse(value);
+  //         setDataCourse([...dataCourse, detailCourseJson]);
+  //       })
+  //       .catch((error) => {
+  //         console.log('error:', error);
+  //       });
+  //       console.log("dataCourse.length:",dataCourse.length);
+  // })
+
   const wait = (timeout) => {
     return new Promise((resolve) => {
       setTimeout(resolve, timeout);
@@ -59,13 +56,27 @@ const Download = (props) => {
   };
   const onRefresh = () => {
     setRefreshing(true);
+    AsyncStorage.getItem('listCourseDownload')
+      .then((value) => {
+        if (value == null) {
+        } else {
+          setListDownload(JSON.parse(value));
+          setCheckGetList(true);
+        }
+      })
+      .catch((error) => {
+        console.log('error:', error);
+      });
     wait(1000).then(() => setRefreshing(false));
   };
+  const removeListDownload = async() => {
+    await AsyncStorage.setItem("listCourseDownload",JSON.stringify([]));
+  }
   return (
     <View style={styles.container}>
       <View style={styles.viewHeader}>
         <Text style={styles.text}>{listDownload.length} courses</Text>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={removeListDownload}>
           <Text style={styles.textButton}>REMOVE ALL</Text>
         </TouchableOpacity>
       </View>
@@ -73,7 +84,7 @@ const Download = (props) => {
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <ListCourseDownload {...props} data={dataCourse} />
+        <ListCourseDownload {...props} data={listDownload} />
       </ScrollView>
     </View>
   );

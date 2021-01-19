@@ -28,6 +28,7 @@ import ChangePassword from '../../Account Management/ChangePassword/change-passw
 import ForgetPassword from '../../Authentication/ForgetPassword/forget-password';
 import ViewListCourses from '../../Courses/ViewListCourse/view-list-course';
 import Download from '../../Main/Download/download';
+import CourseDetailDL from '../../Main/Download/CourseDetailDL/course-detail-dl';
 
 
 const createHomeStack = createStackNavigator({
@@ -162,7 +163,6 @@ const createDownloadStack = createStackNavigator({
       ),
     }),
   },
-
   [ScreenKey.AccountManagement]: {
     screen: AccountManagement,
     navigationOptions: {
@@ -203,32 +203,10 @@ const createDownloadStack = createStackNavigator({
       headerTintColor: 'white',
     },
   },
-  [ScreenKey.CourseDetail]: {
-    screen: CourseDetail,
+  [ScreenKey.CourseDetailDL]: {
+    screen: CourseDetailDL,
     navigationOptions: {
       headerShown: false,
-    },
-  },
-  [ScreenKey.ListCourses]: {
-    screen: ListCourses,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  [ScreenKey.ViewListCourses]: {
-    screen: ViewListCourses,
-    navigationOptions: {
-      headerShown: false,
-    },
-  },
-  [ScreenKey.AuthorDetail]: {
-    screen: AuthorDetail,
-    navigationOptions: {
-      title: 'Author',
-      headerStyle: {
-        backgroundColor: '#181b20',
-      },
-      headerTintColor: 'white',
     },
   },
 });
@@ -401,19 +379,6 @@ const createSearchStack = createStackNavigator({
 
 const HomeStack = createBottomTabNavigator(
   {
-    [ScreenKey.DownloadStack]: {
-      screen: createDownloadStack,
-      navigationOptions: {
-        title: 'Download',
-        headerStyle: {
-          backgroundColor: '#181b20',
-        },
-        headerTintColor: 'white',
-        tabBarIcon: ({tintColor}) => (
-          <Icon name="arrow-down-circle" color={tintColor} size={25} />
-        ),
-      },
-    },
     [ScreenKey.HomeStack]: {
       screen: createHomeStack,
       navigationOptions: {
@@ -427,6 +392,20 @@ const HomeStack = createBottomTabNavigator(
         ),
       },
     },
+    [ScreenKey.DownloadStack]: {
+      screen: createDownloadStack,
+      navigationOptions: {
+        title: 'Download',
+        headerStyle: {
+          backgroundColor: '#181b20',
+        },
+        headerTintColor: 'white',
+        tabBarIcon: ({tintColor}) => (
+          <Icon name="arrow-down-circle" color={tintColor} size={25} />
+        ),
+      },
+    },
+    
     
     [ScreenKey.BrowseStack]: {
       screen: createBrowseStack,
