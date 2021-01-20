@@ -22,10 +22,8 @@ import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-community/async-storage';
 import {apiLessonDetail} from '../../../../core/service/lesson-service';
 const InfoCourse = (props) => {
-  console.log('runnnnnn');
   const [listDownload, setListDownload] = useState([]);
   const [checkGetList, setCheckGetList] = useState(false);
-  const [checkCourseInListDL, setCheckCourseInListDL] = useState(false);
   const [indexItem, setIndexItem] = useState(-1);
   const courseContext = useContext(CourseContext);
   const data = courseContext.state.DetailCourse.payload;
@@ -36,25 +34,12 @@ const InfoCourse = (props) => {
         } else {
           setListDownload(JSON.parse(value));
           setCheckGetList(true);
-          // listDownload.map((item) => {
-          //   if (item.course.id == data.id) {
-          //     setCheckCourseInListDL(true);
-          //     setIndexItem(listDownload.indexOf(item));
-          //     console.log('index2:', indexItem);
-          //     console.log('checkCourseInListDL2:', checkCourseInListDL);
-          //   }
-          // });
         }
       })
       .catch((error) => {
         console.log('error:', error);
       });
   }, [checkGetList]);
-  useEffect(() => {
-    console.log("run");
-    setIndexItem(-1);
-    setCheckCourseInListDL(false);
-  }, [])
 
   const listSection = data.section;
   const instructorContext = useContext(InstructorContext);
@@ -63,6 +48,7 @@ const InfoCourse = (props) => {
   const [colorLike, setColorLike] = useState('white');
   const [statusLike, setStatusLike] = useState('Like');
   const [downloadProgress, setDownloadProgress] = useState('Download');
+  const [checkCourseInListDL, setCheckCourseInListDL] = useState(false);
   const [statusDownload, setStatusDownload] = useState(false);
   const authContext = useContext(AuthenticationContext);
   const res = apiGetCourseLikeStatus(
@@ -223,45 +209,64 @@ const InfoCourse = (props) => {
         'listCourseDownload',
         JSON.stringify(listDownload),
       );
-      console.log('listDownload.length:', listDownload.length);
       Alert.alert('Download Success', '', [{text: 'OK'}], {cancelable: true});
     }
   };
   // handle download
   const handleDownload = async () => {
-    console.log('size:', listDownload.length);
-    console.log('index:', indexItem);
-    console.log('checkCourseInListDL0:', checkCourseInListDL);
-    if (checkCourseInListDL == false) {
+    if(checkCourseInListDL == false){
+    const value = listDownload.findIndex(item=>item.course.id===data.id);
+    if(value === undefined){}
+    else if(value === -1){
       downloadCourse();
-    } else {
-      if (indexItem != -1) {
-        Alert.alert(
-          'Remove download',
-          'Are you sure you want to remove this download course from your device?',
-          [
-            {text: 'CANCEL'},
-            {
-              text: 'REMOVE COURSE',
-              onPress: async () => {
-                setCheckCourseInListDL(false);
-                setIndexItem(-1);
-                listDownload.splice(indexItem, 1);
-                setDownloadProgress('Download');
-                await AsyncStorage.setItem(
-                  'listCourseDownload',
-                  JSON.stringify(listDownload),
-                );
-              },
+      setIndexItem(value);
+    } else{
+      Alert.alert(
+        'Remove download',
+        'Are you sure you want to remove this download course from your device?',
+        [
+          {text: 'CANCEL'},
+          {
+            text: 'REMOVE COURSE',
+            onPress: async () => {
+              setCheckCourseInListDL(false);
+              setIndexItem(-1);
+              listDownload.splice(indexItem, 1);
+              setDownloadProgress('Download');
+              await AsyncStorage.setItem(
+                'listCourseDownload',
+                JSON.stringify(listDownload),
+              );
             },
-          ],
-          {cancelable: true},
-        );
-      }
+          },
+        ],
+        {cancelable: true},
+      );
+      setIndexItem(value);
     }
-    console.log('size1:', listDownload.length);
-    console.log('index1:', indexItem);
-    console.log('checkCourseInListDL1:', checkCourseInListDL);
+  }else{
+    Alert.alert(
+      'Remove download',
+      'Are you sure you want to remove this download course from your device?',
+      [
+        {text: 'CANCEL'},
+        {
+          text: 'REMOVE COURSE',
+          onPress: async () => {
+            setCheckCourseInListDL(false);
+            setIndexItem(-1);
+            listDownload.splice(listDownload.length - 1, 1);
+            setDownloadProgress('Download');
+            await AsyncStorage.setItem(
+              'listCourseDownload',
+              JSON.stringify(listDownload),
+            );
+          },
+        },
+      ],
+      {cancelable: true},
+    );
+  }
   };
   const viewRequirement = () => {
     if (data.requirement === null) {
