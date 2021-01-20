@@ -22,8 +22,13 @@ import RNFetchBlob from 'rn-fetch-blob';
 import AsyncStorage from '@react-native-community/async-storage';
 import {apiLessonDetail} from '../../../../core/service/lesson-service';
 const InfoCourse = (props) => {
+  console.log('runnnnnn');
   const [listDownload, setListDownload] = useState([]);
   const [checkGetList, setCheckGetList] = useState(false);
+  const [checkCourseInListDL, setCheckCourseInListDL] = useState(false);
+  const [indexItem, setIndexItem] = useState(-1);
+  const courseContext = useContext(CourseContext);
+  const data = courseContext.state.DetailCourse.payload;
   useEffect(() => {
     AsyncStorage.getItem('listCourseDownload')
       .then((value) => {
@@ -31,15 +36,26 @@ const InfoCourse = (props) => {
         } else {
           setListDownload(JSON.parse(value));
           setCheckGetList(true);
+          // listDownload.map((item) => {
+          //   if (item.course.id == data.id) {
+          //     setCheckCourseInListDL(true);
+          //     setIndexItem(listDownload.indexOf(item));
+          //     console.log('index2:', indexItem);
+          //     console.log('checkCourseInListDL2:', checkCourseInListDL);
+          //   }
+          // });
         }
       })
       .catch((error) => {
         console.log('error:', error);
       });
   }, [checkGetList]);
+  useEffect(() => {
+    console.log("run");
+    setIndexItem(-1);
+    setCheckCourseInListDL(false);
+  }, [])
 
-  const courseContext = useContext(CourseContext);
-  const data = courseContext.state.DetailCourse.payload;
   const listSection = data.section;
   const instructorContext = useContext(InstructorContext);
   const dataInstructor = instructorContext.state.DetailInstructor.payload;
@@ -113,8 +129,6 @@ const InfoCourse = (props) => {
   };
   // share
   const onShare = async () => {
-    //await AsyncStorage.setItem("listCourseDownload",JSON.stringify([]));
-
     try {
       const result = await Share.share({
         message: data.title,
@@ -132,8 +146,9 @@ const InfoCourse = (props) => {
       alert(error.message);
     }
   };
-  //download
-  const handleDownload = async () => {
+  // download
+  const downloadCourse = async () => {
+    setStatusDownload(false);
     if (String(data.promoVidUrl).indexOf('youtube.com') == -1) {
       if (String(data.promoVidUrl).indexOf('.mp4') != -1) {
         let dirs = RNFetchBlob.fs.dirs;
@@ -142,21 +157,17 @@ const InfoCourse = (props) => {
           fileCache: true,
           appendExt: 'mp4',
         })
-          .fetch(
-            'GET',
-            data.promoVidUrl,
-          )
+          .fetch('GET', data.promoVidUrl)
           .then(async (response) => {
             console.log('The file saved to ', response.path());
             console.log('download success');
           })
           .catch((error) => {
-            console.log("download:", error);
+            console.log('download:', error);
             setStatusDownload(true);
           });
       }
     }
-    console.log('download');
     listSection.map((itemSection) => {
       const listLesson = itemSection.lesson;
       listLesson.map(async (lesson) => {
@@ -166,89 +177,91 @@ const InfoCourse = (props) => {
           lesson.id,
         );
         res
-          .then(async(response) => {
+          .then(async (response) => {
             const videoUrl = response.data.payload.videoUrl;
             if (String(videoUrl).indexOf('youtube.com') == -1) {
               if (String(videoUrl).indexOf('.mp4') != -1) {
                 let dirs = RNFetchBlob.fs.dirs;
                 await RNFetchBlob.config({
-                  path: dirs.DocumentDir + '/IdCourse=' + data.id + '/IdLesson=' + lesson.id,
+                  path:
+                    dirs.DocumentDir +
+                    '/IdCourse=' +
+                    data.id +
+                    '/IdLesson=' +
+                    lesson.id,
                   fileCache: true,
                   appendExt: 'mp4',
                 })
-                  .fetch(
-                    'GET',
-                    videoUrl,
-                  )
+                  .fetch('GET', videoUrl)
                   .then(async (response) => {
                     console.log('The file saved to ', response.path());
                     console.log('download success');
                   })
                   .catch((error) => {
-                    console.log("download:", error);
+                    console.log('download:', error);
                     setStatusDownload(true);
                   });
               }
             }
           })
           .catch((error) => {
-            console.log("get lesson detail:", error);
+            console.log('get lesson detail:', error);
             setStatusDownload(true);
             throw error;
           });
       });
     });
 
-    if(statusDownload == true){
-      Alert.alert(
-        'Download failed',
-        '',
-        [
-          { text: 'OK'}
-        ],
-        { cancelable: false }
-      );
-    }else{
+    if (statusDownload == true) {
+      Alert.alert('Download failed', '', [{text: 'OK'}], {cancelable: false});
+    } else {
       setListDownload(listDownload.push({course: data}));
-      await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
-      setDownloadProgress("Success");
-      Alert.alert(
-        'Download Success',
-        '',
-        [
-          { text: 'OK'}
-        ],
-        { cancelable: false }
+      setDownloadProgress('Success');
+      setCheckCourseInListDL(true);
+      setIndexItem(listDownload.length - 1);
+      await AsyncStorage.setItem(
+        'listCourseDownload',
+        JSON.stringify(listDownload),
       );
+      console.log('listDownload.length:', listDownload.length);
+      Alert.alert('Download Success', '', [{text: 'OK'}], {cancelable: true});
     }
-    //await AsyncStorage.setItem(`detailCourse=${data.id}`,JSON.stringify(data));
-    // let dirs = RNFetchBlob.fs.dirs;
-    // await RNFetchBlob.config({
-    //   path: dirs.DocumentDir + '/IdCourse=' + data.id,
-    //   fileCache: true,
-    // })
-    // .fetch('GET', `http://api.dev.letstudy.org/course/get-course-detail/${data.id}/${authContext.state.userInfo.id}`)
-    // .progress({count: 10}, (received, total)=> {
-    //   const downloadTime = Math.floor(received/total*100);
-    //   setDownloadProgress(downloadTime);
-    // })
-    // .then(async response => {
-    //   console.log('The file saved to ', response.path());
-    //   console.log('download success');
-    //   setListDownload(listDownload.push({id:data.id}));
-    //   console.log("listDownload:",listDownload);
-    //   await AsyncStorage.setItem("listCourseDownload",JSON.stringify(listDownload));
-    // })
-    // .catch(error => {
-    //   Alert.alert(
-    //     'Download course  ',
-    //     'Failed to download' + error,
-    //     [
-    //       { text: 'OK'}
-    //     ],
-    //     { cancelable: false }
-    //   );
-    // })
+  };
+  // handle download
+  const handleDownload = async () => {
+    console.log('size:', listDownload.length);
+    console.log('index:', indexItem);
+    console.log('checkCourseInListDL0:', checkCourseInListDL);
+    if (checkCourseInListDL == false) {
+      downloadCourse();
+    } else {
+      if (indexItem != -1) {
+        Alert.alert(
+          'Remove download',
+          'Are you sure you want to remove this download course from your device?',
+          [
+            {text: 'CANCEL'},
+            {
+              text: 'REMOVE COURSE',
+              onPress: async () => {
+                setCheckCourseInListDL(false);
+                setIndexItem(-1);
+                listDownload.splice(indexItem, 1);
+                setDownloadProgress('Download');
+                await AsyncStorage.setItem(
+                  'listCourseDownload',
+                  JSON.stringify(listDownload),
+                );
+              },
+            },
+          ],
+          {cancelable: true},
+        );
+      }
+    }
+    console.log('size1:', listDownload.length);
+    console.log('index1:', indexItem);
+    console.log('checkCourseInListDL1:', checkCourseInListDL);
   };
   const viewRequirement = () => {
     if (data.requirement === null) {

@@ -5,6 +5,7 @@ import {
   RefreshControl,
   TouchableOpacity,
   Text,
+  Alert,
 } from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
 import RNFetchBlob from 'rn-fetch-blob';
@@ -53,10 +54,23 @@ const Download = (props) => {
       .catch((error) => {
         console.log('error:', error);
       });
-    wait(1000).then(() => setRefreshing(false));
+    wait(500).then(() => setRefreshing(false));
   };
   const removeListDownload = async() => {
-    await AsyncStorage.setItem("listCourseDownload",JSON.stringify([]));
+    Alert.alert(
+      'Remove all downloads',
+      'Are you sure you want to remove all downloaded courses?',
+      [
+        { text: 'CANCEL'},
+        { text: 'REMOVE ALL', onPress : async () => 
+          {
+            await AsyncStorage.setItem("listCourseDownload",JSON.stringify([]));
+            onRefresh();
+          }
+        }
+      ],
+      { cancelable: true }
+    );
   }
   return (
     <View style={styles.container}>
