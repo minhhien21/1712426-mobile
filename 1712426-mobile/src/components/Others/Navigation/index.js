@@ -491,7 +491,7 @@ AppNavigator = createStackNavigator(
     },
   },
   {
-    initialRouteName: ScreenKey.Login,
+    initialRouteName: ScreenKey.SplashScreen,
   },
 );
 const AppNavigation = createAppContainer(AppNavigator);

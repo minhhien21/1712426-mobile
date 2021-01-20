@@ -1,6 +1,7 @@
 import {
   GET_CURRENT_LOCAL_URL_REQUEST,
   GET_CURRENT_URL_REQUEST,
+  GET_LIST_EXERCISE_LESSON_REQUEST,
   REQUEST_DETAIL_COURSE_FAILED,
   REQUEST_DETAIL_COURSE_SUCCESSED,
   REQUEST_FAVORITE_LIST_COURSE_FAILED,
@@ -86,6 +87,10 @@ export const reducer = (prevState, action) => {
       return {...prevState,
         isRequestUrlLocalVideo:true,
         currentLocalUrlVideo: action.data}
+    case GET_LIST_EXERCISE_LESSON_REQUEST:
+      return {...prevState,
+        isRequestListExerciseLesson:true,
+        listExerciseLesson: action.data}
     default:
       throw new Error();
   }
