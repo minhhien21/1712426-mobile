@@ -2,6 +2,7 @@ import React, {useReducer} from 'react';
 import {
   GetCurrentLocalURLVideo,
   GetCurrentURLVideo,
+  GetListExerciseLesson,
   requestDetailCourse,
   requestFavoriteListCourse,
   requestTopNewListCourse,
@@ -101,6 +102,13 @@ const initialState = {
   currentUrlVideo: null,
   isRequestUrlLocalVideo: false,
   currentLocalUrlVideo: null,
+  isRequestListExerciseLesson: false,
+  listExerciseLesson:{
+    message: null,
+    payload: {
+      exercises: []
+    }
+  }
 };
 
 const CourseProvider = ({children}) => {
@@ -119,6 +127,7 @@ const CourseProvider = ({children}) => {
         requestUserProcessCourse: requestUserProcessCourse(dispatch),
         GetCurrentURLVideo: GetCurrentURLVideo(dispatch),
         GetCurrentLocalURLVideo: GetCurrentLocalURLVideo(dispatch),
+        GetListExerciseLesson: GetListExerciseLesson(dispatch),
       }}>
       {children}
     </CourseContext.Provider>

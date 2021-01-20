@@ -23,6 +23,7 @@ export const REQUEST_USER_PROCESS_COURSE_SUCCESSED ='REQUEST_USER_PROCESS_COURSE
 export const REQUEST_USER_PROCESS_COURSE_FAILED ='REQUEST_USER_PROCESS_COURSE_FAILED';
 export const GET_CURRENT_URL_REQUEST = 'GET_CURRENT_URL_REQUEST';
 export const GET_CURRENT_LOCAL_URL_REQUEST = 'GET_CURRENT_LOCAL_URL_REQUEST';
+export const GET_LIST_EXERCISE_LESSON_REQUEST = 'GET_LIST_EXERCISE_LESSON_REQUEST';
 // top sell course
 const requestTopSellListCourseSuccess = (data) => ({
   type: REQUEST_TOP_SELL_LIST_COURSE_SUCCESSED,
@@ -94,6 +95,11 @@ const requestGetCurrentURLVideo = (data) => ({
 // user current local URL Video
 const requestGetCurrentLocalURLVideo = (data) => ({
   type: GET_CURRENT_LOCAL_URL_REQUEST,
+  data
+});
+// get list exercise lesson
+const requestGetListExerciseLesson = (data) => ({
+  type: GET_LIST_EXERCISE_LESSON_REQUEST,
   data
 });
 
@@ -209,4 +215,8 @@ export const GetCurrentURLVideo = (dispatch) => (URLVideo) => {
 // get current local URL video
 export const GetCurrentLocalURLVideo = (dispatch) => (URLLocalVideo) => {
   dispatch(requestGetCurrentLocalURLVideo(URLLocalVideo));
+}
+// get list exercise lesson
+export const GetListExerciseLesson = (dispatch) => (data) => {
+  dispatch(requestGetListExerciseLesson(data));
 }

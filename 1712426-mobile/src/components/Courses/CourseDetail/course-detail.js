@@ -8,6 +8,7 @@ import SectionCourses from '../../Main/Home/SectionCourses/section-courses';
 import InfoCourse from './InfoCourse/info-course';
 import InfoSectionRatings from './InfoSectionRatings/info-section-ratings';
 import VideoPlayer from './VideoPlayer/video-player';
+import ListExerciseLesson from './ListExerciseLesson/list-exercise-lesson';
 const CourseDetail = (props) => {
   const authContext = useContext(AuthenticationContext);
   const price = props.navigation.state.params.item.price;
@@ -62,6 +63,7 @@ const CourseDetail = (props) => {
       <ScrollView>
         <InfoCourse {...props}/>
         <SectionCourses title="Courses Like Category" data={courseContext.state.DetailCourse.payload.coursesLikeCategory} {...props}/>
+        <ListExerciseLesson/>
         <InfoSectionRatings />
       </ScrollView>
     </View>
