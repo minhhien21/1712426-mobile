@@ -43,11 +43,6 @@ const Settings = (props) => {
       authContext.signout();
       await AsyncStorage.setItem('token', "");
       //signOut();
-      // try {
-      //   await AsyncStorage.setItem('token', null);
-      // } catch (error) {
-      //   console.log('error:', error);
-      // }
       props.navigation.navigate(ScreenKey.Login);
     }
   return (

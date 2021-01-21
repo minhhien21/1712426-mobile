@@ -64,7 +64,6 @@ const Login = (props) => {
       const userInfo = await GoogleSignin.signIn();
       setUserInfo(userInfo);
       setError(null);
-      setIsLoggedIn(true);
       await authContext.loginGoogle(userInfo.user.email, userInfo.user.id);
       await setDataToken();
     } catch (error) {
@@ -90,10 +89,8 @@ const Login = (props) => {
       if (error.code === statusCodes.SIGN_IN_REQUIRED) {
         // when user hasn't signed in yet
         Alert.alert('Please Sign in');
-        setIsLoggedIn(false);
       } else {
         Alert.alert('Something else went wrong... ', error.toString());
-        setIsLoggedIn(false);
       }
     }
   };
@@ -101,7 +98,6 @@ const Login = (props) => {
     try {
       await GoogleSignin.revokeAccess();
       await GoogleSignin.signOut();
-      setIsLoggedIn(false);
     } catch (error) {
       Alert.alert('Something else went wrong... ', error.toString());
     }

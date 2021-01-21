@@ -86,6 +86,7 @@ const Register = (props) => {
           value={password}
           onChangeText={(password) => setPassword(password)}
           style={styles.textinput}
+          secureTextEntry={true}
         />
         <Text style={styles.text}>* Required field</Text>
         <CheckBox
